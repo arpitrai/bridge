@@ -1,0 +1,335 @@
+body{
+	margin: 0;
+    padding: 0;
+	font:18px/25px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background: url(../images/light_wool.png) repeat center top #b8e1e5;
+	/*background: #F5FFFA;*/
+}
+
+a {
+    color: rgba(0, 0, 0, 0.9);
+    text-decoration: none;
+}
+
+/* Index Page */
+
+div#main_container {
+    width: 900px;
+    position: relative;
+}
+
+div#header {
+    margin: 50px 0 100px 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div#header h1 {
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+div#index_description {
+    width: 450px;
+    position: absolute;
+    left: 0;
+    border-right: 2px solid black;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div#index_description p {
+    font-size: 22px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, .8);
+}
+
+div#login_form {
+    width: 450px;
+    position: absolute;
+    right: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+div#login_form form ul {
+    list-style-type: none;
+    margin: 30px;
+    padding-left: 0;
+}
+
+div#login_form form ul li {
+    margin-bottom: 20px;
+}
+
+div#login_form ul li label {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.8);
+    width: 100px;
+    display: inline-block;
+}
+
+p.account_creation {
+    font-size: 11px;
+    margin-top: -20px;
+    margin-left: 135px;
+}
+
+/* For Footer */
+
+html, body {
+    height: 100%;
+}
+
+div#main_container {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -30px;
+}
+
+div#footer, div#push {
+    clear: both;
+    margin: auto;
+    height: 30px;
+}
+
+/* End For Footer */
+
+div#footer {
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+ul.general_links {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+ul.general_links li {
+    display: inline;
+    margin: 0 50px 0 0;
+}
+
+ul.general_links li:last-child {
+    margin-right: 0;
+}
+
+div#footer ul li a {
+    font-size: 12px;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+div#footer ul li a:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    color: rgba(0, 0, 0, 1);
+}
+/* End Index Page */
+
+
+/* Home Page */
+
+div#header_options{
+    margin-top: 50px;
+    overflow: auto;
+    text-align: right;
+}
+
+div#header_options ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+div#header_options ul li {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 14px;
+    padding: 1px 5px;
+    background-color: #FFFAFA;
+    border: 1px solid #EEF3E2;
+}
+
+div#header_options ul li:last-child {
+    margin-right: 0;
+}
+
+div#header_options ul li:hover {
+    background-color: #EEF3E2;
+    color: rgba(0, 0, 0, 1);
+}
+
+div#header_options ul li a {
+    display: block;
+}
+
+div#menu, div#content {
+    margin-top: 20px;
+}
+
+div#menu {
+    width: 150px;
+    float: left;
+}
+
+div#menu ul, ul.menu_urls {
+    list-style-type: none;
+    margin: 0;
+    padding: 2px 5px;
+}
+
+div#menu ul.sub_menu_urls {
+    margin-left: 10px;
+}
+
+div#menu ul li, ul.menu_urls li {
+    border-bottom: 1px solid black;
+}
+
+div#menu ul li:hover, ul.menu_urls li:hover {
+    background-color: #EEF3E2;
+    /*font-weight: bold;*/
+    color: rgba(0, 0, 0, 1);
+}
+
+div#menu ul li a,  ul.menu_urls li a {
+    display: block;
+    font-size: 16px;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+div#content {
+    float: left;
+    border: 1px solid black;
+    margin-left: 8px;
+    width: 740px;
+}
+
+div#content div {
+    margin-left: 10px;
+    margin-bottom: 40px;
+}
+
+div#content div h3, div#content div p {
+    margin-left: 45px;
+    margin-bottom: 5px;
+    width: 480px;
+}
+
+table.general_table {
+    font-size: 12px;
+    background: #fff;
+    margin: 15px;
+    width: 700px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+table.general_table th {
+    font-size: 14px;
+    font-weight: normal;
+    color: #039;
+    padding: 10px 8px;
+    border-top: 2px solid #6678b1;
+    border-bottom: 2px solid #6678b1;
+}
+
+table.general_table td {
+    border-bottom: 1px solid #ccc;
+    color: #669;
+}
+
+table.genral_table tbody tr:hover td {
+    background-color: #FFFAFA;
+}
+
+table.home_table {
+    width: 480px;
+    margin-left: 45px;
+}
+
+div#content form ul, div#content ul.specific_bill, div#content div.button {
+    list-style-type: none;
+    margin: 30px;
+    padding-left: 0;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+div#content ul li {
+    margin-bottom: 20px;
+}
+
+div#content ul li label {
+    width: 100px;
+    display: inline-block;
+}
+
+div#content ul.specific_bill li label {
+    font-weight: bold;
+}
+
+div#content ul li ul {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 12px;
+    width: 300px;
+    margin: 0;
+    padding: 0;
+}
+
+div#content ul li ul li {
+    margin: 0;
+    padding: 0;
+}
+
+/* For Add-Friends Page */
+
+div#content form#add_friends_form ul {
+    margin-bottom: 0;
+}
+
+div#content form#add_friends_form ul, div#content form#add_friends_form div {
+    width: 570px;
+}
+
+div#content form#add_friends_form ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+div#content form#add_friends_form ul li.second {
+    float: right;
+    margin-right: 0;
+}
+
+div#content form#add_friends_form div {
+    margin-top: 0;
+    margin-left: 30px;
+    text-align: right;
+}
+
+/* End Add Friends */
+
+/* Record Bill Unequal Split */
+table.unequal_split {
+    display: inline;
+    margin-top: 10px;
+}
+/* End Record Bill Unequal Split */
+
+table tr td a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+table tbody tr:hover {
+    background-color: #EEF3E2;
+}

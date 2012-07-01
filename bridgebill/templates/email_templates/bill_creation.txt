@@ -1,0 +1,11 @@
+Hi there
+
+{{ request.user.first_name}} {{ request.user.last_name }} ({{ request.user.email }}) has added a bill on BridgeBill. Please see below the details of the bill. 
+
+Description: {{ bill.description }}
+Date: {{ bill.date }}
+Total Bill Amount: {{ bill.amount }}
+Your Share of the Bill: {{ bill_detail.individual_amount }} 
+
+Cheers
+The BridgeBill Team

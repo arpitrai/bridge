@@ -1,0 +1,40 @@
+{% extends "home.html" %}
+{% block title %}Record Payment | BridgeBill{% endblock %}
+{% block content %}
+<form name="bill" action="/record-payment-full/" method="post">
+    {% csrf_token %}
+    <ul>
+        <li>
+            <label for="id_date">Date </label>
+            {{ payment_form.date }}
+        </li>
+        <li>
+            <label for="id_paid_to">I Paid Who </label>
+            {{ lender.first_name }} {{ lender.last_name }}
+        </li>
+        <li>
+            <label for="id_description">Description </label>
+            <select name="overall_bill_id">
+                {% for bill_detail in bill_details %}
+                    <option value="{{ bill_detail.bill.overall_bill_id }}">{{ bill_detail.bill.description }}</option>
+                {% endfor %}
+                    <option value='000'>All</option>
+            </select>
+        </li>
+        <li>
+            <label for="id_amount">Amount </label>
+            {{ payment_form.amount }}
+        </li>
+        <li>
+            <label for="id_remarks">Remarks </label>
+            {{ payment_form.remarks }}
+        </li>
+        <li>
+            <label for="save"></label>
+            <button id="save" type="submit">Save</button>
+        </li>
+    </ul>
+    <input type="hidden" name="lender" id="lender" value="{{ lender.email }}" />
+    <input type="hidden" name="description" id="description" value="{{ bill_detail.bill.description }}" />
+</form>
+{% endblock %}

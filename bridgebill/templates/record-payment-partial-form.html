@@ -1,0 +1,25 @@
+{% extends "home.html" %}
+{% block title %}Record Payment | BridgeBill{% endblock %}
+{% block content %}
+{% if my_lenders %}
+    <form name="bill_descriptions_getter" action="" method="post">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label for="id_paid_to">I Paid Who </label>
+                <select name="people">
+                    {% for my_lender in my_lenders %}
+                        <option value="{{ my_lender.user.email }}">{{ my_lender.user.first_name }} {{ my_lender.user.last_name  }}</option>
+                    {% endfor %}
+                </select>
+            </li>
+            <li>
+                <label for="save"></label>
+                <button id="save" type="submit">Go</button>
+            </li>
+        </ul>
+    </form>
+{% else %}
+    <p>You don't owe anyone any money!</p>
+{% endif %}
+{% endblock %}
