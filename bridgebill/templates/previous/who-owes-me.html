@@ -1,0 +1,31 @@
+{% extends "home.html" %}
+{% load humanize %}
+{% block title %}Who Owes Me | BridgeBill{% endblock %}
+{% block content %}
+<div id="content_one">
+    {% if my_borrowers %}
+        <table class="general_table content_table who_owes_me">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Activity</th>
+                    <th>Total (in SGD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for my_borrower in my_borrowers %}
+                    <tr>
+                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.borrower.friend_name }}</a></td>
+                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.bill.date }}</a></td>
+                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.bill.description }}</a></td>
+                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.individual_amount|intcomma }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You haven't made any loans!</p>
+    {% endif %}
+</div>
+{% endblock %}

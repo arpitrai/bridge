@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %}BridgeBill - Split Bills with Friends. Keep Track of Bills Easily{% endblock %}</title>
+	<meta name="description" content="Split your bills with friends and keep track of all your bills" />
+    <link media="all" rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/all.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/all.js"></script>
+</head>
+<body>
+    {% block body %}
+    <div id="main_container">
+        <div id="header">
+            <h1>Split Bills and Keep Track of Your Expenses</h1>
+        </div>
+        <div id="index_description">
+            <p>1. Record your Bills</p>
+            <p>2. Split your Bills with Friends</p>
+            <p>3. Keep Track of Who Owes Who/What</p>
+        </div>
+        <div id="login_form">
+            <form name="user_sign-up" action="" method="post">
+                {% csrf_token %}
+                <ul>
+                    <li>
+                        <label for="id_username">Your Email </label>
+                        {{ user_creation_form.username }}
+                    </li>
+                    <li>
+                        <label for="id_password1">Password </label>
+                        {{ user_creation_form.password1 }}
+                    </li>
+                    <li>
+                        <label for="submit"></label>
+                        <button id="submit" type="submit">Create Account</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        <div id="push">
+        </div>
+    </div>
+    <div id="footer">
+        <ul class="general_links"> 
+            <li class="general_links_footer"><a href="/about-us">About Us</a></li>
+            <li class="general_links_footer"><a href="/feedback">Feedback</a></li>
+            <li class="general_links_footer"><a href="/contact-us">Contact Us</a></li>
+        </ul> 
+    </div>
+    {% endblock %}
+</body>
+</html>

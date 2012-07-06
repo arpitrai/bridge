@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Record Bill | BridgeBill</title>
+	<meta name="description" content="Split your bills with friends and keep track of all your bills" />
+    <!--<link media="all" rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/all.css" />-->
+    <link media="all" rel="stylesheet" type="text/css" href="../static/css/all.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/all.js"></script>
+</head>
+<body>
+    <div id="main_container">
+        <div id="header_options">
+            <ul>
+                <li><a href="profile">My Profile</a></li>
+                <li><a href="logout">Logout</a></li>
+            </ul>
+        </div>
+        <div id="menu">
+            <ul class="menu_urls">
+                <li><a href="/user/home">Home</a></li>
+                <li><a href="/user/who-owes-me">Who Owes Me</a></li>
+                <li><a href="/user/who-i-owe">Who I Owe</a></li>
+                <li><a href="/user/record-bill">Record Bill</a></li>
+                <li><a href="/user/record-payment">Record Payment</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <form name="bill" action="/" method="post">
+                <ul>
+                    <li>
+                        <label for="id_date">Date </label>
+                        <input id="id_date" type="text" name="date" max_length="30" />
+                    </li>
+                    <li>
+                        <label for="id_description">Description </label>
+                        <input id="id_description" type="text" name="description" />
+                    </li>
+                    <li>
+                        <label for="id_amount">Total Amount </label>
+                        <input id="id_amount" type="text" name="amount" />
+                    </li>
+                    <li>
+                        <label for="id_debtors">Split Among </label>
+                        <ul>
+                            <li><input type="checkbox" name="people" />Arpit Rai (Me)</li>
+                            <li><input type="checkbox" name="people" />Prantik Mazumdar</li>
+                            <li><input type="checkbox" name="people" />Rachit Dayal</li>
+                            <li><input type="checkbox" name="people" />Ravish Khanna</li>
+                            <li><input type="checkbox" name="people" />Kat</li>
+                            <li><input type="checkbox" name="people" />Shivanu</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <label for="save"></label>
+                        <button id="save" type="submit">Save</button>
+                    </li>
+                </ul>
+            </form>
+
+        </div>
+        <div id="push">
+        </div>
+    </div>
+    <div id="footer">
+        <ul class="general_links"> 
+            <li class="general_links_footer"><a href="/about-us">About Us</a></li>
+            <li class="general_links_footer"><a href="/feedback">Feedback</a></li>
+            <li class="general_links_footer"><a href="/contact-us">Contact Us</a></li>
+        </ul> 
+    </div>
+</body>
+</html>

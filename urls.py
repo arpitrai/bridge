@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 
     url(r'^home/$', views.home),
     url(r'^user/sign-up/$', views.user_signup),
+    url(r'^user/forgot-password/$', views.forgot_password),
     url(r'^my-friends/$', views.my_friends, { 'delete': False }),
     url(r'^my-friends/add-friends/$', views.add_friends),
     url(r'^my-friends/delete-friends/$', views.my_friends, { 'delete': True }),

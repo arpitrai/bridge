@@ -73,6 +73,14 @@ def user_signup(request):
         user_creation_form = UserCreationForm()
         return render_to_response('user-signup.html', { 'user_creation_form': user_creation_form, 'request': request }, context_instance=RequestContext(request))
 
+def forgot_password(request):
+    if request.method == 'POST':
+        pass
+    else:
+        forgot_password_form = PasswordResetForm()
+        return render_to_response('forgot-password.html', { 'forgot_password_form': forgot_password_form, 'request': request }, context_instance=RequestContext(request))
+
+
 @login_required
 def home(request):
     total_borrowed_amount = 0

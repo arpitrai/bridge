@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+{% block title %}Specific Bill Details | BridgeBill{% endblock %}
+{% block content %}
+<div id="content_one">
+    <form name="specific_bill_detail" action="" method="post">
+        {% csrf_token %}
+        <ul class="specific_bill">
+            {% if not user_lender %}
+            <li>
+                <label>Lender </label>
+                {{ bill.lender.first_name }} {{ bill.lender.last_name }}
+            </li>
+            {% endif %}
+            <li>
+                <label>Date </label>
+                {{ bill.date }}
+            </li>
+            <li>
+                <label>Description </label>
+                {{ bill.description }}
+            </li>
+            <li>
+                <label>Total Amount </label>
+                SGD {{ bill.amount }}
+            </li>
+            {% if user_lender %}
+            <li>
+                <label>Split Between </label>
+                <ul>
+                    {% for borrower in borrowers %}
+                        <li>{{ borrower.borrower.friend_name}} (SGD {{ borrower.individual_amount }})</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endif %}
+        </ul>
+        <input type="hidden" name="overall_bill_id" value={{ bill.overall_bill_id }} />
+        {% if user_lender %}
+            <div class="button"> 
+                <button id="delete-bill" type="submit">Delete This Bill</button>
+            </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

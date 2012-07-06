@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+{% load humanize %}
+{% block title %}My Friends | BridgeBill{% endblock %}
+{% block content %}
+<div id="content_one">
+    {% if delete %}
+    <form name="user_friend" action="" method="post">
+    {% csrf_token %}
+    {% endif %}
+    {% if my_friends %}
+        <table class="general_table content_table">
+            <thead>
+                <tr>
+                    {% if delete %}
+                    <th>Select</th>
+                    {% endif %}
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for my_friend in my_friends %}
+                    <tr>
+                        {% if delete %}
+                            <td><input type="checkbox" name="people" value="{{ my_friend.friend_email }}" /></td>
+                        {% endif %}
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ my_friend.friend_name }}</td>
+                        <td>{{ my_friend.friend_email }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You haven't added any friends as yet</p>
+    {% endif %}
+    {% if delete %}
+    <div> 
+        <button id="delete-friends" type="submit">Delete Friends</button>
+    </div>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

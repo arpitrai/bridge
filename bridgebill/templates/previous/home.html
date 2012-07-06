@@ -1,0 +1,86 @@
+{% extends "index.html" %}
+{% load humanize %}
+{% block title %}Home | BridgeBill{% endblock %}
+{% block body %}
+<div id="main_container">
+    <div id="header_options">
+        <ul>
+            <li><a href="/profile/">My Profile</a></li>
+            <li><a href="/logout/">Logout</a></li>
+        </ul>
+    </div>
+    <div id="menu">
+        <ul class="menu_urls">
+            <li><a href="/home/">Home</a></li>
+            <li><a href="/my-friends/">My Friends</a></li>
+            <ul class="sub_menu_urls">
+                <li><a href="/my-friends/add-friends/">Add Friends</a></li>
+                <li><a href="/my-friends/delete-friends/">Delete Friends</a></li>
+            </ul>
+            <li><a href="/who-owes-me/">Who Owes Me</a></li>
+            <li><a href="/who-i-owe/">Who I Owe</a></li>
+            <li><a href="/record-bill/">Record Bill</a></li>
+            <li><a href="/record-payment/">Record Payment</a></li>
+        </ul>
+    </div>
+    <div id="content">
+        {% block content %}
+        <div id="content_one">
+            <h3>Who Owes Me (Total: SGD {{ total_borrowed_amount|intcomma }})</h3>
+            {% if borrowers %}
+                <table class="general_table home_table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Total (in SGD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for borrower in borrowers %}
+                            <tr>
+                                <td>{{ borrower.name }}</td>
+                                <td>{{ borrower.amount|intcomma }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You don't have any loans!</p>
+            {% endif %}
+        </div>
+        <div id="content_two">
+            <h3>Who I Owe (Total: SGD {{ total_lent_amount|intcomma }})</h3>
+            {% if lenders %}
+                <table class="general_table home_table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Total (SGD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lender in lenders %}
+                            <tr>
+                                <td>{{ lender.name }}</td>
+                                <td>{{ lender.amount|intcomma }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You don't have any dues!</p>
+            {% endif %}
+        </div>
+        {% endblock %}
+    </div>
+    <div id="push">
+    </div>
+</div>
+<div id="footer">
+    <ul class="general_links"> 
+        <li class="general_links_footer"><a href="/about-us">About Us</a></li>
+        <li class="general_links_footer"><a href="/feedback">Feedback</a></li>
+        <li class="general_links_footer"><a href="/contact-us">Contact Us</a></li>
+    </ul> 
+</div>
+{% endblock %}

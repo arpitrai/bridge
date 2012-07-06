@@ -1,0 +1,9 @@
+Hi there
+
+{{ request.user.first_name}} {{ request.user.last_name }} ({{ request.user.email }}) has paid you back on BridgeBill. Please see below the details of the payment.
+
+Description: {{ description }} 
+Total Bill Amount Paid: {{ amount }}
+
+Cheers
+The BridgeBill Team

@@ -1,0 +1,11 @@
+<p>Hi there<p>
+
+<p>{{ request.user.first_name}} {{ request.user.last_name }} ({{ request.user.email }}) has added a bill on BridgeBill. Please see below the details of the bill.</p>
+
+<p>Description: {{ bill.description }} <br />
+Date: {{ bill.date }} <br />
+Total Bill Amount: {{ bill.amount }} <br />
+Your Share of the Bill: {{ bill_detail.individual_amount }}</p>
+
+<p>Cheers<br />
+The BridgeBill Team</p>

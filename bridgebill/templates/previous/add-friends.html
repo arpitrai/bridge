@@ -1,0 +1,22 @@
+{% extends "home.html" %}
+{% load humanize %}
+{% block title %}My Friends | BridgeBill{% endblock %}
+{% block content %}
+<form id="add_friends_form" name="bill" action="" method="post">
+    {% csrf_token %}
+    <ul id="add_friends">
+        <li class="first">
+            <label for="id_friend_name">Friend Name </label>
+            {{ user_friend_form.friend_name }}
+        </li>
+        <li class="second">
+            <label for="id_friend_email">Friend Email </label>
+            {{ user_friend_form.friend_email }}
+        </li>
+    </ul>
+    <div> 
+        <button id="add-more-friends" type="submit">Add More Friends</button>
+        <button id="save" type="submit">Save</button>
+    </div>
+</form>
+{% endblock %}
