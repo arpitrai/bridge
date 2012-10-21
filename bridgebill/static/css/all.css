@@ -23,11 +23,36 @@ li {
     margin: 0;
     padding: 0;
 }
+
+input:focus {
+    border: 3px solid #FDECB2;
+}
+
+img {
+    vertical-align: middle;
+}
+
+input.error {
+    border: 1px solid #FF0000;
+}
+
+input.valid {
+    border: 1px solid #008B00;
+}
+
+div#user_signup_form ul li label.error {
+    width: 25px;
+	background: url(../images/incorrect.gif) no-repeat 8px 8px;
+}
+
+div#user_signup_form ul li label.valid {
+	background: url(../images/correct.gif) no-repeat 8px 8px;
+}
 /* End - Site Wide Declaration */
 
 
 /* Start - Index Page */
-div#index {
+div#index, div#home {
     width: 100%;
     position: relative;
 }
@@ -41,6 +66,9 @@ div#index_header h1 {
     width: 750px;
     margin-left: auto;
     margin-right: auto;
+}
+
+div#index_header h1 a {
     color: rgba(0, 0, 0, 0.6);
     font-size: 35px;
     font-weight: 600;
@@ -67,7 +95,7 @@ div#index_description ol li {
 div#index_divider {
     float: left;
     margin-top: -35px;
-    height: 300px;
+    height: 320px;
     border-right: 2px solid rgba(0, 0, 0, 0.5);
 }
 
@@ -76,7 +104,9 @@ div#index_login {
     float: left;
     margin-left: 100px;
     margin-top: -30px;
+    /*background: #FFFFFF;*/
     background: -moz-linear-gradient(center top , #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
+    background: -webkit-linear-gradient(top, #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
     border: 1px solid #DDDDDD;
     border-radius: 5px 5px 5px 5px;
 }
@@ -125,7 +155,7 @@ div#index_login_form ul li input, div#user_signup_form ul li input, div#forgot_p
     width: 120px;
 }
 
-div#index_login_form ul li button, div#user_signup_form ul li button, div#forgot_password_form ul li button{
+div#index_login_form ul li button, div#user_signup_form ul li button, div#forgot_password_form ul li button {
     width: 218px;
     height: 30px;
     font-size: 16px;
@@ -155,45 +185,45 @@ html, body {
     height: 100%;
 }
 
-div#index {
+div#index, div#home {
     min-height: 100%;
     height: auto !important;
     height: 100%;
     /*margin: 0 auto -30px;*/
 }
 
-div#index_footer, div#index_push {
+div#index_footer, div#index_push, div#home_footer, div#home_push {
     clear: both;
     margin: auto;
     height: 30px;
 }
 
-div#index_footer {
+div#index_footer, div#home_footer {
     background-color: #FFFFFF;
 }
 
-div#index_footer ul {
+div#index_footer ul, div#home_footer ul {
     list-style-type: none;
     padding: 0;
     text-align: center;
 }
 
-div#index_footer ul li {
+div#index_footer ul li, div#home_footer ul li {
     display: inline;
     margin: 0 50px 0 0;
 }
 
-div#index_footer ul li:last-child {
+div#index_footer ul li:last-child, div#home_footer ul li:last-child {
     margin-right: 0;
 }
 
-div#index_footer ul li a {
+div#index_footer ul li a, div#home_footer ul li a {
     font-size: 12px;
     text-decoration: none;
     color: rgba(0, 0, 0, 0.7);
 }
 
-div#index_footer ul li a:hover {
+div#index_footer ul li a:hover, div#home_footer ul li a:hover {
     text-decoration: underline;
     color: rgba(0, 0, 0, 1);
 }
@@ -228,8 +258,11 @@ div#user_signup div.placeholder_a, div#forgot_password div.placeholder_a {
 }
 
 div#user_signup_form, div#forgot_password_form {
-    width: 225px;
     margin-bottom: 25px;
+}
+
+div#user_signup_form ul, div#forgot_password_form ul {
+    width: 300px;
 }
 
 div#user_signup_form ul li label, div#forgot_password_form ul li label {
@@ -243,22 +276,73 @@ div#user_signup_form ul li input, div#forgot_password_form ul li input {
 div#user_signup_form ul li button, div#forgot_password_form ul li button {
     width: 225px;
 }
-
 /* End - User Signup Page */
 
-div#header_options{
-    margin-top: 50px;
+/* Start - Table Styling - Base Template */
+table.base_table {
+    font-size: 12px;
+    background: #FFFFFF;
+    width: 700px;
+    border-collapse: collapse;
+    text-align: left;
+    margin: 15px 0;
+}
+
+table.base_table th {
+    font-size: 14px;
+    font-weight: normal;
+    color: #039;
+    padding: 2px;
+    padding-left: 5px;
+    border-top: 2px solid #6678B1;
+    border-bottom: 2px solid #6678B1;
+}
+
+table.base_table td {
+    border-bottom: 1px solid #CCC;
+    color: #669;
+}
+
+table.base_table tbody tr:hover td {
+    background-color: #FFFAFA;
+}
+
+table.base_table tr td a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #669;
+}
+/* End - Table Styling - Base Template */
+
+/* Start - Home Page - Base Template */
+div#home_header {
+    margin: 50px 120px 0 0;
+}
+
+div#home_menu {
+    width: 150px;
+    margin-left: 100px;
+    padding: 10px;
+    background-color: white;
+    float: left;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+}
+
+div#home_content {
+    width: 740px;
+    float: left;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+}
+
+div#home_header{
     overflow: auto;
     text-align: right;
 }
 
-div#header_options ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-div#header_options ul li {
+div#home_header ul li {
     display: inline-block;
     margin-right: 10px;
     font-size: 14px;
@@ -267,106 +351,158 @@ div#header_options ul li {
     border: 1px solid #EEF3E2;
 }
 
-div#header_options ul li:last-child {
+div#home_header ul li:last-child {
     margin-right: 0;
 }
 
-div#header_options ul li:hover {
-    background-color: #EEF3E2;
-    color: rgba(0, 0, 0, 1);
+div#home_header ul li:hover {
+    background: rgba(108, 210, 252, .30);
+    border: rgba(0, 0, 0, .2) solid 0.5px;
 }
 
-div#header_options ul li a {
+div#home_header ul li a {
     display: block;
 }
 
-div#menu, div#content {
+div#home_menu, div#home_content {
     margin-top: 20px;
 }
 
-div#menu {
+div#home_menu {
     width: 150px;
     float: left;
 }
 
-div#menu ul, ul.menu_urls {
+div#home_menu ul {
     list-style-type: none;
-    margin: 0;
+    margin: 10px 0;
     padding: 2px 5px;
 }
 
-div#menu ul.sub_menu_urls {
+div#home_menu ul ul {
     margin-left: 10px;
+    display: none;
 }
 
-div#menu ul li, ul.menu_urls li {
+div#home_menu ul li {
     border-bottom: 1px solid black;
 }
 
-div#menu ul li:hover, ul.menu_urls li:hover {
-    background-color: #EEF3E2;
-    /*font-weight: bold;*/
-    color: rgba(0, 0, 0, 1);
+div#home_menu ul li:first-child {
+    border-top: 1px solid black;
 }
 
-div#menu ul li a,  ul.menu_urls li a {
+div#home_menu ul li:hover {
+    background: rgba(108, 210, 252, .30);
+}
+
+div#home_menu ul li a {
     display: block;
     font-size: 16px;
     text-decoration: none;
     color: rgba(0, 0, 0, 0.9);
 }
 
-div#content {
-    float: left;
-    border: 1px solid black;
+div#home_content {
     margin-left: 8px;
-    width: 740px;
+    background-color: white;
 }
 
-div#content div {
-    margin-left: 10px;
-    margin-bottom: 40px;
+div#home_content div {
+    margin: 10px 10px;
 }
 
-div#content div h3, div#content div p {
-    margin-left: 45px;
+div#content_one {
+    min-height: 300px;
+}
+
+div#home_content div#content_one, div#home_content div#content_two, div#home_content div#content_three  {
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+div#home_content div h3, div#home_content div p {
     margin-bottom: 5px;
     width: 480px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.7);
 }
 
-table.general_table {
-    font-size: 12px;
-    background: #fff;
-    margin: 15px;
-    width: 700px;
-    border-collapse: collapse;
-    text-align: left;
+div#home_content h3 em {
+    font-size: 15px;
 }
 
-table.general_table th {
-    font-size: 14px;
-    font-weight: normal;
-    color: #039;
-    padding: 10px 8px;
-    border-top: 2px solid #6678b1;
-    border-bottom: 2px solid #6678b1;
+div#home_content table.home_table {
+    width: 440px;
 }
 
-table.general_table td {
-    border-bottom: 1px solid #ccc;
-    color: #669;
+div#content_one table.home_details_table {
+    width: 540px;
 }
 
-table.genral_table tbody tr:hover td {
-    background-color: #FFFAFA;
+th.name {
+    width: 140px;
 }
 
-table.home_table {
-    width: 480px;
-    margin-left: 45px;
+th.email {
+    width: 200px;
 }
 
-div#content form ul, div#content ul.specific_bill, div#content div.button {
+th.amount {
+    width: 100px;
+}
+
+th.date {
+    width: 140px;
+}
+
+th.description {
+    width: 300px;
+}
+/* End - Home Page - Base Template */
+
+/* Start - Who Owes Me & Who I Owe Page */
+table.who_owes_me_table, table.who_i_owe_table {
+    width: 660px;
+}
+
+th.date {
+    width: 120px;
+}
+
+th.activity {
+    width: 300px;
+}
+/* End - Who Owes Me & Who I Owe Page */
+
+/* Start - Add Friends */
+div#home_content form#add_friends_form ul {
+    margin-bottom: 0;
+}
+
+div#home_content form#add_friends_form ul, div#home_content form#add_friends_form div {
+    width: 570px;
+}
+
+div#home_content form#add_friends_form ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+div#home_content form#add_friends_form ul li.second {
+    float: right;
+    margin-right: 0;
+}
+
+div#home_content form#add_friends_form div {
+    margin-top: 0;
+    margin-left: 30px;
+    text-align: right;
+}
+/* End - Add Friends */
+
+/* Start - Specific Bill Page */
+div#content_specific_bill form ul, div#content_specific_bill form div.button, form div.button {
     list-style-type: none;
     margin: 30px;
     padding-left: 0;
@@ -374,20 +510,23 @@ div#content form ul, div#content ul.specific_bill, div#content div.button {
     color: rgba(0, 0, 0, 0.8);
 }
 
-div#content ul li {
-    margin-bottom: 20px;
+div#content_specific_bill form ul li, div#content_specific_bill form div.button, form div.button {
+    padding: 10px 5px 10px 15px;
 }
 
-div#content ul li label {
+div#content_specific_bill form span {
+    border-bottom-width: 4px;
+    border-bottom-style: double;
+    border-bottom-color: #E1A60A;
+}
+
+div#content_specific_bill form ul li label {
     width: 100px;
     display: inline-block;
-}
-
-div#content ul.specific_bill li label {
     font-weight: bold;
 }
 
-div#content ul li ul {
+div#content_specific_bill form ul li ul {
     display: inline-block;
     vertical-align: top;
     font-size: 12px;
@@ -396,52 +535,102 @@ div#content ul li ul {
     padding: 0;
 }
 
-div#content ul li ul li {
-    margin: 0;
+div#content_specific_bill form button, form button  {
+    width: 150px;
+    height: 28px;
+    font-size: 14px;
+    color: #FFFFFF;
+    background: rgba(154, 198, 0, 0.9);
+    border: 0;
+    margin-left: 25px;
+}
+
+div#content_specific_bill form button, form button {
+    background: rgba(154, 198, 0, 0.75);
+}
+
+div#content_specific_bill ul ul li {
     padding: 0;
 }
+/* End - Specific Bill Page */
 
-/* For Add-Friends Page */
-
-div#content form#add_friends_form ul {
-    margin-bottom: 0;
+/* Start - Record Bill Page */
+form#record_bill_option ul {
+    width: 160px;
 }
 
-div#content form#add_friends_form ul, div#content form#add_friends_form div {
-    width: 570px;
+form#record_bill_option ul li {
+    margin-top: 10px;
 }
 
-div#content form#add_friends_form ul li {
+form#record_bill_option ul li.last{
+    margin-top: 20px;
+    text-align: center;
+}
+
+form#record_bill_option ul li label {
+    margin-left: 5px;
+    width: 120px;
     display: inline-block;
-    margin-right: 20px;
 }
 
-div#content form#add_friends_form ul li.second {
-    float: right;
-    margin-right: 0;
+form#record_bill_option ul li button {
+    width: 100px;
+    margin: 0;
+}
+/* End - Record Bill Page */
+
+/* Start - Record Bill Equal Split Page */
+form#equal_split ul {
+    width: 400px;
 }
 
-div#content form#add_friends_form div {
-    margin-top: 0;
-    margin-left: 30px;
-    text-align: right;
+form#equal_split ul li {
+    margin-top: 10px;
 }
 
-/* End Add Friends */
+form#equal_split ul li.last{
+    margin-top: 20px;
+    text-align: center;
+}
 
+form#equal_split ul li label {
+    margin-left: 5px;
+    width: 120px;
+    display: inline-block;
+}
+
+form#equal_split ul li button {
+    width: 100px;
+    margin: 0;
+}
+
+form#equal_split ul li.make_inline {
+    position: relative;
+    overflow: auto;
+}
+
+form#equal_split ul li.make_inline label {
+    float: left;
+}
+
+form#equal_split ul li ul.people {
+    float: left;
+    width: 220px;
+    font-size: 14px;
+    margin: 0;
+}
+
+form#equal_split ul li ul.people li {
+    margin: 5px;
+}
+
+form#equal_split ul li ul.people li:first-child {
+    margin-top: 0px;
+}
 /* Record Bill Unequal Split */
 table.unequal_split {
     display: inline;
     margin-top: 10px;
 }
 /* End Record Bill Unequal Split */
-
-table tr td a {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-table tbody tr:hover {
-    background-color: #EEF3E2;
-}

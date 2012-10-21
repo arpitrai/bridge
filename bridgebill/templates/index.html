@@ -5,14 +5,16 @@
     <title>{% block title %}BridgeBill - Split Bills with Friends. Keep Track of Bills Easily{% endblock %}</title>
 	<meta name="description" content="Split your bills with friends and keep track of all your bills" />
     <link media="all" rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/all.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}/js/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/all.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.validate.js"></script>
 </head>
 <body>
+    {% block body %}
     <div id="index">
         <div id="index_header">
-            <h1>Split Bills and Keep Track of Your Expenses</h1>
+            <h1><a href="/">Split Bills and Keep Track of Your Expenses</a></h1>
         </div>
-        {% block content %}
         <div id="index_description">
             <ol>
                 <li>Record your Bills in One Place</li>
@@ -60,7 +62,6 @@
                 </ul>
             </div>
         </div>
-        {% endblock %}
 
         <div id="index_push">
         </div>
@@ -72,5 +73,6 @@
             <li><a href="/contact-us/">Contact Us</a></li>
         </ul> 
     </div>
+    {% endblock %}
 </body>
 </html>

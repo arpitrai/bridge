@@ -3,23 +3,24 @@
 {% block title %}Who Owes Me | BridgeBill{% endblock %}
 {% block content %}
 <div id="content_one">
+   <h3>Details of Who Owes Me, For What, When.....</h3>
     {% if my_borrowers %}
-        <table class="general_table content_table who_owes_me">
+        <table class="base_table who_owes_me_table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Activity</th>
-                    <th>Total (in SGD)</th>
+                    <th class="name">Name</th>
+                    <th class="date">Date</th>
+                    <th class="activity">Activity</th>
+                    <th class="amount">Total (in SGD)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for my_borrower in my_borrowers %}
                     <tr>
-                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.borrower.friend_name }}</a></td>
-                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.bill.date }}</a></td>
-                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.bill.description }}</a></td>
-                        <td><a href="{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.individual_amount|intcomma }}</a></td>
+                        <td><a href="/bill/details/{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.borrower.friend_name }}</a></td>
+                        <td><a href="/bill/details/{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.bill.date|date:"dS M Y" }}</a></td>
+                        <td><a href="/bill/details/{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.bill.description }}</a></td>
+                        <td><a href="/bill/details/{{ my_borrower.bill.overall_bill_id }}/">{{ my_borrower.individual_amount|intcomma }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

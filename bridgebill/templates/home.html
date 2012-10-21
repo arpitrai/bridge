@@ -2,44 +2,47 @@
 {% load humanize %}
 {% block title %}Home | BridgeBill{% endblock %}
 {% block body %}
-<div id="main_container">
-    <div id="header_options">
+<div id="home">
+    <div id="home_header">
         <ul>
             <li><a href="/profile/">My Profile</a></li>
             <li><a href="/logout/">Logout</a></li>
         </ul>
     </div>
-    <div id="menu">
-        <ul class="menu_urls">
+    <div id="home_menu">
+        <ul>
             <li><a href="/home/">Home</a></li>
-            <li><a href="/my-friends/">My Friends</a></li>
-            <ul class="sub_menu_urls">
-                <li><a href="/my-friends/add-friends/">Add Friends</a></li>
-                <li><a href="/my-friends/delete-friends/">Delete Friends</a></li>
-            </ul>
+            <!--<li><a href="/my-friends/">My Friends</a>
+                <ul>
+                    <li><a href="/my-friends/add-friends/">Add Friends</a></li>
+                    <li><a href="/my-friends/delete-friends/">Delete Friends</a></li>
+                </ul>
+                </li>-->
             <li><a href="/who-owes-me/">Who Owes Me</a></li>
             <li><a href="/who-i-owe/">Who I Owe</a></li>
             <li><a href="/record-bill/">Record Bill</a></li>
             <li><a href="/record-payment/">Record Payment</a></li>
         </ul>
     </div>
-    <div id="content">
+    <div id="home_content">
         {% block content %}
         <div id="content_one">
-            <h3>Who Owes Me (Total: SGD {{ total_borrowed_amount|intcomma }})</h3>
+           <h3>Who Owes Me <em class="total_home">(Total: SGD {{ total_borrowed_amount|intcomma }})</em></h3>
             {% if borrowers %}
-                <table class="general_table home_table">
+                <table class="base_table home_table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Total (in SGD)</th>
+                            <th class="name">Name</th>
+                            <th class="email">Email</th>
+                            <th class="amount">Total (in SGD)</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for borrower in borrowers %}
                             <tr>
-                                <td>{{ borrower.name }}</td>
-                                <td>{{ borrower.amount|intcomma }}</td>
+                                <td><a href="details/b_{{ borrower.id }}">{{ borrower.name }}</a></td>
+                                <td><a href="details/b_{{ borrower.id }}">{{ borrower.email }}</a></td>
+                                <td><a href="details/b_{{ borrower.id }}">{{ borrower.amount|intcomma }}</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -47,22 +50,22 @@
             {% else %}
                 <p>You don't have any loans!</p>
             {% endif %}
-        </div>
-        <div id="content_two">
-            <h3>Who I Owe (Total: SGD {{ total_lent_amount|intcomma }})</h3>
+            <h3>Who I Owe <em class="total_home">(Total: SGD {{ total_lent_amount|intcomma }})</em></h3>
             {% if lenders %}
-                <table class="general_table home_table">
+                <table class="base_table home_table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Total (SGD)</th>
+                            <th class="name">Name</th>
+                            <th class="email">Email</th>
+                            <th class="amount">Total (in SGD)</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for lender in lenders %}
                             <tr>
-                                <td>{{ lender.name }}</td>
-                                <td>{{ lender.amount|intcomma }}</td>
+                                <td><a href="details/l_{{ lender.id }}">{{ lender.name }}</a></td>
+                                <td><a href="details/l_{{ lender.id }}">{{ lender.email }}</a></td>
+                                <td><a href="details/l_{{ lender.id }}">{{ lender.amount|intcomma }}</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -71,16 +74,40 @@
                 <p>You don't have any dues!</p>
             {% endif %}
         </div>
-        {% endblock %}
+            <!--{% if borrower or lenders %}
+            <table class="base_table home_table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th class="amount">Owes Me</th>
+                        <th class="amount">I Owe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for friend in friends %}
+                    <tr>
+                        <td>{{ friend.name }}</td>
+                        <td>{{ friend.email }}</td>
+                        <td>{{ friend.borrowed_amount|intcomma }}</td>
+                        <td>{{ friend.lent_amount|intcomma }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>You do not have any loans nor do your friends owe you any money.</p>
+            {% endif %}-->
+         {% endblock %}
     </div>
-    <div id="push">
+    <div id="home_push">
     </div>
 </div>
-<div id="footer">
-    <ul class="general_links"> 
-        <li class="general_links_footer"><a href="/about-us">About Us</a></li>
-        <li class="general_links_footer"><a href="/feedback">Feedback</a></li>
-        <li class="general_links_footer"><a href="/contact-us">Contact Us</a></li>
+<div id="home_footer">
+    <ul class="footer_links"> 
+        <li><a href="/about-us/">About Us</a></li>
+        <li><a href="/feedback/">Feedback</a></li>
+        <li><a href="/contact-us/">Contact Us</a></li>
     </ul> 
 </div>
 {% endblock %}

@@ -1,21 +1,22 @@
 {% extends "home.html" %}
 {% block title %}Record Bill | BridgeBill{% endblock %}
 {% block content %}
-<form name="record_bill_option" action="" method="post">
-    {% csrf_token %}
-    <ul>
-        <li>
-            <label for="id_equal_split">Equal Split</label>
-            <input type="radio" name="record_bill_option" value="equal_split" />
-        </li>
-        <li>
-            <label for="id_unequal_split">Unequal Split</label>
-            <input type="radio" name="record_bill_option" value="unequal_split" />
-        </li>
-        <li>
-            <label for="save"></label>
-            <button id="save" type="submit">Proceed</button>
-        </li>
-    </ul>
-</form>
+<div id="content_one">
+    <form id="record_bill_option" name="record_bill_option" action="" method="post">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label for="id_equal_split">Equal Split</label>
+                <input type="radio" name="record_bill_option" value="equal_split" />
+            </li>
+            <li>
+                <label for="id_unequal_split">Unequal Split</label>
+                <input type="radio" name="record_bill_option" value="unequal_split" />
+            </li>
+            <li class="last">
+                <button id="save" type="submit">Proceed</button>
+            </li>
+        </ul>
+    </form>
+</div>
 {% endblock %}

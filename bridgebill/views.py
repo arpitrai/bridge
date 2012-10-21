@@ -86,21 +86,40 @@ def home(request):
     total_borrowed_amount = 0
     total_lent_amount = 0
 
+    """class Friend:
+        pass
+    friends = []
+    my_friends = UserFriend.objects.filter(user=request.user).exclude(friend_email=request.user.email)
+    for each_friend in my_friends:
+        friend_borrower = BillDetails.objects.filter(bill__lender=request.user, borrower=each_friend, bill_cleared='N')
+        friends = Friend()
+        total = 0
+        for each_bill in friend_borrower:
+            total += each_bill.individual_amount
+
+        friend_user = User.objects.get(email=each_friend.friend_email)
+        me_borrower_object = UserFriend.objects.filter(user=friend_user, friend_email=request.user.email)
+        borrowed_from_friend = BillDetails.objects.filter(bill__lender=friend_user, borrower=me_borrower_object)"""
+
+
+
     class Borrower:
         pass
     my_borrowers = UserFriend.objects.filter(user=request.user).exclude(friend_email=request.user.email)
     borrowers = []
     for each_borrower in my_borrowers:
         each_borrower_bills = BillDetails.objects.filter(bill__lender=request.user, borrower=each_borrower, bill_cleared='N')
-        borrower = Borrower()
-        total = 0
-        for each_bill in each_borrower_bills:
-            total += each_bill.individual_amount
-        borrower.name = each_borrower.friend_name
-        borrower.email = each_borrower.friend_email
-        borrower.amount = total
-        borrowers.append(borrower)
-        total_borrowed_amount += total
+        if each_borrower_bills:
+            borrower = Borrower()
+            total = 0
+            for each_bill in each_borrower_bills:
+                total += each_bill.individual_amount
+            borrower.id = each_borrower.id
+            borrower.name = each_borrower.friend_name
+            borrower.email = each_borrower.friend_email
+            borrower.amount = total
+            borrowers.append(borrower)
+            total_borrowed_amount += total
 
     class Lender:
         pass
@@ -110,17 +129,104 @@ def home(request):
         borrower = UserFriend.objects.get(user=User.objects.get(email=each_lender.user.email), friend_email=request.user.email)
         each_lender_object = User.objects.get(email=each_lender.user.email)
         each_lender_bills = BillDetails.objects.filter(bill__lender=each_lender_object, borrower=borrower, bill_cleared='N')
-        lender = Lender()
-        total = 0
-        for each_bill in each_lender_bills:
-            total += each_bill.individual_amount
-        lender.name = each_lender.user.first_name + " " + each_lender.user.last_name
-        lender.email = each_lender.user.email
-        lender.amount = total
-        lenders.append(lender)
-        total_lent_amount += total
+        if each_lender_bills: 
+            lender = Lender()
+            total = 0
+            for each_bill in each_lender_bills:
+                total += each_bill.individual_amount
+            lender.id = each_lender.id
+            lender.name = each_lender.user.first_name + " " + each_lender.user.last_name
+            lender.email = each_lender.user.email
+            try:
+                lender.name = UserFriend.objects.get(user=request.user, friend_email=lender.email).friend_name
+            except:
+                pass
+            lender.amount = total
+            lenders.append(lender)
+            total_lent_amount += total
 
     return render_to_response('home.html', { 'borrowers': borrowers, 'lenders': lenders, 'total_borrowed_amount': total_borrowed_amount, 'total_lent_amount': total_lent_amount, 'request': request }, context_instance=RequestContext(request))
+
+@login_required
+def home_details(request, person_id):
+    if request.method == 'GET':
+        if person_id[:2] == 'b_':
+            lender_or_borrower = 'borrower'
+        else:
+            lender_or_borrower = 'lender'
+
+        person_actual_id = person_id[2:]
+        borrower_name = ''
+        borrower_bills = []
+        total_borrowed_amount = 0
+        lender_name = ''
+        lender_bills = []
+        total_lent_amount = 0
+
+        if lender_or_borrower == 'borrower':
+            borrower = True
+            borrower = UserFriend.objects.get(id=person_actual_id)
+            borrower_name = borrower.friend_name
+            borrower_bills = BillDetails.objects.filter(bill__lender=request.user, borrower=borrower, bill_cleared='N')
+            if borrower_bills:
+                total_borrowed_amount = 0
+                for borrower_bill in borrower_bills:
+                    total_borrowed_amount += borrower_bill.individual_amount
+
+            borrower_email = borrower.friend_email
+            try: 
+                borrower_as_user = User.objects.get(email=borrower_email)
+                try:
+                    borrower_user_friend = UserFriend.objects.get(user=borrower_as_user, friend_email=request.user.email)
+                    lender_bills = BillDetails.objects.filter(bill__lender=borrower_as_user, borrower=borrower_user_friend, bill_cleared='N')
+                    if lender_bills:
+                        lender = True
+                        total_lent_amount = 0
+                        for lender_bill in lender_bills:
+                            total_lent_amount += lender_bill.individual_amount
+                    else:
+                        lender=False
+                except:
+                    lender = False
+            except:
+                lender = False
+            return render_to_response('home-details.html', { 'borrower': borrower, 'borrower_name': borrower_name, 'borrower_bills': borrower_bills, 'total_borrowed_amount': total_borrowed_amount, 'lender': lender, 'lender_name': lender_name, 'lender_bills': lender_bills, 'total_lent_amount': total_lent_amount, 'request': request }, context_instance=RequestContext(request))
+
+        elif lender_or_borrower == 'lender':
+            lender = True
+            userfriend_object = UserFriend.objects.get(id=person_actual_id)
+            user_object = userfriend_object.user
+            try: 
+                lender_name = UserFriend.objects.get(user=request.user, friend_email=user_object.email).friend_name
+            except:
+                lender_name = user_object.first_name + ' ' + user_object.last_name
+            lender_bills = BillDetails.objects.filter(bill__lender=user_object, borrower=userfriend_object, bill_cleared='N')
+            
+            total_lent_amount = 0
+            for lender_bill in lender_bills:
+                total_lent_amount += lender_bill.individual_amount
+
+            borrower_email = user_object.email
+            try:
+                userfriend_object = UserFriend.objects.get(user=request.user, friend_email=borrower_email)
+                borrower_bills = BillDetails.objects.filter(bill__lender=request.user, borrower=userfriend_object, bill_cleared='N')
+                if borrower_bills:
+                    borrower = True
+                    total_borrowed_amount = 0
+                    for borrower_bill in borrower_bills:
+                        total_borrowed_amount += borrower_bill.individual_amount
+                else:
+                    borrower = False 
+            except:
+                borrower = False
+
+            return render_to_response('home-details.html', { 'borrower': borrower, 'borrower_name': borrower_name, 'borrower_bills': borrower_bills, 'total_borrowed_amount': total_borrowed_amount, 'lender': lender, 'lender_name': lender_name, 'lender_bills': lender_bills, 'total_lent_amount': total_lent_amount, 'request': request }, context_instance=RequestContext(request))
+    else:
+        for i in request.POST.getlist('bill_id'):
+            bill = BillDetails.objects.get(id=i)
+            bill.bill_cleared = 'Y'
+            bill.save()
+        return HttpResponseRedirect(request.path)
 
 @login_required
 def my_friends(request, delete):
@@ -293,16 +399,39 @@ def who_owes_me(request):
     return render_to_response('who-owes-me.html', { 'my_borrowers': my_borrowers, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
-def specific_bill_details(request, overall_bill_id, user_lender):
+def specific_bill_details(request, overall_bill_id):
     if request.method == 'POST':
-        bill = Bill.objects.get(overall_bill_id=request.POST['overall_bill_id'])
-        bill_details = BillDetails.objects.filter(bill=bill)
-        for bill_detail in bill_details:
-            bill_detail.delete()
-        bill.delete()
-        return HttpResponseRedirect('/who-owes-me/')
+        if 'mark_bill_paid' in request.POST:
+            bill = Bill.objects.get(overall_bill_id=overall_bill_id)
+            if 'lender_as_user_yes' in request.POST: 
+                bill_details = BillDetails.objects.filter(bill=bill)
+                for bill_detail in bill_details:
+                    bill_detail.bill_cleared = 'Y'
+                    bill_detail.save()
+                return HttpResponseRedirect('/home/')
+            else:
+                lender_as_user = User.objects.get(email=request.POST['lender'])
+                user_friend = UserFriend.objects.get(user=lender_as_user, friend_email=request.user.email)
+                bill_detail = BillDetails.objects.get(bill=bill, borrower=user_friend)
+                bill_detail.bill_cleared = 'Y'
+                bill_detail.save()
+                return HttpResponseRedirect('/home/')
+        elif 'delete_bill' in request.POST:
+            bill = Bill.objects.get(overall_bill_id=overall_bill_id)
+            bill_details = BillDetails.objects.filter(bill=bill)
+            for bill_detail in bill_details:
+                bill_detail.delete()
+            bill.delete()
+            return HttpResponseRedirect('/who-owes-me/')
+        elif 'modify_bill' in request.POST:
+            modify_bill(request, overall_bill_id)
+            return HttpResponseRedirect('/who-owes-me/')
     else: 
         bill = Bill.objects.get(overall_bill_id=overall_bill_id)
+        if bill.lender == request.user:
+            user_lender = True
+        else:
+            user_lender = False
         borrowers = BillDetails.objects.filter(bill=bill)
         return render_to_response('specific-bill-details.html', { 'bill': bill, 'borrowers': borrowers, 'user_lender': user_lender, 'request': request }, context_instance=RequestContext(request))
 
