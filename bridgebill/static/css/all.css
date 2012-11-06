@@ -582,7 +582,7 @@ form#record_bill_option ul li button {
 
 /* Start - Record Bill Equal Split Page */
 form#equal_split ul {
-    width: 400px;
+    width: 600px;
 }
 
 form#equal_split ul li {
@@ -614,9 +614,9 @@ form#equal_split ul li.make_inline label {
     float: left;
 }
 
-form#equal_split ul li ul.people {
+form#equal_split ul li ul.people, form#equal_split ul li ul.add_remove_button {
     float: left;
-    width: 220px;
+    width: 420px;
     font-size: 14px;
     margin: 0;
 }
@@ -628,9 +628,28 @@ form#equal_split ul li ul.people li {
 form#equal_split ul li ul.people li:first-child {
     margin-top: 0px;
 }
+
+input.dynamic_add_in {
+    width: 80px;
+    margin-right: 5px;
+}
+
+ul.add_remove_button li {
+    margin-left: 125px;
+}
 /* Record Bill Unequal Split */
 table.unequal_split {
     display: inline;
     margin-top: 10px;
 }
 /* End Record Bill Unequal Split */
+
+input.error_simple {
+    border: 5px solid red;
+}
+
+label.error_simple {
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}

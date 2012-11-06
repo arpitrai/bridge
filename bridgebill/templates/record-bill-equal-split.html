@@ -25,9 +25,10 @@
                             <li><input type="checkbox" name="people" value="{{ my_friend.friend_email }}" />{{ my_friend.friend_name }} {% if request.user.email == my_friend.friend_email %}{% if request.user.first_name or request.user.last_name %}(Me){% else %}Me{% endif %}{%endif%}</li>
                         {% endfor %}
                     {% endif %}
+                </ul>
+                <ul class="add_remove_button">
                     <li>
-                        <input class="add_friend" type="submit" value="Add Friend" /> 
-                        <input class="remove_friend" type ="submit" value="Remove Friend" />
+                        <button class="add_friend">Add Friend</button> 
                     </li>
                 </ul>
             </li>

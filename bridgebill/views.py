@@ -273,25 +273,44 @@ def record_bill_equal_split(request):
             lender = request.user
             bill = Bill(overall_bill_id=overall_bill_id, lender=lender, date=bill_form.cleaned_data['date'], description=request.POST['description'], amount=bill_form.cleaned_data['amount'])
             bill.save()
-            number_of_borrowers = len(request.POST.getlist('people'))
+            number_of_borrowers = len(request.POST.getlist('people')) + len(request.POST.getlist('people_new'))
+            individual_amount = float(bill_form.cleaned_data['amount']/number_of_borrowers)
 
-            for borrower in request.POST.getlist('people'):
-                if borrower != request.user.email:
-                    borrower_object = UserFriend.objects.get(user=request.user, friend_email=borrower)
-                    bill_detail = BillDetails(bill=bill, borrower=borrower_object, individual_amount=float(bill_form.cleaned_data['amount']/number_of_borrowers), bill_cleared='N')
-                    bill_detail.save()
-
-                    # Send Email Start
-                    context = Context({ 'request': request, 'bill': bill, 'bill_detail': bill_detail })
-                    subject = 'New Bill Recorded: ' + bill.description
-                    bill_creation_txt_content = bill_creation_txt.render(context)
-                    bill_creation_html_content = bill_creation_html.render(context)
-                    send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ borrower ])
-                    # Send Email End
-                else:
-                    borrower_object = UserFriend.objects.get(user=request.user, friend_email=request.user.email)
-                    bill_detail = BillDetails(bill=bill, borrower=borrower_object, individual_amount=float(bill_form.cleaned_data['amount']/number_of_borrowers), bill_cleared='Y')
-                    bill_detail.save()
+            # For already existing friends
+            if request.POST.getlist('people'):
+                for borrower in request.POST.getlist('people'):
+                    if borrower != request.user.email:
+                        borrower_object = UserFriend.objects.get(user=request.user, friend_email=borrower)
+                        bill_detail = BillDetails(bill=bill, borrower=borrower_object, individual_amount=individual_amount, bill_cleared='N')
+                        bill_detail.save()
+                        # Send Email Start
+                        context = Context({ 'request': request, 'bill': bill, 'bill_detail': bill_detail })
+                        subject = 'New Bill Recorded: ' + bill.description
+                        bill_creation_txt_content = bill_creation_txt.render(context)
+                        bill_creation_html_content = bill_creation_html.render(context)
+                        send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ borrower ])
+                        # Send Email End
+                    else:
+                        borrower_object = UserFriend.objects.get(user=request.user, friend_email=request.user.email)
+                        bill_detail = BillDetails(bill=bill, borrower=borrower_object, individual_amount=float(bill_form.cleaned_data['amount']/number_of_borrowers), bill_cleared='Y')
+                        bill_detail.save()
+            
+            # For new friends
+            if request.POST.getlist('people_new'):
+                i = 0
+                for borrower in request.POST.getlist('people_new'):
+                    try: 
+                        friend_name = request.POST['name_'+str(i)]
+                        friend_email = request.POST['email_'+str(i)]
+                        user_friend = UserFriend(user=request.user, friend_name=friend_name, friend_email=friend_email)
+                        user_friend.save()
+                        borrower_object = user_friend
+                        bill_detail = BillDetails(bill=bill, borrower=borrower_object, individual_amount=individual_amount, bill_cleared='N')
+                        bill_detail.save()
+                        i += 1
+                    except:
+                        i += 1
+                        continue
             return HttpResponseRedirect('/who-owes-me/')
     else:
         my_friends = UserFriend.objects.filter(user=request.user)
