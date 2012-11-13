@@ -17,10 +17,10 @@
             <tbody>
                 {% for my_lender in my_lenders %}
                     <tr>
-                        <td><a href="/bill/details/{{ my_lender.bill.overall_bill_id }}/">{{ my_lender.bill.lender.first_name }} {{ my_lender.bill.lender.last_name }}</a></td>
-                        <td><a href="/bill/details/{{ my_lender.bill.overall_bill_id }}/">{{ my_lender.bill.date|date:"dS M Y" }}</a></td>
-                        <td><a href="/bill/details/{{ my_lender.bill.overall_bill_id }}/">{{ my_lender.bill.description }}</a></td>
-                        <td><a href="/bill/details/{{ my_lender.bill.overall_bill_id }}/">{{ my_lender.individual_amount|intcomma }}</a></td>
+                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.lender_name }}</a></td>
+                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_date|date:"dS M Y" }}</a></td>
+                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_description }}</a></td>
+                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_individual_amount|intcomma }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

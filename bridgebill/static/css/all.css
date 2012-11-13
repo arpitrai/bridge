@@ -32,7 +32,15 @@ img {
     vertical-align: middle;
 }
 
+span.error {
+    display: none !important;
+}
+
 input.error {
+    border: 1px solid #FF0000 !important;
+}
+
+.error {
     border: 1px solid #FF0000;
 }
 
@@ -580,37 +588,37 @@ form#record_bill_option ul li button {
 }
 /* End - Record Bill Page */
 
-/* Start - Record Bill Equal Split Page */
-form#equal_split ul {
+/* Start - Record Bill Equal Split, Un-Equal Split and Record Payment pages */
+form#equal_split ul, form#unequal_split ul, form#record_payment_initial ul, form#record_payment ul {
     width: 600px;
 }
 
-form#equal_split ul li {
+form#equal_split ul li, form#unequal_split ul li, form#record_payment_initial ul li, form#record_payment ul li {
     margin-top: 10px;
 }
 
-form#equal_split ul li.last{
+form#equal_split ul li.last, form#unequal_split ul li.last, form#record_payment_initial ul li.last, form#record_payment ul li.last {
     margin-top: 20px;
-    text-align: center;
+    margin-left: 130px;
 }
 
-form#equal_split ul li label {
+form#equal_split ul li label, form#unequal_split ul li label, form#record_payment_initial ul li label, form#record_payment ul li label {
     margin-left: 5px;
     width: 120px;
     display: inline-block;
 }
 
-form#equal_split ul li button {
+form#equal_split ul li button, form#unequal_split ul li button, form#record_payment_initial ul li button, form#record_payment ul li button {
     width: 100px;
     margin: 0;
 }
 
-form#equal_split ul li.make_inline {
+form#equal_split ul li.make_inline, form#unequal_split ul li.make_inline {
     position: relative;
     overflow: auto;
 }
 
-form#equal_split ul li.make_inline label {
+form#equal_split ul li.make_inline label, form#unequal_split ul li.make_inline label {
     float: left;
 }
 
@@ -637,19 +645,60 @@ input.dynamic_add_in {
 ul.add_remove_button li {
     margin-left: 125px;
 }
-/* Record Bill Unequal Split */
-table.unequal_split {
-    display: inline;
-    margin-top: 10px;
-}
-/* End Record Bill Unequal Split */
+/* End - Record Bill Equal Split, Un-Equal Split and Record Payment pages */
 
-input.error_simple {
-    border: 5px solid red;
+/* Start - Record Bill Un-Equal Split page */
+table#unequal_split_people_table {
+    margin-top: 5px;
+    width: 420px;
+    table-layout: fixed;
 }
 
-label.error_simple {
-    width: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
+table#unequal_split_people_table th {
+    font-size: 13px;
+    font-weight: normal;
+    padding: 0;
 }
+
+table#unequal_split_people_table th.name {
+    width: 150px;
+}
+
+table#unequal_split_people_table th.number {
+    width: 100px;
+}
+
+table#unequal_split_people_table th.amount {
+    width: 60px;
+}
+
+table#unequal_split_people_table th.remove_placeholder {
+    width: 50px;
+}
+
+table#unequal_split_people_table td.name input {
+    width: 60px;
+}
+
+table#unequal_split_people_table td.amount input {
+    width: 40px;
+}
+
+table#unequal_split_people_table td.remove_placeholder input {
+    width: 70px;
+}
+
+td.name, td.number, td.amount {
+    text-align: center;
+}
+
+form#unequal_split li.add_friend {
+    margin-left: 125px;
+}
+/* End - Record Bill Un-Equal Split page */
+
+/* Start - Record Payment page */
+form#record_payment span#paid_to {
+    font-size: 13px;
+}
+/* End - Record Payment page */

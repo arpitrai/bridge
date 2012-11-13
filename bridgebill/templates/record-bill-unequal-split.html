@@ -1,66 +1,73 @@
 {% extends "home.html" %}
 {% block title %}Record Bill | BridgeBill{% endblock %}
 {% block content %}
-<form name="bill" action="" method="post">
-    {% csrf_token %}
-    <ul>
-        <li>
-            <label for="id_date">Date </label>
-            {{ bill_form.date }}
-        </li>
-        <li>
-            <label for="id_description">Description </label>
-            <input id="id_description" type="text" name="description" maxlength="300" />
-        </li>
-        <!--
-        <li>
-            <label for="id_description">Description </label>
-            {{ bill_form.description }}
-        </li>
-        -->
-        <li>
-            <label for="id_amount">Total Amount </label>
-            {{ bill_form.amount }}
-        </li>
-        <li>
-            <label for="id_debtors">Split Among </label>
-            <table class="unequal_split" name="test">
-                <thead>
-                    <th>Name</th>
-                    <th>Paid For</th>
-                    <th>Amount</th>
-                </thead>
-                <tbody>
-                    {% for my_friend in my_friends %}
-                        <tr>
-                            <td> 
-                                <select name="borrower_{{ forloop.counter0 }}">
-                                    {% for my_friend in my_friends %}
-                                    <option value="{{ my_friend.friend_email }}">{{ my_friend.friend_name }} {% if request.user.email == my_friend.friend_email %}{% if request.user.first_name or request.user.last_name %}(Me){% else %}Me{% endif %}{%endif%}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                            <td>
-                                <select name="number_of_people_{{ forloop.counter0 }}">
-                                    <option value="1">1 person</option>
-                                    <option value="2">2 people</option>
-                                    <option value="3">3 people</option>
-                                    <option value="4">4 people</option>
-                                    <option value="5">5 people</option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="text" name="borrower_amount_{{ forloop.counter0 }}" />
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </li>
-        <li>
-            <label for="save"></label>
-            <button id="save" type="submit">Save</button>
-        </li>
-    </ul>
-</form>
+<div id="content_one">
+    <form id="unequal_split" name="unequal_split" action="" method="post">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label for="id_date">Date </label>
+                {{ bill_form.date }}
+            </li>
+            <li>
+                <label for="id_description">Description </label>
+                <input id="id_description" name="description" type="text" maxlength="300" />
+            </li>
+            <li>
+                <label for="id_amount">Total Amount </label>
+                {{ bill_form.amount }}
+            </li>
+            <li>
+                <label for="id_total_people">No. of People </label>
+                <input type="text" name="total_people" id="id_total_people" />
+            </li>
+            <li class="make_inline">
+                <label for="id_debtors">Split Among </label>
+                <table id="unequal_split_people_table" name="unequal_split_people_table">
+                    <thead>
+                        <th class="name">Name</th>
+                        <th class="number">Paid For</th>
+                        <th class="amount">Amount</th>
+                    </thead>
+                    <tbody>
+                        {% for my_friend in my_friends %}
+                            <tr>
+                                <td class="name"> 
+                                    <input type="hidden" class="people" />
+                                    <select name="borrower_{{ forloop.counter0 }}" id="id_borrower_{{ forloop.counter0 }}">
+                                        <option value=""></option>
+                                        {% for my_friend in my_friends %}
+                                        <option value="{{ my_friend.friend_email }}">{{ my_friend.friend_name }} {% if request.user.email == my_friend.friend_email %}{% if request.user.first_name or request.user.last_name %}(Me){% else %}Me{% endif %}{%endif%}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td class="number">
+                                    <select name="number_of_people_{{ forloop.counter0 }}" id="id_number_of_people_{{ forloop.counter0 }}">
+                                        <option value="0"></option>
+                                        <option value="1">1 person</option>
+                                        <option value="2">2 people</option>
+                                        <option value="3">3 people</option>
+                                        <option value="4">4 people</option>
+                                        <option value="5">5 people</option>
+                                    </select>
+                                </td>
+                                <td class="amount">
+                                    <input type="text" name="borrower_amount_{{ forloop.counter0 }}" id="id_borrower_amount_{{ forloop.counter0 }}"/>
+                                </td>
+                                <td class="remove_placeholder">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </li>
+            <li class="add_friend">
+                <button class="add_friend">Add Friend</button> 
+            </li>
+            <li class="last">
+                <button id="save" type="submit">Save</button>
+            </li>
+        </ul>
+    </form>
+</div>
 {% endblock %}

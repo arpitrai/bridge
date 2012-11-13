@@ -329,28 +329,64 @@ def record_bill_unequal_split(request):
             bill = Bill(overall_bill_id=overall_bill_id, lender=lender, date=bill_form.cleaned_data['date'], description=request.POST['description'], amount=bill_form.cleaned_data['amount'])
             bill.save()
 
+            # To count total people involved
+            friends_total = 0
+            for i in range(0, number_of_friends):
+                if request.POST['borrower_'+str(i)] != '':
+                    friends_total += 1
+            new_friends_total = len(request.POST.getlist('people_new'))
+            total_people = friends_total + new_friends_total
+
+            # For existing friends
             for i in range(0, number_of_friends):
                 borrower_counter = 'borrower_' + str(i)
-                # number_of_people_counter = 'number_of_people_' + str(i)
+                number_of_people_counter = 'number_of_people_' + str(i)
                 borrower_amount_counter = 'borrower_amount_' + str(i)
-                if request.POST[borrower_amount_counter] != '':
-                    if request.POST[borrower_counter] != request.user.email:
-                        borrower = UserFriend.objects.get(user=request.user, friend_email=request.POST[borrower_counter])
-                        bill_detail = BillDetails(bill=bill, borrower=borrower, individual_amount=float(request.POST[borrower_amount_counter]), bill_cleared='N')
-                        bill_detail.save()
-                        # Send Email Start
-                        context = Context({ 'request': request, 'bill': bill, 'bill_detail': bill_detail })
-                        subject = 'New Bill Recorded: ' + bill.description
-                        bill_creation_txt_content = bill_creation_txt.render(context)
-                        bill_creation_html_content = bill_creation_html.render(context)
-                        send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ request.POST['borrower_counter'] ])
-                        # Send Email End
+                try:
+                    if request.POST[borrower_counter] != '':
+                        if request.POST[borrower_counter] != request.user.email:
+                            borrower = UserFriend.objects.get(user=request.user, friend_email=request.POST[borrower_counter])
+                            bill_detail = BillDetails(bill=bill, borrower=borrower, individual_amount=float(request.POST[borrower_amount_counter]), bill_cleared='N')
+                            bill_detail.save()
+                            # Send Email Start
+                            context = Context({ 'request': request, 'bill': bill, 'bill_detail': bill_detail })
+                            subject = 'New Bill Recorded: ' + bill.description
+                            bill_creation_txt_content = bill_creation_txt.render(context)
+                            bill_creation_html_content = bill_creation_html.render(context)
+                            send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ request.POST['borrower_counter'] ])
+                            # Send Email End
+                        else:
+                            borrower = UserFriend.objects.get(user=request.user, friend_email=request.user.email)
+                            bill_detail = BillDetails(bill=bill, borrower=borrower, individual_amount=float(request.POST[borrower_amount_counter]), bill_cleared='Y')
+                            bill_detail.save()
                     else:
-                        borrower = UserFriend.objects.get(user=request.user, friend_email=request.user.email)
-                        bill_detail = BillDetails(bill=bill, borrower=borrower, individual_amount=float(request.POST[borrower_amount_counter]), bill_cleared='Y')
-                        bill_detail.save()
-                else:
+                        continue
+                except:
                     continue
+
+            # For new friends
+            if request.POST.getlist('people_new'):
+                i = 0
+                for borrower in request.POST.getlist('people_new'):
+                    try: 
+                        friend_name = request.POST['x_name_'+str(i)]
+                        friend_email = request.POST['x_email_'+str(i)]
+                        number_of_people = request.POST['x_number_of_people_'+str(i)]
+                        borrower_amount = request.POST['x_borrower_amount_'+str(i)]
+                        if friend_name and friend_email and number_of_people and borrower_amount:
+                            user_friend = UserFriend(user=request.user, friend_name=friend_name, friend_email=friend_email)
+                            user_friend.save()
+                            borrower_object = user_friend
+                            bill_detail = BillDetails(bill=bill, borrower=borrower_object, individual_amount=borrower_amount, bill_cleared='N')
+                            
+                            bill_detail.save()
+                            i += 1
+                        else: 
+                            i += 1
+                    except:
+                        i += 1
+                        continue
+
             return HttpResponseRedirect('/who-owes-me/')
     else: 
         bill_form = PartialBillForm()
@@ -363,10 +399,36 @@ def record_payment_partial_form(request):
         lender = User.objects.get(email=request.POST['people'])
         borrower = UserFriend.objects.get(user=lender, friend_email=request.user.email)
         bill_details = BillDetails.objects.filter(bill__lender=lender, borrower=borrower, bill_cleared='N')
-        return render_to_response('record-payment.html', { 'payment_form': payment_form, 'lender': lender, 'bill_details': bill_details, 'request': request }, context_instance=RequestContext(request)) 
+        all_amount = 0
+        for bill_detail in bill_details:
+            all_amount += bill_detail.individual_amount
+        return render_to_response('record-payment.html', { 'payment_form': payment_form, 'lender': lender, 'bill_details': bill_details, 'all_amount': all_amount, 'request': request }, context_instance=RequestContext(request)) 
     else:
-        my_lenders = UserFriend.objects.filter(friend_email=request.user.email).exclude(user=request.user)
-        return render_to_response('record-payment-partial-form.html', { 'my_lenders': my_lenders, 'request': request }, context_instance=RequestContext(request))
+        my_lenders_masterlist = UserFriend.objects.filter(friend_email=request.user.email).exclude(user=request.user)
+        class My_Lender:
+            def __init__(self, name, email):
+                self.name = name
+                self.email = email
+        my_lender_list = []
+        for my_lender in my_lenders_masterlist:
+            temp = 0
+            my_lender_as_user = User.objects.get(email=my_lender.user.email)
+            me_as_userfriend = UserFriend.objects.get(user=my_lender_as_user, friend_email=request.user.email)
+            bills = Bill.objects.filter(lender=my_lender_as_user)
+            for bill in bills:
+                bill_details = BillDetails.objects.filter(bill=bill,borrower=me_as_userfriend, bill_cleared='N')
+                if bill_details:
+                    temp = 1
+            if temp == 1:
+                lender_name = my_lender_as_user.first_name + ' ' + my_lender_as_user.last_name
+                try:
+                    lender_name = UserFriend.objects.get(user=request.user, friend_email=my_lender_as_user.email).friend_name
+                except:
+                    pass
+                lender_email = my_lender_as_user.email
+                my_lender = My_Lender(name=lender_name, email=lender_email)
+                my_lender_list.append(my_lender)
+        return render_to_response('record-payment-partial-form.html', { 'my_lenders': my_lender_list, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
 def record_payment(request):
@@ -407,9 +469,29 @@ def record_payment(request):
 
 @login_required
 def who_i_owe(request):
-    borrower_objects = UserFriend.objects.filter(friend_email=request.user.email)
-    my_lenders = BillDetails.objects.filter(borrower__in=borrower_objects, bill_cleared='N').exclude(bill__lender=request.user).order_by('bill__lender')
-    return render_to_response('who-i-owe.html', { 'my_lenders': my_lenders, 'request': request }, context_instance=RequestContext(request))
+    me_as_borrower = UserFriend.objects.filter(friend_email=request.user.email)
+
+    class My_Lender:
+        def __init__(self, lender_name, bill_date, bill_description, bill_individual_amount, bill_overall_bill_id):
+            self.lender_name = lender_name
+            self.bill_date = bill_date
+            self.bill_description = bill_description
+            self.bill_individual_amount = bill_individual_amount
+            self.bill_overall_bill_id = bill_overall_bill_id
+    my_lender_list = []
+    bill_details_my_lenders = BillDetails.objects.filter(borrower__in=me_as_borrower, bill_cleared='N').exclude(bill__lender=request.user).order_by('bill__lender')
+    for bill_detail in bill_details_my_lenders:
+        try:
+            lender_name = UserFriend.objects.get(user=request.user, friend_email=bill_detail.bill.lender.email).friend_name
+        except:
+            lender_name = bill_detail.bill.lender.first_name + ' ' + bill_detail.bill.lender.last_name
+        bill_date = bill_detail.bill.date
+        bill_description = bill_detail.bill.description
+        bill_individual_amount = bill_detail.individual_amount
+        bill_overall_bill_id = bill_detail.bill.overall_bill_id
+        my_lender = My_Lender(lender_name=lender_name, bill_date=bill_date, bill_description=bill_description, bill_individual_amount=bill_individual_amount, bill_overall_bill_id=bill_overall_bill_id)
+        my_lender_list.append(my_lender)
+    return render_to_response('who-i-owe.html', { 'my_lenders': my_lender_list, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
 def who_owes_me(request):
