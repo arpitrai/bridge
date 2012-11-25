@@ -4,8 +4,8 @@ body{
     padding: 0;
 	font:18px/25px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	background: url(../images/extra_clean_paper.png) repeat center top #b8e1e5;
-	/*background: #F5FFFA;*/
+    /*background: url(../images/subtlenet2.png) repeat center top #b8e1e5;*/
+    background: #FBFBFB;
 }
 
 a {
@@ -32,28 +32,33 @@ img {
     vertical-align: middle;
 }
 
+span.error_django {
+    color: red;
+    font-size: 12px;
+}
+
 span.error {
     display: none !important;
+}
+
+.error {
+    border: 1px solid #FF0000 !important;
 }
 
 input.error {
     border: 1px solid #FF0000 !important;
 }
 
-.error {
-    border: 1px solid #FF0000;
-}
-
 input.valid {
     border: 1px solid #008B00;
 }
 
-div#user_signup_form ul li label.error {
+div#user_signup_form ul li label.error, form#my_profile ul li label.error {
     width: 25px;
 	background: url(../images/incorrect.gif) no-repeat 8px 8px;
 }
 
-div#user_signup_form ul li label.valid {
+div#user_signup_form ul li label.valid, form#my_profile ul li label.valid {
 	background: url(../images/correct.gif) no-repeat 8px 8px;
 }
 /* End - Site Wide Declaration */
@@ -246,11 +251,12 @@ div#user_signup, div#forgot_password {
     border-radius: 5px 5px 5px 5px;
 }
 
-div.header {
+div.sub_header {
     border-radius: 5px 5px 0 0;
     background: url(../images/header-bg.png) repeat scroll 0 0 transparent;
     height: 72px;
     width: 100%;
+    text-align: center;
 }
 
 span.title {
@@ -543,7 +549,7 @@ div#content_specific_bill form ul li ul {
     padding: 0;
 }
 
-div#content_specific_bill form button, form button  {
+div#content_specific_bill form button {
     width: 150px;
     height: 28px;
     font-size: 14px;
@@ -551,10 +557,6 @@ div#content_specific_bill form button, form button  {
     background: rgba(154, 198, 0, 0.9);
     border: 0;
     margin-left: 25px;
-}
-
-div#content_specific_bill form button, form button {
-    background: rgba(154, 198, 0, 0.75);
 }
 
 div#content_specific_bill ul ul li {
@@ -590,7 +592,7 @@ form#record_bill_option ul li button {
 
 /* Start - Record Bill Equal Split, Un-Equal Split and Record Payment pages */
 form#equal_split ul, form#unequal_split ul, form#record_payment_initial ul, form#record_payment ul {
-    width: 600px;
+    width: 100%;
 }
 
 form#equal_split ul li, form#unequal_split ul li, form#record_payment_initial ul li, form#record_payment ul li {
@@ -616,6 +618,7 @@ form#equal_split ul li button, form#unequal_split ul li button, form#record_paym
 form#equal_split ul li.make_inline, form#unequal_split ul li.make_inline {
     position: relative;
     overflow: auto;
+    width: 100%; 
 }
 
 form#equal_split ul li.make_inline label, form#unequal_split ul li.make_inline label {
@@ -624,9 +627,20 @@ form#equal_split ul li.make_inline label, form#unequal_split ul li.make_inline l
 
 form#equal_split ul li ul.people, form#equal_split ul li ul.add_remove_button {
     float: left;
-    width: 420px;
+    width: 280px;
     font-size: 14px;
     margin: 0;
+}
+
+span.friend_checked {
+    color: red;
+    font-size: 12px;
+    visibility: hidden;
+}
+
+form#unequal_split span.friend_checked {
+    float: left;
+    margin-top: 10px;
 }
 
 form#equal_split ul li ul.people li {
@@ -652,6 +666,8 @@ table#unequal_split_people_table {
     margin-top: 5px;
     width: 420px;
     table-layout: fixed;
+    display: inline-block;
+    float: left;
 }
 
 table#unequal_split_people_table th {
@@ -702,3 +718,64 @@ form#record_payment span#paid_to {
     font-size: 13px;
 }
 /* End - Record Payment page */
+
+/* Start - My Profile page */
+form#my_profile ul {
+    width: 600px;
+}
+
+form#my_profile ul li {
+    margin-top: 10px;
+}
+
+form#my_profile ul li.last {
+    margin-top: 20px;
+    margin-left: 130px;
+}
+
+form#my_profile ul li label {
+    margin-left: 5px;
+    width: 120px;
+    display: inline-block;
+}
+
+form#my_profile ul li button {
+    width: 100px;
+    margin: 0;
+}
+
+form#my_profile .form_description {
+    font-size: 14px;
+}
+
+form#my_profile a {
+    text-decoration: underline;
+    color: #0000CD;
+}    
+/* End - My Profile page */
+
+/* Start - Change Password page */
+form#change_password ul {
+    width: 600px;
+}
+
+form#change_password ul li {
+    margin-top: 10px;
+}
+
+form#change_password ul li.last {
+    margin-top: 20px;
+    margin-left: 210px;
+}
+
+form#change_password ul li label {
+    margin-left: 5px;
+    width: 200px;
+    display: inline-block;
+}
+
+form#change_password ul li button {
+    width: 100px;
+    margin: 0;
+}
+/* End - Change Password page */

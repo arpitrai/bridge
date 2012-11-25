@@ -45,12 +45,26 @@ $(document).ready(function(){
 });
 // End - Validation on User Signup page 
 
+// Start - To stop the submission of any errors or blank fields on User Signup page 
+$(document).ready(function(){
+    $('form#user_signup_form_minjs li.last button#save').click(function(){
+        if ($('form#user_signup_form_minjs').validate().form() === false) {
+            event.preventDefault();
+        };
+    });
+});
+// End - To stop the submission of any errors or blank fields on User Signup page 
+
 // Start - Form validation for Equal Split page 
 $(document).ready(function(){
     $('form#equal_split').validate({
         errorClass: 'error',
         errorElement: 'span',
         rules: {
+            date: {
+                required: true,
+                date: true,
+            },
             description: {
                 required: true,
                 minlength: 2,
@@ -62,6 +76,10 @@ $(document).ready(function(){
             },
         },
         messages: {
+            date: {
+                required: '&nbsp',
+                date: '&nbsp',
+            },
             description: {
                 required: '&nbsp;',
                 minlength: '&nbsp;',
@@ -159,6 +177,20 @@ $(document).ready(function(){
 });
 
 function validate_equal_split_save(event){
+    var input_checked_counter = 0;
+    $('form#equal_split input[name*=people]').each(function(){
+        if ($(this).is(":checked")) {
+            input_checked_counter++;
+        };
+    });
+    if (input_checked_counter === 0) {
+        $('span.friend_checked').css("visibility", "visible");
+        event.preventDefault();
+    }
+    else {
+        $('span.friend_checked').css("visibility", "hidden");
+    };
+
     $('form#equal_split input[class="people_new"]').each(function(){
         if ($(this).is(":checked")) {
             if ($(this).nextAll('input[id*=id_name_]').val().length === 0) {
@@ -171,6 +203,7 @@ function validate_equal_split_save(event){
             };
         };
     });
+
     if ($('form#equal_split').validate().form() === false) {
         event.preventDefault();
     };
@@ -182,8 +215,11 @@ $(document).ready(function(){
     $('form#unequal_split').validate({
         errorClass: 'error',
         errorElement: 'span',
-        validClass: '',
         rules: {
+            date: {
+                required: true,
+                date: true,
+            },
             description: {
                 required: true,
                 minlength: 2,
@@ -193,8 +229,16 @@ $(document).ready(function(){
                 minlength: 1,
                 digits: true,
             },
+            total_people: {
+                required: true,
+                digits: true,
+            },
         },
         messages: {
+            date: {
+                required: '&nbsp',
+                date: '&nbsp',
+            },
             description: {
                 required: '&nbsp;',
                 minlength: '&nbsp;',
@@ -203,6 +247,10 @@ $(document).ready(function(){
                 required: '&nbsp;',
                 minlength: '&nbsp;',
                 digits: '&nbsp',
+            },
+            total_people: {
+                required: '&nbsp;',
+                digits: '&nbsp;',
             },
         },
     });
@@ -349,25 +397,69 @@ $(document).ready(function(){
 });
 
 function validate_unequal_split_save(event){
+    var input_checked_counter = 0;
+    $('form#unequal_split input[class=people]').each(function(){
+        if ($(this).nextAll('select[id^=id_borrower]').val().length !== 0) {
+            input_checked_counter++;
+        };
+    });
+    $('form#unequal_split input[class=people_new]').each(function(){
+        if ($(this).nextAll('input[id^=x_id_name]').val().length !== 0) {
+            input_checked_counter++;
+        };
+    });
+    if (input_checked_counter === 0) {
+        $('span.friend_checked').css("visibility", "visible");
+        event.preventDefault();
+    }
+    else {
+        $('span.friend_checked').css("visibility", "hidden");
+    };
+
+
     if ($('form#unequal_split').validate().form() === false) {
        event.preventDefault();
        return false;
     }
     else {
         var value = true;
-        $('form#unequal_split input[class="people"]').each(function(){
-            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
+        $('form#unequal_split input[class=people]').each(function(){
+            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
+                event.preventDefault();
+                $(this).nextAll('select[id^=id_borrower]').addClass('error');
+                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error');
+                value = false;
+            };
+            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).nextAll('select[id^=id_borrower]').addClass('error');
+                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error');
+                value = false;
+            };
+            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
                 event.preventDefault();
                 $(this).nextAll('select[id^=id_borrower]').addClass('error');
                 value = false;
             };
-            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
+            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error');
+                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error');
+                value = false;
+            };
+            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
+                event.preventDefault();
+                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error');
+                value = false;
+            };
+            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
                 event.preventDefault();
                 $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error');
                 value = false;
             };
         });
-        $('form#unequal_split input[class="people_new"]').each(function(){
+
+        $('form#unequal_split input[class=people_new]').each(function(){
             if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
                 event.preventDefault();
                 $(this).nextAll('input[id^=x_id_name]').addClass('error');
@@ -406,3 +498,50 @@ function validate_unequal_split_save(event){
     };
 };
 // End - To stop the submission of any unchecked new friend name and email fields added on Un-Equal Split page 
+
+// Start - Date Plugin
+$(document).ready(function(){
+    $('li input#id_date').datepicker({ altFormat: "yy-mm-dd" });
+});
+// End - Date Plugin
+
+// Start - Validation on My Profile page 
+$(document).ready(function(){
+    $('#my_profile').validate({
+        errorClass: 'error',
+        success: function(label) {
+            label.html('&nbsp;').addClass('valid')
+        },
+        rules: {
+            first_name: {
+                required: true,
+                minlength: 2,
+            },
+            last_name: {
+                required: true,
+                minlength: 2,
+            },
+        },
+        messages: {
+            first_name: {
+                required: '&nbsp;',
+                minlength: '&nbsp;',
+            },
+            last_name: {
+                required: '&nbsp;',
+                minlength: '&nbsp;',
+            },
+        },
+    });
+});
+// End - Validation on My Profile page 
+
+// Start - To stop the submission of any errors or blank fields on My Profile page 
+$(document).ready(function(){
+    $('form#my_profile li.last button#save').click(function(){
+        if ($('form#my_profile').validate().form() === false) {
+            event.preventDefault();
+        };
+    });
+});
+// End - To stop the submission of any errors or blank fields on My Profile page 

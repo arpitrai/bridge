@@ -1,0 +1,30 @@
+{% extends "home.html" %}
+{% block title %}My Profile | BridgeBill{% endblock %}
+{% block content %}
+<div id="content_one">
+    <form id="my_profile" name="my_profile" action="" method="post">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label for="id_first_name">First Name </label>
+                <input name="first_name" type="text" value="{{ request.user.first_name }}" />
+            </li>
+            <li>
+                <label for="id_last_name">Last Name </label>
+                <input name="last_name" type="text" value="{{ request.user.last_name }}" />
+            </li>
+            <li>
+                <label for="id_email">Email </label>
+                <span class="form_description">{{ request.user.email }}</span>
+            </li>
+            <li>
+                <label for="id_password">Password </label>
+                <a href="/change-password/" class="form_description">Change</a>
+            </li>
+            <li class="last">
+                <button id="save" type="submit">Save</button>
+            </li>
+        </ul>
+    </form>
+</div>
+{% endblock %}

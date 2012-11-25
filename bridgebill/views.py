@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from bridgebill.models import UserProfile, UserFriend, Bill, BillDetails
 from bridgebill.models import UserFriendForm, PartialBillForm
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, PasswordChangeForm
 
 from django.db.models import Max
 
@@ -27,10 +27,8 @@ account_creation_txt = get_template('email_templates/account_creation.txt')
 account_creation_html = get_template('email_templates/account_creation.html')
 bill_creation_txt = get_template('email_templates/bill_creation.txt')
 bill_creation_html = get_template('email_templates/bill_creation.html')
-payment_full_creation_txt = get_template('email_templates/payment_full_creation.txt')
-payment_full_creation_html = get_template('email_templates/payment_full_creation.html')
-payment_part_creation_txt = get_template('email_templates/payment_part_creation.txt')
-payment_part_creation_html = get_template('email_templates/payment_part_creation.html')
+payment_creation_txt = get_template('email_templates/payment_creation.txt')
+payment_creation_html = get_template('email_templates/payment_creation.html')
 # Email Settings End
 
 """
@@ -308,6 +306,15 @@ def record_bill_equal_split(request):
                         bill_detail = BillDetails(bill=bill, borrower=borrower_object, individual_amount=individual_amount, bill_cleared='N')
                         bill_detail.save()
                         i += 1
+
+                        # Send Email Start
+                        context = Context({ 'request': request, 'bill': bill, 'bill_detail': bill_detail })
+                        subject = 'New Bill Recorded: ' + bill.description
+                        bill_creation_txt_content = bill_creation_txt.render(context)
+                        bill_creation_html_content = bill_creation_html.render(context)
+                        send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ friend_email ])
+                        # Send Email End
+
                     except:
                         i += 1
                         continue
@@ -351,9 +358,10 @@ def record_bill_unequal_split(request):
                             # Send Email Start
                             context = Context({ 'request': request, 'bill': bill, 'bill_detail': bill_detail })
                             subject = 'New Bill Recorded: ' + bill.description
+                            print 'here: ', bill.description, '\n', bill_detail, '\n', bill.date, '\n', bill.amount, '\n', bill_detail.individual_amount
                             bill_creation_txt_content = bill_creation_txt.render(context)
                             bill_creation_html_content = bill_creation_html.render(context)
-                            send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ request.POST['borrower_counter'] ])
+                            send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ request.POST[borrower_counter] ])
                             # Send Email End
                         else:
                             borrower = UserFriend.objects.get(user=request.user, friend_email=request.user.email)
@@ -381,6 +389,15 @@ def record_bill_unequal_split(request):
                             
                             bill_detail.save()
                             i += 1
+                            
+                            # Send Email Start
+                            context = Context({ 'request': request, 'bill': bill, 'bill_detail': bill_detail })
+                            subject = 'New Bill Recorded: ' + bill.description
+                            bill_creation_txt_content = bill_creation_txt.render(context)
+                            bill_creation_html_content = bill_creation_html.render(context)
+                            send_html_mail(subject, bill_creation_txt_content, bill_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ friend_email ])
+                            # Send Email End
+
                         else: 
                             i += 1
                     except:
@@ -437,32 +454,28 @@ def record_payment(request):
         lender = User.objects.get(email=request.POST['lender'])
         borrower = UserFriend.objects.get(user=lender, friend_email=request.user.email)
         bill = Bill.objects.get(overall_bill_id=request.POST['overall_bill_id'])
+        bill_value = 0
         if payment_form.is_valid():
             if request.POST['overall_bill_id'] != '000': 
                 bill_detail = BillDetails.objects.get(bill__overall_bill_id=request.POST['overall_bill_id'], borrower=borrower)
                 bill_detail.bill_cleared='Y'
                 bill_detail.save()
-
-                # Send Email Start
-                context = Context({ 'request': request, 'description': request.POST['description'], 'amount': payment_form.cleaned_data['amount'] })
-                subject = 'New Payment of SGD ' + str(payment_form.cleaned_data['amount']) + ' by: ' + request.user.first_name + ' ' + request.user.last_name + ' ' + '(' + request.user.email + ')'
-                payment_part_creation_txt_content = payment_part_creation_txt.render(context)
-                payment_part_creation_html_content = payment_part_creation_txt.render(context)
-                send_html_mail(subject, payment_part_creation_txt_content, payment_part_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ lender.email ])
-                # Send Email End
+                bill_description = bill_detail.bill.description
             else:
                 bill_details = BillDetails.objects.filter(bill__lender=lender, borrower=borrower)
                 for bill_detail in bill_details:
                     bill_detail.bill_cleared='Y'
                     bill_detail.save()
+                    bill_value += bill_detail.individual_amount
+                bill_description = 'All Bills (Total: SGD ' + str(bill_value) + ')'
+            # Send Email Start
+            context = Context({ 'request': request, 'description': bill_description })
+            subject = 'New Payment by: ' + request.user.first_name + ' ' + request.user.last_name 
+            payment_creation_txt_content = payment_creation_txt.render(context)
+            payment_creation_html_content = payment_creation_html.render(context)
+            send_html_mail(subject, payment_creation_txt_content, payment_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ lender.email ])
+            # Send Email End
 
-                # Send Email Start
-                context = Context({ 'request': request, 'amount': payment_form.cleaned_data['amount'] })
-                subject = 'New Payment of SGD ' + str(payment_form.cleaned_data['amount']) + ' by: ' + request.user.first_name + ' ' + request.user.last_name + ' ' + '(' + request.user.email + ')'
-                payment_full_creation_txt_content = payment_full_creation_txt.render(context)
-                payment_full_creation_html_content = payment_full_creation_txt.render(context)
-                send_html_mail(subject, payment_full_creation_txt_content, payment_full_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ lender.email ])
-                # Send Email End
             return HttpResponseRedirect('/who-i-owe/')
     else:
         HttpResponseRedirect('/record-payment/')
@@ -516,6 +529,15 @@ def specific_bill_details(request, overall_bill_id):
                 bill_detail = BillDetails.objects.get(bill=bill, borrower=user_friend)
                 bill_detail.bill_cleared = 'Y'
                 bill_detail.save()
+
+                # Send Email Start
+                context = Context({ 'request': request, 'description': bill.description })
+                subject = 'New Payment by: ' + request.user.first_name + ' ' + request.user.last_name 
+                payment_creation_txt_content = payment_creation_txt.render(context)
+                payment_creation_html_content = payment_creation_html.render(context)
+                send_html_mail(subject, payment_creation_txt_content, payment_creation_html_content, settings.DEFAULT_FROM_EMAIL, [ lender_as_user.email ])
+                # Send Email End
+
                 return HttpResponseRedirect('/home/')
         elif 'delete_bill' in request.POST:
             bill = Bill.objects.get(overall_bill_id=overall_bill_id)
@@ -537,6 +559,43 @@ def specific_bill_details(request, overall_bill_id):
         return render_to_response('specific-bill-details.html', { 'bill': bill, 'borrowers': borrowers, 'user_lender': user_lender, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
+def my_profile(request):
+    if request.method == 'POST':
+        request.user.first_name = request.POST['first_name']
+        request.user.last_name = request.POST['last_name']
+        request.user.save()
+        return render_to_response('my-profile.html', { 'request': request }, context_instance=RequestContext(request))
+    else:
+        return render_to_response('my-profile.html', { 'request': request }, context_instance=RequestContext(request))
+
+@login_required
+def change_password(request):
+    class Error:
+        pass
+    error = Error()
+    if request.method == 'POST':
+        old_password = request.POST['old_password']
+        new_password1 = request.POST['new_password1']
+        new_password2 = request.POST['new_password2']
+        if old_password and new_password1 and new_password2:
+            if request.user.check_password(old_password):
+                if new_password1 == new_password2:
+                    request.user.set_password(new_password1)
+                    request.user.save()
+                    return HttpResponseRedirect('/change-password-success/')
+                else:
+                    error.new_password = 'Passwords do not match. Please enter again'
+            else: 
+                error.old_password = 'Incorrect password'
+        else:
+            error.old_password = 'Please enter all fields'
+    return render_to_response('change-password.html', { 'error': error, 'request': request }, context_instance=RequestContext(request))
+
+@login_required
+def change_password_success(request):
+    return render_to_response('change-password-success.html', { 'request': request }, context_instance=RequestContext(request))
+
+@login_required
 def logout_user(request):
 	logout(request)
-	return HttpResponseRedirect("/") 
+	return HttpResponseRedirect('/') 
