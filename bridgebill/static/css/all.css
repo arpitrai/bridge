@@ -195,6 +195,12 @@ div#index_login_form ul li.placeholder_b a:hover {
     text-decoration: underline;
     color: rgba(0, 0, 0, 0.9);
 }
+
+li#login_error {
+    color: red;
+    text-align: center;
+    text-decoration: underline;
+}
 /* End - Index Page */
 
 /* Start - Footer */

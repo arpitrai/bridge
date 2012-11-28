@@ -1,11 +1,13 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from bridgebill.models import UserProfile, UserFriend, Bill, BillDetails
 from bridgebill.models import UserFriendForm, PartialBillForm
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, PasswordChangeForm
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -62,14 +64,22 @@ def create_userfriend_id():
     return userfriend_id
 # End - Creating unique UserFriend ID
 
-"""
 def login(request):
-    return render_to_response('index.html', { 'request': request }, context_instance=RequestContext(request))
-"""
+    authentication_form = AuthenticationForm()    
+    error = ''
+    if request.method == 'POST':
+        authentication_form = AuthenticationForm(data=request.POST)
+        if authentication_form.is_valid():
+            auth_login(request, authentication_form.get_user())
+            return HttpResponseRedirect('/home/')
+        else:
+            error = 'Invalid username or password'
+    return render_to_response('index.html', { 'authentication_form': authentication_form, 'error': error, 'request': request }, context_instance=RequestContext(request))
 
 def login_error(request):
-    error = 'Invalid username/password'
-    return render_to_response('index.html', { 'error': error, 'request': request }, context_instance=RequestContext(request))
+    error = 'Invalid username or password'
+    authentication_form = AuthenticationForm()
+    return render_to_response('index.html', { 'authentication_form': authentication_form, 'error': error, 'request': request }, context_instance=RequestContext(request))
 
 def user_signup(request):
     if request.method == 'POST': 
@@ -659,5 +669,5 @@ def change_password_success(request):
 
 @login_required
 def logout_user(request):
-	logout(request)
+	auth_logout(request)
 	return HttpResponseRedirect('/') 

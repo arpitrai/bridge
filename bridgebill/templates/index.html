@@ -44,16 +44,16 @@
                         <form name="login" action="" method="post">
                             {% csrf_token %}
                             <ul>
-                                <li>
-                                    {{ invalid_login }}
+                                <li id="login_error">
+                                    {{ error }}
                                 </li>
                                 <li>
                                     <label for="id_username">Your Email </label>
-                                    <input id="id_username" type="text" name="username" max_length="30" />
+                                    {{ authentication_form.username }}
                                 </li>
                                 <li>
                                     <label for="id_password">Password </label>
-                                    <input id="id_password" type="password" name="password" />
+                                    {{ authentication_form.password }}
                                 </li>
                                 <li>
                                     <button id="submit" type="submit">Login</button>

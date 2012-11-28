@@ -9,10 +9,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # url(r'^$', views.login),
-    url(r'^$', 'django.contrib.auth.views.login', { 'template_name': 'index.html' }),
+    url(r'^$', views.login),
+    #url(r'^$', 'django.contrib.auth.views.login', { 'template_name': 'index.html' }),
     url(r'^login-error$', views.login_error),
-    # url(r'^login_with_django/$', 'django.contrib.auth.views.login'),
 
     url(r'^home/$', views.home),
     url(r'^home/details/(?P<person_id>[a-zA-Z0-9_-]+)/$', views.home_details),

@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     currency = models.CharField(max_length=5, blank=True)
 
     def __unicode__(self):
-        return 'User: ' + self.user.first_name
+        return 'User: ' + self.user.first_name + ' ' + self.user.last_name
 
 class UserFriend(models.Model):
     userfriend_id = models.CharField(max_length=50)
@@ -72,6 +72,44 @@ from django.template import Context
 account_creation_txt = get_template('email_templates/account_creation.txt')
 account_creation_html = get_template('email_templates/account_creation.html')
 
+
+# Start - Common function for creating UUIDs
+import uuid
+def create_uuid():
+    return str(uuid.uuid4())
+# End - Common function for creating UUIDs
+
+# Start - Creating unique UserProfile ID
+def create_userprofile_id():
+    check_counter = True
+    while check_counter is True:
+        userprofile_id = 'up_' + create_uuid()
+        try: 
+            user_profile = UserProfile.objects.get(userprofile_id=userprofile_id)
+            check_counter = True
+        except:
+            check_counter = False
+    return userprofile_id
+# End - Creating unique UserProfile ID
+
+
+# Start - Creating unique UserFriend ID
+def create_userfriend_id():
+    check_counter = True
+    while check_counter is True:
+        userfriend_id = 'uf_' + create_uuid()
+        try: 
+            user_friend = UserFriend.objects.get(userfriend_id=userfriend_id)
+            check_counter = True
+        except:
+            check_counter = False
+    return userfriend_id
+# End - Creating unique UserFriend ID
+
+
+
+
+
 def new_users_handler(sender, user, response, details, **kwargs):
     user.is_new = True
 
@@ -84,7 +122,12 @@ def new_users_handler(sender, user, response, details, **kwargs):
     # End - Send Email
     
     # Start - Add User as his own friend
-    user_own_friend = UserFriend(user=user, friend_email=user.email, friend_name=user.first_name+' '+user.last_name)
+    userprofile_id = create_userprofile_id()
+    user_profile = UserProfile(userprofile_id=userprofile_id, user=user)
+    user_profile.save()
+
+    userfriend_id = create_userfriend_id()
+    user_own_friend = UserFriend(userfriend_id=userfriend_id, user_profile=user_profile, friend_email=user.email, friend_name=user.first_name+' '+user.last_name)
     user_own_friend.save()
     # End - Add User as his own friend
 
