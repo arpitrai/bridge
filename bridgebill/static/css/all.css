@@ -41,11 +41,15 @@ span.error {
     display: none !important;
 }
 
-.error {
+select.error {
     border: 1px solid #FF0000 !important;
 }
 
 input.error {
+    border: 1px solid #FF0000 !important;
+}
+
+input.error_2 {
     border: 1px solid #FF0000 !important;
 }
 
@@ -562,6 +566,10 @@ div#content_specific_bill form button {
 div#content_specific_bill ul ul li {
     padding: 0;
 }
+
+div#content_specific_bill form div.button {
+    margin-left: 105px;
+}
 /* End - Specific Bill Page */
 
 /* Start - Record Bill Page */
@@ -627,7 +635,7 @@ form#equal_split ul li.make_inline label, form#unequal_split ul li.make_inline l
 
 form#equal_split ul li ul.people, form#equal_split ul li ul.add_remove_button {
     float: left;
-    width: 280px;
+    width: 380px;
     font-size: 14px;
     margin: 0;
 }

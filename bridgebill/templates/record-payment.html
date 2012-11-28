@@ -11,7 +11,7 @@
             </li>
             <li>
                 <label for="id_paid_to">I Paid Who </label>
-                <span id="paid_to">{{ lender.first_name }} {{ lender.last_name }}</span>
+                <span id="paid_to">{{ lender.user.first_name }} {{ lender.user.last_name }}</span>
             </li>
             <li>
                 <label for="id_description">Description </label>
@@ -24,10 +24,9 @@
                     {% endif %}
                 </select>
             </li>
-            <!--<li>
-                <label for="id_amount">Amount </label>
-                {{ payment_form.amount }}
-            </li>-->
+            <li>
+                <input type="hidden" name="amount" id="id_amount" value="10" />
+            </li>
             <li>
                 <label for="id_remarks">Remarks </label>
                 {{ payment_form.remarks }}
@@ -36,8 +35,8 @@
                 <button id="save" type="submit">Save</button>
             </li>
         </ul>
-        <input type="hidden" name="lender" id="lender" value="{{ lender.email }}" />
-        <input type="hidden" name="description" id="description" value="{{ bill_detail.bill.description }}" />
+        <input type="hidden" name="lender" id="id_lender" value="{{ lender.user.email }}" />
+        <input type="hidden" name="description" id="id_description" value="Value" />
     </form>
 </div>
 {% endblock %}

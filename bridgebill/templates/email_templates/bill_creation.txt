@@ -1,6 +1,6 @@
 Hi there
 
-{{ request.user.first_name}} {{ request.user.last_name }} ({{ request.user.email }}) has added a bill on BridgeBill. Please see below the details of the bill. 
+{{ userprofile_object.user.first_name}} {{ userprofile_object.user.last_name }} ({{ userprofile_object.user.email }}) has added a bill on BridgeBill. Please see below the details of the bill. 
 
 Description: {{ bill.description }}
 Date: {{ bill.date }}

@@ -22,20 +22,20 @@
                         {% csrf_token %}
                         <ul>
                             <li>
-                                <label for="id_firstname">First Name </label>
+                                <label for="id_firstname">Name </label>
                                 <input id="id_firstname" type="text" name="firstname" max_length="30" />
-                            </li>
-                            <li>
-                                <label for="id_lastname">Last Name </label>
-                                <input id="id_lastname" type="text" name="lastname" max_length="30" />
                             </li>
                             <li>
                                 <label for="id_username">Email </label>
                                 <input id="id_username" type="text" name="username" max_length="30" />
                             </li>
                             <li>
-                                <label for="id_password">Password </label>
-                                <input id="id_password" type="password" name="password" />
+                                <label for="id_password1">Password </label>
+                                <input id="id_password1" type="password" name="password1" />
+                            </li>
+                            <li>
+                                <label for="id_password2">Password(again) </label>
+                                <input id="id_password2" type="password" name="password2" />
                             </li>
                             <li class="last">
                                 <button id="save" type="submit">Sign-Up</button>
@@ -46,5 +46,14 @@
             </ul>
         </div>
     </div>
+    <div id="index_push">
+    </div>
+</div>
+<div id="index_footer">
+    <ul class="footer_links"> 
+        <li><a href="/about-us/">About Us</a></li>
+        <li><a href="/feedback/">Feedback</a></li>
+        <li><a href="/contact-us/">Contact Us</a></li>
+    </ul> 
 </div>
 {% endblock %}

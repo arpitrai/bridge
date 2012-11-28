@@ -12,12 +12,6 @@
     <div id="home_menu">
         <ul>
             <li><a href="/home/">Home</a></li>
-            <!--<li><a href="/my-friends/">My Friends</a>
-                <ul>
-                    <li><a href="/my-friends/add-friends/">Add Friends</a></li>
-                    <li><a href="/my-friends/delete-friends/">Delete Friends</a></li>
-                </ul>
-                </li>-->
             <li><a href="/who-owes-me/">Who Owes Me</a></li>
             <li><a href="/who-i-owe/">Who I Owe</a></li>
             <li><a href="/record-bill/">Record Bill</a></li>
@@ -40,9 +34,9 @@
                     <tbody>
                         {% for borrower in borrowers %}
                             <tr>
-                                <td><a href="details/b_{{ borrower.id }}">{{ borrower.name }}</a></td>
-                                <td><a href="details/b_{{ borrower.id }}">{{ borrower.email }}</a></td>
-                                <td><a href="details/b_{{ borrower.id }}">{{ borrower.amount|intcomma }}</a></td>
+                                <td><a href="details/b_{{ borrower.userfriend_id }}">{{ borrower.name }}</a></td>
+                                <td><a href="details/b_{{ borrower.userfriend_id }}">{{ borrower.email }}</a></td>
+                                <td><a href="details/b_{{ borrower.userfriend_id }}">{{ borrower.amount|intcomma }}</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -63,9 +57,9 @@
                     <tbody>
                         {% for lender in lenders %}
                             <tr>
-                                <td><a href="details/l_{{ lender.id }}">{{ lender.name }}</a></td>
-                                <td><a href="details/l_{{ lender.id }}">{{ lender.email }}</a></td>
-                                <td><a href="details/l_{{ lender.id }}">{{ lender.amount|intcomma }}</a></td>
+                                <td><a href="details/l_{{ lender.userprofile_id }}">{{ lender.name }}</a></td>
+                                <td><a href="details/l_{{ lender.userprofile_id }}">{{ lender.email }}</a></td>
+                                <td><a href="details/l_{{ lender.userprofile_id }}">{{ lender.amount|intcomma }}</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -74,30 +68,6 @@
                 <p>You don't have any dues!</p>
             {% endif %}
         </div>
-            <!--{% if borrower or lenders %}
-            <table class="base_table home_table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th class="amount">Owes Me</th>
-                        <th class="amount">I Owe</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for friend in friends %}
-                    <tr>
-                        <td>{{ friend.name }}</td>
-                        <td>{{ friend.email }}</td>
-                        <td>{{ friend.borrowed_amount|intcomma }}</td>
-                        <td>{{ friend.lent_amount|intcomma }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-                <p>You do not have any loans nor do your friends owe you any money.</p>
-            {% endif %}-->
          {% endblock %}
     </div>
     <div id="home_push">

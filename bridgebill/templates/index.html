@@ -45,6 +45,9 @@
                             {% csrf_token %}
                             <ul>
                                 <li>
+                                    {{ invalid_login }}
+                                </li>
+                                <li>
                                     <label for="id_username">Your Email </label>
                                     <input id="id_username" type="text" name="username" max_length="30" />
                                 </li>

@@ -5,17 +5,24 @@
     <form id="my_profile" name="my_profile" action="" method="post">
         {% csrf_token %}
         <ul>
+            {% if userprofile_object.user.last_name %}
             <li>
                 <label for="id_first_name">First Name </label>
-                <input name="first_name" type="text" value="{{ request.user.first_name }}" />
+                <input name="first_name" type="text" value="{{ userprofile_object.user.first_name }}" />
             </li>
             <li>
                 <label for="id_last_name">Last Name </label>
-                <input name="last_name" type="text" value="{{ request.user.last_name }}" />
+                <input name="last_name" type="text" value="{{ userprofile_object.user.last_name }}" />
             </li>
+            {% else %}
+            <li>
+                <label for="id_first_name">Name </label>
+                <input name="first_name" type="text" value="{{ userprofile_object.user.first_name }}" />
+            </li>
+            {% endif %}
             <li>
                 <label for="id_email">Email </label>
-                <span class="form_description">{{ request.user.email }}</span>
+                <span class="form_description">{{ userprofile_object.user.email }}</span>
             </li>
             <li>
                 <label for="id_password">Password </label>

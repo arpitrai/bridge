@@ -8,7 +8,7 @@
             {% if not user_lender %}
             <li>
                 <label>Lender </label>
-                <span class="description">{{ bill.lender.first_name }} {{ bill.lender.last_name }}</span>
+                <span class="description">{{ bill.lender.user.first_name }} {{ bill.lender.user.last_name }}</span>
             </li>
             {% endif %}
             <li>
@@ -23,7 +23,6 @@
                 <label>Total Amount </label>
                 <span class="description">SGD {{ bill.amount }}</span>
             </li>
-            {% if user_lender %}
             <li>
                 <label>Split Between </label>
                 <ul>
@@ -32,15 +31,13 @@
                     {% endfor %}
                 </ul>
             </li>
-            {% endif %}
         </ul>
         <input type="hidden" name="overall_bill_id" value={{ bill.overall_bill_id }} />
-        <input type="hidden" name="lender" value={{ bill.lender.email }} />
+        <input type="hidden" name="lender" value={{ bill.lender.user.email }} />
         <div class="button"> 
             <button name="mark_bill_paid" type="submit">Mark Bill as Paid</button>
             {% if user_lender %}
                 <input type="hidden" name="lender_as_user_yes" value='Y' />
-                <button name="modify_bill" type="submit">Modify Bill</button>
                 <button name="delete_bill" type="submit">Delete Bill</button>
             {% endif %}
         </div>

@@ -3,17 +3,22 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 
 class UserProfile(models.Model):
+    userprofile_id = models.CharField(max_length=50)
     user = models.OneToOneField(User)
-    currency = models.CharField(max_length=5)
+    currency = models.CharField(max_length=5, blank=True)
+
+    def __unicode__(self):
+        return 'User: ' + self.user.first_name
 
 class UserFriend(models.Model):
-    user = models.ForeignKey(User)
+    userfriend_id = models.CharField(max_length=50)
+    user_profile = models.ForeignKey(UserProfile)
     friend_email = models.EmailField(max_length=75)
     friend_name = models.CharField(max_length=60)
     friend_created_date = models.DateField(auto_now_add=True)
 
     def __unicode__(self):
-        return 'Lender: ' + self.user.email + ' is a friend of Borrower: ' + self.friend_email
+        return 'Lender: ' + self.user_profile.user.email + ' is a friend of Borrower: ' + self.friend_email
 
 class UserFriendForm(ModelForm):
     class Meta:
@@ -21,8 +26,8 @@ class UserFriendForm(ModelForm):
         fields = ('friend_name', 'friend_email')
 
 class Bill(models.Model):
-    overall_bill_id = models.IntegerField()
-    lender = models.ForeignKey(User)
+    overall_bill_id = models.CharField(max_length=50)
+    lender = models.ForeignKey(UserProfile)
     date = models.DateField()
     description = models.CharField(max_length=300)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -35,7 +40,7 @@ class Bill(models.Model):
 class PartialBillForm(ModelForm):
     class Meta:
         model = Bill
-        fields = ('date', 'amount', 'remarks')
+        fields = ('date', 'amount', 'description', 'remarks')
 
 BILL_CLEARED_CHOICES = (
         ('N', 'No'),
@@ -43,6 +48,7 @@ BILL_CLEARED_CHOICES = (
         )
 
 class BillDetails(models.Model):
+    billdetail_id = models.CharField(max_length=50)
     bill = models.ForeignKey(Bill)
     borrower = models.ForeignKey(UserFriend)
     individual_amount = models.DecimalField(max_digits=10, decimal_places=2)
