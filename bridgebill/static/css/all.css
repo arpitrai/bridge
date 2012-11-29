@@ -57,6 +57,11 @@ input.valid {
     border: 1px solid #008B00;
 }
 
+.currentLink {
+    background: rgba(108, 210, 252, .30);
+    /*border: rgba(0, 0, 0, .2) solid 1px; */
+}
+
 div#user_signup_form ul li label.error, form#my_profile ul li label.error {
     width: 25px;
 	background: url(../images/incorrect.gif) no-repeat 8px 8px;

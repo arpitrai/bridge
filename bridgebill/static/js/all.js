@@ -1,3 +1,15 @@
+// Start - Highlight current menu item
+$(document).ready(function(){
+    loc = $(location).attr('href');
+    $('li a').each(function(){
+        var menu_url = "^" + this.href;
+        if (loc.match(menu_url)) {
+            $(this).addClass('currentLink');
+        };
+    });
+});
+// End - Highlight current menu item
+
 // Start - Validation on User Signup page 
 $(document).ready(function(){
     $('#user_signup_form_minjs').validate({
@@ -264,9 +276,14 @@ $(document).ready(function(){
     $('form#unequal_split').on('click', 'select[id*=id_number_of_people] option', function(event){
         var total_amount = Number($('form#unequal_split input#id_amount').val()) 
         var total_people = Number($('form#unequal_split input#id_total_people').val());
-        var borrower_amount = total_amount/total_people * Number($(this).val());
-        borrower_amount = Math.round(borrower_amount*100)/100;
-        $(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val(borrower_amount);
+        if ($(this).val() !== 'Other') {
+            var borrower_amount = total_amount/total_people * Number($(this).val());
+            borrower_amount = Math.round(borrower_amount*100)/100;
+            $(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val(borrower_amount);
+        }
+        else {
+            $(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val('');
+        };
     });
 });
 // End - To calculate amount depending on user input
@@ -278,7 +295,7 @@ $(document).ready(function(){
         var html_fragment_1 = '<tr><td class="name"><input type="hidden" name="people_new" class="people_new" value="x_people_new_' + i + '" />';
         var html_fragment_2 = '<input class="dynamic_add_in" type="text" id="x_id_name_' + i + '" name="x_name_' + i + '" placeholder="Friend Name" />';
         var html_fragment_3 = '<input class="dynamic_add_in" type="text" id="x_id_email_'+ i + '" name="x_email_' + i + '" placeholder="Friend Email" /></td>';
-        var html_fragment_4 = '<td class="number"><select id="x_id_number_of_people_' + i + '" name="x_number_of_people_' + i + '"><option value="0"></option><option value="1">1 person</option><option value="2">2 people</option><option value="3">3 people</option><option value="4">4 people</option><option value="5">5 people</option></select></td>'
+        var html_fragment_4 = '<td class="number"><select id="x_id_number_of_people_' + i + '" name="x_number_of_people_' + i + '"><option value="0"></option><option value="1">1 person</option><option value="2">2 people</option><option value="3">3 people</option><option value="4">4 people</option><option value="5">5 people</option><option value="Other">Other</option></select></td>'
         var html_fragment_5 = '<td class="amount"><input type="text" id="x_id_borrower_amount_' + i + '" name="x_borrower_amount_' + i + '" /></td>';
         var html_fragment_6 = '<td><input class="remove_friend" type="submit" value="Remove" /></td></tr>';
         var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3 + html_fragment_4 + html_fragment_5 + html_fragment_6;
