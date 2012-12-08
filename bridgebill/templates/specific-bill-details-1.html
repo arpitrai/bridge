@@ -1,0 +1,46 @@
+{% extends "home.html" %}
+{% block title %}BridgeBill - Bill Details{% endblock %}
+{% block content %}
+<div id="content_specific_bill">
+    <form name="specific_bill_detail" action="" method="post">
+        {% csrf_token %}
+        <ul class="specific_bill">
+            {% if not user_lender %}
+            <li>
+                <label>Lender </label>
+                <span class="description">{{ bill.lender.user.first_name }} {{ bill.lender.user.last_name }}</span>
+            </li>
+            {% endif %}
+            <li>
+                <label>Date </label>
+                <span class="description">{{ bill.date|date:"dS M Y" }}</span>
+            </li>
+            <li>
+                <label>Description </label>
+                <span class="description">{{ bill.description }}</span>
+            </li>
+            <li>
+                <label>Total Amount </label>
+                <span class="description">SGD {{ bill.amount }}</span>
+            </li>
+            <li>
+                <label>Split Between </label>
+                <ul>
+                    {% for borrower in borrowers %}
+                        <li><span>{{ borrower.borrower.friend_name}} (SGD {{ borrower.individual_amount }})</span></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+        <input type="hidden" name="overall_bill_id" value={{ bill.overall_bill_id }} />
+        <input type="hidden" name="lender" value={{ bill.lender.user.email }} />
+        <div class="button"> 
+            <button name="mark_bill_paid" type="submit">Mark Bill as Paid</button>
+            {% if user_lender %}
+                <input type="hidden" name="lender_as_user_yes" value='Y' />
+                <button name="delete_bill" type="submit">Delete Bill</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

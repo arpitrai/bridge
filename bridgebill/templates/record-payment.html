@@ -1,5 +1,5 @@
 {% extends "home.html" %}
-{% block title %}Record Payment | BridgeBill{% endblock %}
+{% block title %}BridgeBill - Record Payment{% endblock %}
 {% block content %}
 <div id="content_one">
     <form name="record_payment" id="record_payment" action="/record-payment-full/" method="post">
@@ -10,7 +10,7 @@
                 {{ payment_form.date }}
             </li>
             <li>
-                <label for="id_paid_to">I Paid Who </label>
+                <label for="id_paid_to">Paid Who? </label>
                 <span id="paid_to">{{ lender.user.first_name }} {{ lender.user.last_name }}</span>
             </li>
             <li>

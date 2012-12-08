@@ -4,9 +4,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}BridgeBill - Split Bills with Friends. Keep Track of Bills Easily{% endblock %}</title>
 	<meta name="description" content="Split your bills with friends and keep track of all your bills" />
+    <link media="all" rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css" />
     <link media="all" rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/all.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}js/library/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/library/jquery.validate.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/library/jquery.tablesorter.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/all.js"></script>
 
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/library/jquery-ui-1.9.1.css" />
@@ -18,13 +20,13 @@
     {% block body %}
     <div id="index">
         <div id="index_header">
-            <h1><a href="/">Split Bills and Keep Track of Your Expenses</a></h1>
+            <h1><a href="/"><strong class="logo">BridgeBill</strong> - Split Bills and Keep Track of Your Expenses</a></h1>
         </div>
         <div id="index_description">
             <ol>
-                <li>Record your Bills in One Place</li>
-                <li>Split your Bills with Friends</li>
-                <li>Keep Track of Who Owes Who</li>
+                <li><span class="highlight_index">Record</span> your Bills in One Place</li>
+                <li><span class="highlight_index">Split</span> your Bills with Friends</li>
+                <li><span class="highlight_index">Keep Track</span> of Who Owes Who</li>
             </ol>
         </div>
 
@@ -44,21 +46,24 @@
                         <form name="login" action="" method="post">
                             {% csrf_token %}
                             <ul>
+                                {% if error %}
                                 <li id="login_error">
                                     {{ error }}
                                 </li>
+                                {% endif %}
                                 <li>
-                                    <label for="id_username">Your Email </label>
+                                    <label class="index" for="id_username">Your Email </label>
                                     {{ authentication_form.username }}
                                 </li>
                                 <li>
-                                    <label for="id_password">Password </label>
+                                    <label class="index" for="id_password">Password </label>
                                     {{ authentication_form.password }}
                                 </li>
-                                <li>
-                                    <button id="submit" type="submit">Login</button>
+                                <li class="last">
+                                    <button id="submit" type="submit">Login!</button>
                                 </li>
                             </ul>
+                            <input type="hidden" name="next" value="{{ next }}" />
                         </form>
                     </li>
                     <li class="placeholder_b">
@@ -74,13 +79,13 @@
         <div id="index_push">
         </div>
     </div>
-<!--    <div id="index_footer">-->
-        <!--<ul class="footer_links"> -->
-            <!--<li><a href="/about-us/">About Us</a></li>-->
-            <!--<li><a href="/feedback/">Feedback</a></li>-->
-            <!--<li><a href="/contact-us/">Contact Us</a></li>-->
-        <!--</ul> -->
-    <!--</div>-->
+    <div id="index_footer">
+        <ul class="footer_links"> 
+            <li><a href="/about-us/">About Us</a></li>
+            <li><a href="/feedback/">Feedback</a></li>
+            <li><a href="/contact-us/">Contact Us</a></li>
+        </ul> 
+    </div>
     {% endblock %}
 </body>
 </html>

@@ -4,7 +4,7 @@ $(document).ready(function(){
     $('li a').each(function(){
         var menu_url = "^" + this.href;
         if (loc.match(menu_url)) {
-            $(this).addClass('currentLink');
+            $(this).parent().addClass('currentLink');
         };
     });
 });
@@ -67,6 +67,81 @@ $(document).ready(function(){
 });
 // End - To stop the submission of any errors or blank fields on User Signup page 
 
+// Start - Table sorting functionality
+var MonthNumber = {};
+MonthNumber["Jan "] = "01";
+MonthNumber["Feb "] = "02";
+MonthNumber["Mar "] = "03";
+MonthNumber["Apr "] = "04";
+MonthNumber["May "] = "05";
+MonthNumber["Jun "] = "06";
+MonthNumber["Jul "] = "07";
+MonthNumber["Aug "] = "08";
+MonthNumber["Sep "] = "09";
+MonthNumber["Oct "] = "10";
+MonthNumber["Nov "] = "11";
+MonthNumber["Dec "] = "12";
+
+$.tablesorter.addParser({
+    id: 'dateDjango',
+    is: function(s) {
+        return false;
+    },
+    format: function(s) {
+        if (s.length > 0) {
+            var date = s.match(/^(\d{1,2}[sndrth]{2} )?(\w{3} )?(\d{4})$/);
+            var d = '01';
+            if (date[1]) {
+                d = '' + parseInt(String(date[1]));
+                if (d.length == 1) {
+                    d = "0" + d;
+                }
+            }
+
+            var m = '01';
+            if (date[2]) {
+                m = MonthNumber[date[2]];
+            }
+
+            var y = date[3];
+            return '' + y + m + d;
+        }
+        else {
+            return '';
+        }
+    },
+    type: 'numeric'
+});
+
+$.tablesorter.addParser({
+    id: 'amountDjango',
+    is: function(s) {
+        return false;
+    },
+    format: function(s) {
+        if (s.length > 0) {
+            var amount = s.slice(3);
+            amount = amount.replace(/\,/g,'');
+            return '' + amount;
+        }
+        else {
+            return '';
+        }
+    },
+    type: 'numeric'
+});
+
+$(document).ready(function(){
+    $('table#who_owes_me_table').tablesorter({
+        headers: { 0: { sorter: "dateDjango" }, 3: { sorter: "amountDjango" } }
+    });
+    $('table#who_i_owe_table').tablesorter({
+        headers: { 0: { sorter: "dateDjango" }, 3: { sorter: "amountDjango" } }
+    });
+});
+// End - Table sorting functionality
+
+
 // Start - Form validation for Equal Split page 
 $(document).ready(function(){
     $('form#equal_split').validate({
@@ -84,7 +159,7 @@ $(document).ready(function(){
             amount: {
                 required: true,
                 minlength: 1,
-                digits: true,
+                number: true,
             },
         },
         messages: {
@@ -99,7 +174,7 @@ $(document).ready(function(){
             amount: {
                 required: '&nbsp;',
                 minlength: '&nbsp;',
-                digits: '&nbsp',
+                number: '&nbsp',
             },
         },
     });
@@ -111,8 +186,8 @@ var i=0;
 $(document).ready(function(){
     $('form#equal_split button.add_friend').click(function(){
         var html_fragment_1 = '<li><input type="checkbox" checked="checked"' + 'name="people_new" class="people_new" value="people_new_' + i + '" />';
-        var html_fragment_2 = '<input class="dynamic_add_in" type="text" id="id_name_' + i + '" name="name_' + i + '" placeholder="Friend Name" />';
-        var html_fragment_3 = '<input class="dynamic_add_in" type="text" id="id_email_'+ i + '" name="email_' + i + '" placeholder="Friend Email" />';
+        var html_fragment_2 = '<input class="dynamic_add_in name" type="text" id="id_name_' + i + '" name="name_' + i + '" placeholder="Friend\'s Name" />';
+        var html_fragment_3 = '<input class="dynamic_add_in email" type="text" id="id_email_'+ i + '" name="email_' + i + '" placeholder="Friend\'s Email Address" />';
         /*var html_fragment_4 = '<input class="remove_friend" type="submit" value="Remove" /></li>';*/
         /*var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3 + html_fragment_4;*/
         var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3;
@@ -218,7 +293,6 @@ function validate_equal_split_save(event){
     });
 
     if ($('form#equal_split').validate().form() === false) {
-        alert($('form#equal_split').validate().form());
         event.preventDefault();
     };
 };
@@ -241,7 +315,7 @@ $(document).ready(function(){
             amount: {
                 required: true,
                 minlength: 1,
-                digits: true,
+                number: true,
             },
             total_people: {
                 required: true,
@@ -260,7 +334,7 @@ $(document).ready(function(){
             amount: {
                 required: '&nbsp;',
                 minlength: '&nbsp;',
-                digits: '&nbsp',
+                number: '&nbsp',
             },
             total_people: {
                 required: '&nbsp;',
@@ -276,7 +350,7 @@ $(document).ready(function(){
     $('form#unequal_split').on('click', 'select[id*=id_number_of_people] option', function(event){
         var total_amount = Number($('form#unequal_split input#id_amount').val()) 
         var total_people = Number($('form#unequal_split input#id_total_people').val());
-        if ($(this).val() !== 'Other') {
+        if (($(this).val() !== 'Other') && (total_amount !== 0) && (total_people !== 0)) {
             var borrower_amount = total_amount/total_people * Number($(this).val());
             borrower_amount = Math.round(borrower_amount*100)/100;
             $(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val(borrower_amount);
@@ -293,11 +367,11 @@ var i=0;
 $(document).ready(function(){
     $('form#unequal_split button.add_friend').click(function(){
         var html_fragment_1 = '<tr><td class="name"><input type="hidden" name="people_new" class="people_new" value="x_people_new_' + i + '" />';
-        var html_fragment_2 = '<input class="dynamic_add_in" type="text" id="x_id_name_' + i + '" name="x_name_' + i + '" placeholder="Friend Name" />';
-        var html_fragment_3 = '<input class="dynamic_add_in" type="text" id="x_id_email_'+ i + '" name="x_email_' + i + '" placeholder="Friend Email" /></td>';
+        var html_fragment_2 = '<input class="dynamic_add_in" type="text" id="x_id_name_' + i + '" name="x_name_' + i + '" placeholder="Friend\'s Name" />';
+        var html_fragment_3 = '<input class="dynamic_add_in" type="text" id="x_id_email_'+ i + '" name="x_email_' + i + '" placeholder="Friend\'s Email Address" /></td>';
         var html_fragment_4 = '<td class="number"><select id="x_id_number_of_people_' + i + '" name="x_number_of_people_' + i + '"><option value="0"></option><option value="1">1 person</option><option value="2">2 people</option><option value="3">3 people</option><option value="4">4 people</option><option value="5">5 people</option><option value="Other">Other</option></select></td>'
         var html_fragment_5 = '<td class="amount"><input type="text" id="x_id_borrower_amount_' + i + '" name="x_borrower_amount_' + i + '" /></td>';
-        var html_fragment_6 = '<td><input class="remove_friend" type="submit" value="Remove" /></td></tr>';
+        var html_fragment_6 = '<td class="remove_table_row"><input class="remove_friend" type="submit" value="&#10006;" /></td></tr>';
         var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3 + html_fragment_4 + html_fragment_5 + html_fragment_6;
         $('form#unequal_split table#unequal_split_people_table tbody tr:last').after(html_fragment);
         i++;
@@ -371,11 +445,11 @@ function validate_unequal_split(){
         $(this).rules("add", {
             required: false,
             minlength: 1,
-            digits: true,
+            number: true,
             messages: {
                 required: '&nbsp',
                 minlength: '&nbsp',
-                digits: '&nbsp',
+                number: '&nbsp',
             },
         });
     });
@@ -398,11 +472,11 @@ function validate_amount_existing_unequal_split(){
         $(this).rules("add", {
             required: false,
             minlength: 1,
-            digits: true,
+            number: true,
             messages: {
                 required: '&nbsp',
                 minlength: '&nbsp',
-                digits: '&nbsp',
+                number: '&nbsp',
             },
         });
     });
@@ -545,9 +619,6 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('#my_profile').validate({
         errorClass: 'error',
-        success: function(label) {
-            label.html('&nbsp;').addClass('valid')
-        },
         rules: {
             first_name: {
                 required: true,

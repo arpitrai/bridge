@@ -24,8 +24,90 @@ li {
     padding: 0;
 }
 
+label.index {
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 5px;
+    width: 125px;
+}
+
+input {
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    color: #333333;
+    font-size: 16px;
+    height: 20px;
+    padding: 5px 10px;
+    width: 394px;
+}
+
+input[type="checkbox"] {
+    width: 30px;
+    padding: 0;
+}
+
 input:focus {
-    border: 3px solid #FDECB2;
+    border: 1px solid #BBBBBB;
+}
+
+li.last button {
+    -webkit-transition: border 500ms;
+    -moz-transition: border 500ms;
+    -ms-transition: border 500ms;
+    -o-transition: border 500ms;
+    transition: border 500ms;
+    background-color: #F2F0F0;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fdfafb), color-stop(50%, #f9f7f7), color-stop(50%, #f6f3f4), color-stop(100%, #f0eded));
+    background-image: -webkit-linear-gradient(#fdfafb, #f9f7f7 50%, #f6f3f4 50%, #f0eded);
+    background-image: -moz-linear-gradient(#fdfafb, #f9f7f7 50%, #f6f3f4 50%, #f0eded);
+    background-image: -o-linear-gradient(#fdfafb, #f9f7f7 50%, #f6f3f4 50%, #f0eded);
+    background-image: -ms-linear-gradient(#fdfafb, #f9f7f7 50%, #f6f3f4 50%, #f0eded);
+    background-image: linear-gradient(#fdfafb, #f9f7f7 50%, #f6f3f4 50%, #f0eded);
+    border: 1px solid #D7D7D7;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px 4px 4px 4px;
+    color: #4D4D4D;
+    cursor: pointer;
+    display: block;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    height: 37px;
+    line-height: 16px;
+    margin: 0 auto;
+    padding: 9px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 0 white;
+    width: 100%;
+}
+
+li.last button:hover {
+    border: 1px solid #C3C3C3;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fdfcfc), color-stop(50%, #fbf9f9), color-stop(50%, #f7f5f6), color-stop(100%, #f2f0f0));
+    background-image: -webkit-linear-gradient(#fdfcfc, #fbf9f9 50%, #f7f5f6 50%, #f2f0f0);
+    background-image: -moz-linear-gradient(#fdfcfc, #fbf9f9 50%, #f7f5f6 50%, #f2f0f0);
+    background-image: -o-linear-gradient(#fdfcfc, #fbf9f9 50%, #f7f5f6 50%, #f2f0f0);
+    background-image: -ms-linear-gradient(#fdfcfc, #fbf9f9 50%, #f7f5f6 50%, #f2f0f0);
+    background-image: linear-gradient(#fdfcfc, #fbf9f9 50%, #f7f5f6 50%, #f2f0f0);
+}
+
+li.last button:active {
+    border: 1px solid #b7b7b7;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f8f4f5), color-stop(50%, #f3f0f0), color-stop(50%, #f1eeef), color-stop(100%, #ebe8e8));
+    background-image: -webkit-linear-gradient(#f8f4f5, #f3f0f0 50%, #f1eeef 50%, #ebe8e8);
+    background-image: -moz-linear-gradient(#f8f4f5, #f3f0f0 50%, #f1eeef 50%, #ebe8e8);
+    background-image: -o-linear-gradient(#f8f4f5, #f3f0f0 50%, #f1eeef 50%, #ebe8e8);
+    background-image: -ms-linear-gradient(#f8f4f5, #f3f0f0 50%, #f1eeef 50%, #ebe8e8);
+    background-image: linear-gradient(#f8f4f5, #f3f0f0 50%, #f1eeef 50%, #ebe8e8);
+    -webkit-box-shadow: rgba(34, 25, 25, 0.25) 0px 1px 2px inset, rgba(232, 230, 230, 0.5) 0px 0px 3px;
+    -moz-box-shadow: rgba(34, 25, 25, 0.25) 0px 1px 2px inset, rgba(232, 230, 230, 0.5) 0px 0px 3px;
+    box-shadow: rgba(34, 25, 25, 0.25) 0px 1px 2px inset, rgba(232, 230, 230, 0.5) 0px 0px 3px;
 }
 
 img {
@@ -42,33 +124,32 @@ span.error {
 }
 
 select.error {
-    border: 1px solid #FF0000 !important;
+    border: 1px solid #c04355 !important;
 }
 
 input.error {
-    border: 1px solid #FF0000 !important;
+    border: 1px solid #c04355 !important;
 }
 
 input.error_2 {
-    border: 1px solid #FF0000 !important;
+    border: 1px solid #c04355 !important;
 }
 
 input.valid {
-    border: 1px solid #008B00;
+    /*border: 1px solid #008B00;*/
 }
 
-.currentLink {
-    background: rgba(108, 210, 252, .30);
-    /*border: rgba(0, 0, 0, .2) solid 1px; */
-}
-
-div#user_signup_form ul li label.error, form#my_profile ul li label.error {
+div#user_signup_form ul li label.error {
     width: 25px;
 	background: url(../images/incorrect.gif) no-repeat 8px 8px;
 }
 
-div#user_signup_form ul li label.valid, form#my_profile ul li label.valid {
+div#user_signup_form ul li label.valid {
 	background: url(../images/correct.gif) no-repeat 8px 8px;
+}
+
+form#my_profile label.error {
+    display: none;
 }
 /* End - Site Wide Declaration */
 
@@ -84,51 +165,67 @@ div#index_header {
     margin: 50px 0 100px 0;
 }
 
+strong.logo {
+    font-size: 36px;
+    /*color: #B15B1E*/
+}
+
 div#index_header h1 {
-    width: 750px;
+    width: 910px;
     margin-left: auto;
     margin-right: auto;
 }
 
-div#index_header h1 a {
-    color: rgba(0, 0, 0, 0.6);
+div#index_header h1 a, div#home_header_1 h1 a {
+    color: #333333;
     font-size: 35px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 div#index_description {
     width: 550px;
     float: left;
+    margin-top: 30px;
 }
 
 div#index_description ol {
-    width: 360px;
+    list-style-type: decimal;
+    width: 380px;
     margin-left: auto;
     margin-right: auto;
-    font-size: 26px;
-    font-weight: 300;
-    color: rgba(0, 0, 0, 0.65);
+    font-size: 27px;
+    font-weight: 400; 
+    color: #7A7A7A;
 }
 
 div#index_description ol li {
     margin-bottom: 25px;
 }
 
+div#index_description ol li span.highlight_index {
+    text-decoration: underline;
+    color: #333333;
+    font-weight: 500;
+}
+
 div#index_divider {
     float: left;
-    margin-top: -35px;
-    height: 320px;
+    margin-top: -40px;
+    height: 340px;
     border-right: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 div#index_login {
-    width: 320px;
+    width: 360px;
     float: left;
     margin-left: 100px;
     margin-top: -30px;
     /*background: #FFFFFF;*/
-    background: -moz-linear-gradient(center top , #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
     background: -webkit-linear-gradient(top, #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
+    background: -moz-linear-gradient(center top , #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
+    background: -o-linear-gradient(top, #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
+    background: -ms-linear-gradient(top, #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
+    background: linear-gradient(top, #FFFFFF 10%, #F5F5F5 18%) repeat scroll 0 0 transparent;
     border: 1px solid #DDDDDD;
     border-radius: 5px 5px 5px 5px;
 }
@@ -137,7 +234,7 @@ div#index_facebook_login {
     margin: 25px auto 0px auto;
     padding-bottom: 20px;
     text-align: center;
-    width: 300px;
+    width: 350px;
     border-bottom: 1px solid #DDDDDD;
 }
 
@@ -153,58 +250,51 @@ div.placeholder_a {
     text-align: center;
 }
 
-div#index_login_form, div#user_signup_form, div#forgot_password_form {
-    width: 220px;
+div#index_login_form {
+    width: 300px;
     margin: 20px auto;
     font-size: 12px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.6);
 }
 
-div#index_login_form form ul li, div#user_signup_form form ul li, div#forgot_password_form form ul li {
+div#index_login_form form ul li {
     margin-bottom: 15px;
 }
 
-div#index_login_form ul li label, div#user_signup_form ul li label, div#forgot_password_form ul li label {
+div#index_login_form ul li label {
     width: 90px;
-    font-size: 17px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.6);
     display: inline-block;
 }
 
-div#index_login_form ul li input, div#user_signup_form ul li input, div#forgot_password_form ul li input {
-    width: 120px;
+div#index_login_form ul li input {
+    width: 175px;
 }
 
-div#index_login_form ul li button, div#user_signup_form ul li button, div#forgot_password_form ul li button {
-    width: 218px;
-    height: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #FFFFFF;
-    background: rgba(154, 198, 0, 0.9);
-    border: 0;
+div#index_login_form ul li button {
 }
 
-div#index_login_form ul li button:hover, div#user_signup_form ul li button:hover, div#forgot_password_form ul li button:hover {
-    background: rgba(154, 198, 0, 0.75);
+div#index_login_form ul li.placeholder_b {
+    text-align: center;
 }
 
 div#index_login_form ul li.placeholder_b a {
-    font-size: 11.5px;
-    color: rgba(0, 0, 0, 0.7);
+    font-size: 14px;
+    color: #B15B1E;
 }
 
 div#index_login_form ul li.placeholder_b a:hover {
     text-decoration: underline;
-    color: rgba(0, 0, 0, 0.9);
+    color: #854517;
 }
 
 li#login_error {
-    color: red;
+    background-color:#FEE0C6; 
+    font-size: 14px;
+    color: #8B0000;
+    padding: 5px 8px 4px;
     text-align: center;
-    text-decoration: underline;
+    border-radius: 3px 3px 3px 3px;
 }
 /* End - Index Page */
 
@@ -227,7 +317,6 @@ div#index_footer, div#index_push, div#home_footer, div#home_push {
 }
 
 div#index_footer, div#home_footer {
-    background-color: #FFFFFF;
 }
 
 div#index_footer ul, div#home_footer ul {
@@ -259,7 +348,7 @@ div#index_footer ul li a:hover, div#home_footer ul li a:hover {
 
 /* Start - User Signup Page */
 div#user_signup, div#forgot_password {
-    width: 350px;
+    width: 550px;
     margin: -50px auto 0 auto;
     background: #FFFFFF;
     border: 1px solid #DDDDDD;
@@ -275,11 +364,10 @@ div.sub_header {
 }
 
 span.title {
-    color: #066EAC;
-    float: left;
-    font-size: 28px;
+    /*color: #066EAC;*/
+    color: #777777;
+    font-size: 24px;
     line-height: 72px;
-    margin: 0 27px;
 }
 
 div#user_signup div.placeholder_a, div#forgot_password div.placeholder_a {
@@ -287,119 +375,134 @@ div#user_signup div.placeholder_a, div#forgot_password div.placeholder_a {
 }
 
 div#user_signup_form, div#forgot_password_form {
-    margin-bottom: 25px;
+    margin: 20px auto;
+    width: 430px;
 }
 
-div#user_signup_form ul, div#forgot_password_form ul {
-    width: 300px;
+div#user_signup_form ul li, div#forgot_password_form ul li {
+    margin-bottom: 15px;
 }
 
 div#user_signup_form ul li label, div#forgot_password_form ul li label {
-    width: 95px;
+    display: inline-block;
+    width: 125px;
 }
 
 div#user_signup_form ul li input, div#forgot_password_form ul li input {
-    width: 120px;
+    width: 240px;
 }
 
 div#user_signup_form ul li button, div#forgot_password_form ul li button {
-    width: 225px;
+    margin-left: 0;
+    width: 400px;
+}
+
+div#user_signup_form span.small {
+    font-size: 13px;
 }
 /* End - User Signup Page */
 
-/* Start - Table Styling - Base Template */
-table.base_table {
-    font-size: 12px;
-    background: #FFFFFF;
-    width: 700px;
-    border-collapse: collapse;
-    text-align: left;
-    margin: 15px 0;
-}
-
-table.base_table th {
-    font-size: 14px;
-    font-weight: normal;
-    color: #039;
-    padding: 2px;
-    padding-left: 5px;
-    border-top: 2px solid #6678B1;
-    border-bottom: 2px solid #6678B1;
-}
-
-table.base_table td {
-    border-bottom: 1px solid #CCC;
-    color: #669;
-}
-
-table.base_table tbody tr:hover td {
-    background-color: #FFFAFA;
-}
-
-table.base_table tr td a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    color: #669;
-}
-/* End - Table Styling - Base Template */
-
 /* Start - Home Page - Base Template */
 div#home_header {
-    margin: 50px 120px 0 0;
-}
-
-div#home_menu {
-    width: 150px;
-    margin-left: 100px;
-    padding: 10px;
-    background-color: white;
-    float: left;
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-}
-
-div#home_content {
-    width: 740px;
-    float: left;
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-}
-
-div#home_header{
+    position: relative;
     overflow: auto;
-    text-align: right;
 }
 
-div#home_header ul li {
+div#home_header_1 {
+    width: 180px;
+    margin: 50px 0 0 120px;
+    float: left;
+}
+
+div#home_header_1 h1 a {
+    color: #333333;
+    font-size: 35px;
+    font-weight: 500;
+}
+
+div#home_header_2 {
+    width: 220px;
+    margin-top: 50px;
+    margin-right: 30px;
+    float: right;
+}
+
+div#home_header_2 ul {
+}
+
+div#home_header_2 ul li {
     display: inline-block;
     margin-right: 10px;
     font-size: 14px;
     padding: 1px 5px;
-    background-color: #FFFAFA;
-    border: 1px solid #EEF3E2;
+    -webkit-border-radius: 99px;
+    -moz-border-radius: 99px;
+    -ms-border-radius: 99px;
+    -o-border-radius: 99px;
+    border-radius: 99px;
+    background: #EEEEEE;
+    border-bottom: 1px white solid;
 }
 
-div#home_header ul li:last-child {
+div#home_header_2 ul li:last-child {
     margin-right: 0;
 }
 
-div#home_header ul li:hover {
-    background: rgba(108, 210, 252, .30);
-    border: rgba(0, 0, 0, .2) solid 0.5px;
+div#home_header_2 ul li:hover {
+    background: #EEEEEE;
+    border-bottom: 1px white solid;
 }
 
-div#home_header ul li a {
+div#home_header_2 ul li a {
     display: block;
+    color: #777777;
+    padding: 3px 10px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+div#home_header_2 ul li a:hover {
+    color: #555555;
+}
+
+div#home_menu_and_content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    overflow: auto;
+    background: #ffffff;
+    margin-top: 40px;
+    border-top: 1px solid #D4D4D4;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.05) inset, 0 0 9px rgba(0, 0, 0, 0.1);
+    /*background-image: -moz-linear-gradient(#FFFFFF, #FBFBFB);*/
+    /*-moz-border-bottom-colors: none;*/
+    /*-moz-border-image: none;*/
+    /*-moz-border-left-colors: none;*/
+    /*-moz-border-right-colors: none;*/
+    /*-moz-border-top-colors: none;*/
+    /*border-color: #EEEEEE #F4F4F4 -moz-use-text-color;*/
+    /*border-style: solid solid none;*/
+    /*border-top-left-radius: 10px;*/
+    /*border-top-right-radius: 10px;*/
+    /*border-width: 1px 1px medium;*/
+}
+
+div#home_menu {
+    /*width: 150px;*/
+    width: 180px;
+    margin-left: 100px;
+    padding: 10px;
+    float: left;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    border-radius: 15px;
 }
 
 div#home_menu, div#home_content {
     margin-top: 20px;
-}
-
-div#home_menu {
-    width: 150px;
-    float: left;
+    margin-bottom: 20px;
 }
 
 div#home_menu ul {
@@ -414,27 +517,44 @@ div#home_menu ul ul {
 }
 
 div#home_menu ul li {
-    border-bottom: 1px solid black;
+    color: #797874;
+    font-size: 16px;
+    line-height: 36px;
+    padding-left: 8px;
 }
 
-div#home_menu ul li:first-child {
-    border-top: 1px solid black;
+div#home_menu ul li.currentLink {
+    background: none repeat scroll 0 0 #ECF1EF;
+    background: none repeat scroll 0 0 #E0EEEE;
+    background: none repeat scroll 0 0 #E5E5E5;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 div#home_menu ul li:hover {
-    background: rgba(108, 210, 252, .30);
+    text-decoration: underline;
 }
 
 div#home_menu ul li a {
     display: block;
-    font-size: 16px;
     text-decoration: none;
-    color: rgba(0, 0, 0, 0.9);
+    color: #003399;
+    color: #00008B;
+    color: #36A9AE;
 }
 
 div#home_content {
+    width: 740px;
+    float: left;
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+    /*border-radius: 15px;*/
+    /*-webkit-border-radius: 15px;*/
+    /*-moz-border-radius: 15px;*/
+    /*-ms-border-radius: 15px;*/
+    /*-o-border-radius: 15px;*/
     margin-left: 8px;
-    background-color: white;
 }
 
 div#home_content div {
@@ -444,198 +564,397 @@ div#home_content div {
 div#content_one {
     min-height: 300px;
 }
-
-div#home_content div#content_one, div#home_content div#content_two, div#home_content div#content_three  {
-    margin-left: 40px;
-    margin-bottom: 20px;
-}
-
-div#home_content div h3, div#home_content div p {
-    margin-bottom: 5px;
-    width: 480px;
-    font-size: 18px;
-    color: rgba(0, 0, 0, 0.7);
-}
-
-div#home_content h3 em {
-    font-size: 15px;
-}
-
-div#home_content table.home_table {
-    width: 440px;
-}
-
-div#content_one table.home_details_table {
-    width: 540px;
-}
-
-th.name {
-    width: 140px;
-}
-
-th.email {
-    width: 200px;
-}
-
-th.amount {
-    width: 100px;
-}
-
-th.date {
-    width: 140px;
-}
-
-th.description {
-    width: 300px;
-}
 /* End - Home Page - Base Template */
 
-/* Start - Who Owes Me & Who I Owe Page */
-table.who_owes_me_table, table.who_i_owe_table {
-    width: 660px;
+/* Start - Home Page */
+div#content_one ul#home_overview, form#record_bill_option ul, form#equal_split ul, form#unequal_split ul, form#record_payment_initial ul, form#record_payment ul, form#my_profile ul, form#change_password {
+    width: 440px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-left: 60px;
 }
 
-th.date {
-    width: 120px;
+div#content_one ul#home_overview li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-th.activity {
-    width: 300px;
-}
-/* End - Who Owes Me & Who I Owe Page */
-
-/* Start - Add Friends */
-div#home_content form#add_friends_form ul {
-    margin-bottom: 0;
+div#content_one ul#home_overview li a {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
-div#home_content form#add_friends_form ul, div#home_content form#add_friends_form div {
-    width: 570px;
+div#content_one ul#home_overview li:hover {
+    background-color: #ECF1EF;
 }
 
-div#home_content form#add_friends_form ul li {
+div#content_one ul#home_overview li a {
+    display: block;
+    color: #444444;
+}
+
+div#content_one ul#home_overview li:first-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+div#content_one ul#home_overview li span.home_name {
+    width: 190px;
+    padding-left: 10px;
     display: inline-block;
-    margin-right: 20px;
+    color: #444444;
 }
 
-div#home_content form#add_friends_form ul li.second {
-    float: right;
-    margin-right: 0;
+div#content_one ul#home_overview li span.home_total {
+    width: 130px;
+    display: inline-block;
+    color: #444444;
 }
 
-div#home_content form#add_friends_form div {
-    margin-top: 0;
+div#content_one ul#home_overview li span.home_total_flag {
+    width: 100px;
+    font-size: 16px;
+    display: inline-block;
+    color: #797874;
+    color: #999999;
+}
+
+div#content_one ul li span.green {
+    border-bottom: 4px solid green;
+}
+
+div#content_one ul li span.red {
+    border-bottom: 4px solid red;
+}
+
+div#content_one ul li span.blue {
+    border-bottom: 4px solid blue;
+}
+/* End - Home Page */
+
+/* Start - Home Details, Who I Owe and Who Owes Me Pages*/
+div#content_one p#home_details_header, div#content_one p.page_header {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 20px;
     margin-left: 30px;
-    text-align: right;
+    color: #444444;
 }
-/* End - Add Friends */
+
+div#content_one ul#home_details, div#content_one table.base_table {
+    width: 580px;
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-left: 60px;
+}
+
+
+div#content_one ul#home_details li, div#content_one table.base_table tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+div#content_one table.base_table thead tr {
+    border-bottom: 3px solid rgba(0, 0, 0, 0.15);
+    border-top: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+div#content_one table.base_table tbody tr:last-child {
+    border-bottom: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+div#content_one ul#home_details li a, div#content_one table.base_table tr a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: block;
+    color: #444444;
+}
+
+div#content_one ul#home_details li:hover, div#content_one table.base_table tr:hover {
+    background-color: #ECF1EF;
+}
+
+div#content_one ul#home_details li:first-child, div#content_one table.base_table tbody tr:first-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+div#content_one ul#home_details li span.home_details_date, div#content_one table.base_table .date {
+    font-size: 14px;
+    font-weight: 400;
+    width: 120px;
+    padding-left: 10px;
+    display: inline-block;
+    color: #444444;
+}
+
+div#content_one ul#home_details li span.home_details_description, div#content_one table.base_table .description {
+    width: 230px;
+    display: inline-block;
+    color: #444444;
+}
+
+div#content_one ul#home_details li span.home_details_amount, div#content_one table.base_table .amount {
+    width: 130px;
+    display: inline-block;
+    color: #444444;
+}
+
+div#content_one ul#home_details li span.home_details_flag {
+    width: 62px;
+    font-size: 14px;
+    font-weight: 400;
+    display: inline-block;
+    color: #797874;
+    color: #999999;
+}
+/* End - Home Details, Who I Owe and Who Owes Me Pages*/
 
 /* Start - Specific Bill Page */
-div#content_specific_bill form ul, div#content_specific_bill form div.button, form div.button {
+div#content_one form ul.specific_bill {
+    width: 375px;
     list-style-type: none;
-    margin: 30px;
+    margin-top: 20px;
+    margin-left: 60px;
     padding-left: 0;
-    font-size: 14px;
+    font-size: 15px;
     color: rgba(0, 0, 0, 0.8);
 }
 
-div#content_specific_bill form ul li, div#content_specific_bill form div.button, form div.button {
-    padding: 10px 5px 10px 15px;
+div#content_one form ul.specific_bill li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding-bottom: 5px;
+    margin-bottom: 5px;
 }
 
-div#content_specific_bill form span {
-    border-bottom-width: 4px;
-    border-bottom-style: double;
+div#content_one form ul.specific_bill li:first-child {
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    padding-top: 5px;
+    margin-top: 5px;
+}
+
+div#content_one form ul.specific_bill li:last-child {
+    border-bottom: 0;
+}
+
+div#content_one ul.specific_bill ul li {
+    padding: 0 !important;
+    border: 0 !important;
+    margin: 0 !important;
+}
+
+div#content_one form#specific_bill_detail span {
+    margin-left: 5px;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
     border-bottom-color: #E1A60A;
 }
 
-div#content_specific_bill form ul li label {
-    width: 100px;
+div#content_one form#specific_bill_detail ul li label {
+    width: 120px;
+    padding-left: 10px;
     display: inline-block;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 600;
 }
 
-div#content_specific_bill form ul li ul {
+div#content_one form#specific_bill_detail ul li ul {
     display: inline-block;
     vertical-align: top;
-    font-size: 12px;
-    width: 300px;
+    width: 240px;
     margin: 0;
     padding: 0;
 }
 
-div#content_specific_bill form button {
-    width: 150px;
-    height: 28px;
-    font-size: 14px;
-    color: #FFFFFF;
-    background: rgba(154, 198, 0, 0.9);
-    border: 0;
-    margin-left: 25px;
+div#content_one form#specific_bill_detail ul li.last {
+    margin-top: 20px;
 }
 
-div#content_specific_bill ul ul li {
-    padding: 0;
+button#mark_bill_paid_one, button#delete_bill_one {
+    width: 165px;
+    float: left;
+    display: inline-block;
 }
 
-div#content_specific_bill form div.button {
-    margin-left: 105px;
+button#delete_bill_one {
+    float: right;
 }
 /* End - Specific Bill Page */
 
-/* Start - Record Bill Page */
-form#record_bill_option ul {
-    width: 160px;
+/* Start - Who Owes Me & Who I Owe Page */
+div#content_one table.base_table {
+    width: 595px;
+    border-collapse: collapse;
+    text-align: left;
 }
 
-form#record_bill_option ul li {
+div#content_one table.base_table th {
+    font-weight: 500;
+}
+
+div#content_one table.base_table td.date, div#content_one table.base_table td.name, div#content_one table.base_table td.description, div#content_one table.base_table td.amount {
+    font-weight: 400;
+    font-size: 15px;
+}
+
+div#content_one table.base_table .date {
+    width: 100px;
+    font-weight: 500;
+    padding-left: 20px;
+    font-size: 17px;
+}
+
+div#content_one table.base_table .name {
+    width: 120px;
+    padding-left: 10px;
+    display: inline-block;
+    color: #444444;
+}
+
+div#content_one table.base_table .description {
+    width: 220px;
+}
+
+div#content_one table.base_table .amount {
+    width: 110px;
+}
+
+div#content_one table.base_table thead tr:hover {
+    background-color: #FFFFFF;;
+}
+
+th.header {
+    background-image: url(../images/tablesorter/bg.gif);
+    cursor: pointer;
+    background-repeat: no-repeat;
+}
+
+th.headerSortUp {
+    background-image: url(../images/tablesorter/asc.gif); 
+} 
+
+th.headerSortDown {
+    background-image: url(../images/tablesorter/desc.gif); 
+} 
+
+th.date.header {
+    background-position: 53px 9.5px;
+}
+
+th.date.headerSortUp {
+    background-position: 53px 13.5px;
+}
+
+th.date.headerSortDown {
+    background-position: 53px 11px;
+}
+
+th.name.header {
+    background-position: 52px 9.5px;
+}
+
+th.name.headerSortUp {
+    background-position: 52px 13.5px;
+}
+
+th.name.headerSortDown {
+    background-position: 52px 11px;
+}
+
+th.description.header {
+    background-position: 86px 9.5px;
+}
+
+th.description.headerSortUp {
+    background-position: 86px 13.5px;
+}
+
+th.description.headerSortDown {
+    background-position: 86px 11px;
+}
+
+th.amount.header {
+    background-position: 58px 9.5px;
+}
+
+th.amount.headerSortUp {
+    background-position: 58px 13.5px;
+}
+
+th.amount.headerSortDown {
+    background-position: 58px 11px;
+}
+/* End - Who Owes Me & Who I Owe Page */
+
+/* Start - Record Bill Option and Payment Initial Page */
+form#record_bill_option ul, form#record_payment_initial ul {
+    font-size: 18px;
+    width: 155px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+form#record_payment_initial ul {
+    width: 250px;
+}
+
+form#record_bill_option ul li, form#record_payment_initial ul li {
+    margin-top: 10px;
+    display: block;
+    position: relative;
+    padding: 5px 0;
+}
+
+form#record_bill_option ul li label, form#record_payment_initial ul li label {
+    margin-left: 5px;
+}
+
+form#record_bill_option ul li input {
+    width: 20px;
+    position: absolute;
+    top: 6px;
+    right: 0;
+}
+
+form#record_payment_initial ul li.last {
+    margin-top: 20px;
+}
+
+form#record_payment_initial ul li select {
+    font-size: 14px;
+    -webkit-appearance: menulist-button;
+    border: 1px solid #DDDDDD;
+    vertical-align: middle;
+    position: relative;
+    top: -1.5px;
+    left: 13px;
+}
+/* End - Record Bill Option and Payment Initial Page */
+
+/* Start - Record Bill, Equal Split, Un-Equal Split and Record Payment pages */
+form#equal_split ul, form#unequal_split ul, form#record_payment ul, form#my_profile ul, form#change_password ul {
+    font-weight: 400;
+    width: 560px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+form#equal_split ul, form#unequal_split ul {
+    width: 700px;
+}
+
+form#equal_split ul li, form#unequal_split ul li, form#record_payment ul li, form#my_profile ul li, form#change_password ul li {
     margin-top: 10px;
 }
 
-form#record_bill_option ul li.last{
+form#equal_split ul li.last, form#unequal_split ul li.last, form#record_payment ul li.last, form#my_profile ul li.last, form#change_password ul li.last {
     margin-top: 20px;
-    text-align: center;
 }
 
-form#record_bill_option ul li label {
-    margin-left: 5px;
+form#equal_split ul li label, form#unequal_split ul li label, form#record_payment ul li label, form#my_profile ul li label, form#change_password ul li label {
+    font-weight: 600;
     width: 120px;
     display: inline-block;
-}
-
-form#record_bill_option ul li button {
-    width: 100px;
-    margin: 0;
-}
-/* End - Record Bill Page */
-
-/* Start - Record Bill Equal Split, Un-Equal Split and Record Payment pages */
-form#equal_split ul, form#unequal_split ul, form#record_payment_initial ul, form#record_payment ul {
-    width: 100%;
-}
-
-form#equal_split ul li, form#unequal_split ul li, form#record_payment_initial ul li, form#record_payment ul li {
-    margin-top: 10px;
-}
-
-form#equal_split ul li.last, form#unequal_split ul li.last, form#record_payment_initial ul li.last, form#record_payment ul li.last {
-    margin-top: 20px;
-    margin-left: 130px;
-}
-
-form#equal_split ul li label, form#unequal_split ul li label, form#record_payment_initial ul li label, form#record_payment ul li label {
-    margin-left: 5px;
-    width: 120px;
-    display: inline-block;
-}
-
-form#equal_split ul li button, form#unequal_split ul li button, form#record_payment_initial ul li button, form#record_payment ul li button {
-    width: 100px;
-    margin: 0;
 }
 
 form#equal_split ul li.make_inline, form#unequal_split ul li.make_inline {
-    position: relative;
     overflow: auto;
     width: 100%; 
 }
@@ -646,37 +965,113 @@ form#equal_split ul li.make_inline label, form#unequal_split ul li.make_inline l
 
 form#equal_split ul li ul.people, form#equal_split ul li ul.add_remove_button {
     float: left;
-    width: 380px;
-    font-size: 14px;
+    width: 430px;
+    font-size: 16px;
     margin: 0;
 }
 
-span.friend_checked {
-    color: red;
+form#equal_split ul li ul.people li {
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+form#equal_split ul li ul.people li:last-child {
+    margin-bottom: 0;
+}
+
+form#equal_split ul li ul li input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    margin: 0 5px;
+    padding: 0;
+    vertical-align: middle;
+    position: relative;
+    top: -1.5px;
+}
+
+form#equal_split ul li.make_inline ul li label {
+    float: none;
+    width: 200px;
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+    font-weight: 400;
+    vertical-align: middle;
+}
+
+form#equal_split ul li.make_inline ul li span.me {
     font-size: 12px;
+}
+
+input.dynamic_add_in {
+    width: 120px;
+    margin-right: 5px;
+    padding: 2px 6px;
+    font-size: 13px;
+}
+
+input.dynamic_add_in.email {
+    width: 160px;
+}
+
+span.friend_checked {
+    float: left;
+    font-size: 14px;
+    color: #8B0000;
+    background-color:#FEE0C6; 
+    padding: 5px 6px 4px;
+    border-radius: 3px 3px 3px 3px;
+    text-align: center;
     visibility: hidden;
 }
 
 form#unequal_split span.friend_checked {
-    float: left;
-    margin-top: 10px;
 }
 
-form#equal_split ul li ul.people li {
-    margin: 5px;
+form#equal_split ul li ul.add_remove_button {
+    margin-left: 128px;
 }
 
-form#equal_split ul li ul.people li:first-child {
-    margin-top: 0px;
+form#unequal_split ul li button.add_friend {
+    margin-left: 133px;
 }
 
-input.dynamic_add_in {
-    width: 80px;
-    margin-right: 5px;
+form#equal_split ul li ul.add_remove_button li button.add_friend, form#unequal_split ul li button.add_friend {
+    color: white;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+    padding: 5px 20px ;
+    font-size: 15px;
+    line-height: 15px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    cursor: pointer !important;
+    text-decoration: none;
+    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.15);
+    background: #36a9ae;
+    background: -webkit-gradient(linear, left top, left bottom, from(#62cace), to(#2d8d91));
+    background: -moz-linear-gradient(top, #62cace, #2d8d91);
+    background: -o-linear-gradient(top, #62cace, #2d8d91);
+    border: 1px solid #2a8387;
+    transition: all 0.05s ease-in-out;
+    -webkit-transition: all 0.05s ease-in-out;
+    -moz-transition: all 0.05s ease-in-out;
 }
 
-ul.add_remove_button li {
-    margin-left: 125px;
+form#equal_split ul li ul.add_remove_button li button.add_friend:hover, form#unequal_split ul li button.add_friend:hover { 
+    color: white;
+    text-decoration: none;
+    box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+form#equal_split ul li ul.add_remove_button li button.add_friend:active, form#unequal_split ul li button.add_friend:active { 
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+form#equal_split li.last button, form#unequal_split li.last button, form#record_payment li.last button, form#my_profile li.last button, form#change_password li.last button {
+    margin-left: 0;
+    width: 543px;
 }
 /* End - Record Bill Equal Split, Un-Equal Split and Record Payment pages */
 
@@ -685,18 +1080,28 @@ table#unequal_split_people_table {
     margin-top: 5px;
     width: 420px;
     table-layout: fixed;
-    display: inline-block;
     float: left;
 }
 
 table#unequal_split_people_table th {
-    font-size: 13px;
-    font-weight: normal;
+    font-size: 16px;
+    font-weight: 500;
     padding: 0;
+    color: #797874;
+}
+
+table#unequal_split_people_table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 5px 3px;
+}
+
+table#unequal_split_people_table th {
+    text-align: center;
 }
 
 table#unequal_split_people_table th.name {
-    width: 150px;
+    width: 200px;
 }
 
 table#unequal_split_people_table th.number {
@@ -704,7 +1109,18 @@ table#unequal_split_people_table th.number {
 }
 
 table#unequal_split_people_table th.amount {
-    width: 60px;
+    width: 90px;
+}
+
+table#unequal_split_people_table tbody select {
+    font-size: 13px;
+    height: 22px;
+    -webkit-appearance: menulist-button;
+    border: 1px solid #DDDDDD;
+}
+
+table#unequal_split_people_table tbody td.name select {
+    width: 180px;
 }
 
 table#unequal_split_people_table th.remove_placeholder {
@@ -712,89 +1128,66 @@ table#unequal_split_people_table th.remove_placeholder {
 }
 
 table#unequal_split_people_table td.name input {
-    width: 60px;
+    width: 180px;
+    margin-bottom: 2px;
 }
 
 table#unequal_split_people_table td.amount input {
-    width: 40px;
+    width: 66px;
+    padding: 2px 6px;
 }
 
-table#unequal_split_people_table td.remove_placeholder input {
-    width: 70px;
+table#unequal_split_people_table td input.remove_friend {
+    font-size: 20px;
+    height: 24px;
+    width: 20px;
+    border: 0;
+    border-radius: 0;
+    background-color: #FFFFFF; 
+    padding: 0;
+    cursor: pointer;
 }
 
-td.name, td.number, td.amount {
-    text-align: center;
-}
-
-form#unequal_split li.add_friend {
-    margin-left: 125px;
+table#unequal_split_people_table td.remove_table_row {
+    text-align: left;
+    padding: 0;
 }
 /* End - Record Bill Un-Equal Split page */
 
 /* Start - Record Payment page */
 form#record_payment span#paid_to {
-    font-size: 13px;
+    font-size: 16px;
+}
+
+form#record_payment select {
+    font-size: 14px;
+    -webkit-appearance: menulist-button;
+    border: 1px solid #DDDDDD;
 }
 /* End - Record Payment page */
 
-/* Start - My Profile page */
-form#my_profile ul {
-    width: 600px;
-}
-
-form#my_profile ul li {
-    margin-top: 10px;
-}
-
-form#my_profile ul li.last {
-    margin-top: 20px;
-    margin-left: 130px;
-}
-
-form#my_profile ul li label {
-    margin-left: 5px;
-    width: 120px;
-    display: inline-block;
-}
-
-form#my_profile ul li button {
-    width: 100px;
-    margin: 0;
-}
-
-form#my_profile .form_description {
-    font-size: 14px;
-}
-
+/* Start - My Profile Page */
 form#my_profile a {
     text-decoration: underline;
-    color: #0000CD;
-}    
-/* End - My Profile page */
+    color: #815B1E;
+}   
 
-/* Start - Change Password page */
+form#my_profile a:hover {
+    text-decoration: underline;
+    color: #854517;
+}
+/* End - My Profile Page */
+
+/* Start - Change Password Page */
 form#change_password ul {
-    width: 600px;
-}
-
-form#change_password ul li {
-    margin-top: 10px;
-}
-
-form#change_password ul li.last {
-    margin-top: 20px;
-    margin-left: 210px;
+    width: 625px;
 }
 
 form#change_password ul li label {
-    margin-left: 5px;
     width: 200px;
-    display: inline-block;
 }
 
-form#change_password ul li button {
-    width: 100px;
-    margin: 0;
+form#change_password li.last button {
+    width: 625px;
 }
-/* End - Change Password page */
+/* End - Change Password Page */

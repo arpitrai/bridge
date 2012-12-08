@@ -1,5 +1,5 @@
 {% extends "home.html" %}
-{% block title %}Record Bill | BridgeBill{% endblock %}
+{% block title %}BridgeBill - Record Bill{% endblock %}
 {% block content %}
 <div id="content_one">
     <form id="equal_split" name="equal_split" action="" method="post">
@@ -22,11 +22,11 @@
                 <ul class="people">
                     {% if my_friends %}
                         {% for my_friend in my_friends %}
-                            <li><input type="checkbox" name="people" value="{{ my_friend.friend_email }}" />{{ my_friend.friend_name }} {% if userprofile_object.user.email == my_friend.friend_email %}{% if userprofile_object.user.first_name or userprofile_object.user.last_name %}(Me){% else %}Me{% endif %}{%endif%}</li>
+                        <li><label><input type="checkbox" name="people" value="{{ my_friend.friend_email }}" />{{ my_friend.friend_name }} {% if userprofile_object.user.email == my_friend.friend_email %}{% if userprofile_object.user.first_name or userprofile_object.user.last_name %}<span class="me"><em>(Me)</em></span>{% else %}Me{% endif %}{%endif%}</label></li>
                         {% endfor %}
                     {% endif %}
                 </ul>
-                <span class="friend_checked">Please select a friend</span>
+                <span class="friend_checked">Please select a friend!</span>
                 <ul class="add_remove_button">
                     <li>
                         <button class="add_friend">Add Friend</button> 

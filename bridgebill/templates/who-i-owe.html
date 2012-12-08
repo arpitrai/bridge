@@ -1,26 +1,26 @@
 {% extends "home.html" %}
 {% load humanize %}
-{% block title %}Who I Owe | BridgeBill{% endblock %}
+{% block title %}BridgeBill - Who I Owe{% endblock %}
 {% block content %}
 <div id="content_one">
-   <h3>Details of Who I Owe, For What, When.....</h3>
+   <p class="page_header">Details of Who I Owe</p>
     {% if my_lenders %}
-        <table class="base_table who_i_owe_table">
+        <table class="base_table" id="who_i_owe_table">
             <thead>
                 <tr>
-                    <th class="name">Name</th>
                     <th class="date">Date</th>
-                    <th class="activity">Activity</th>
-                    <th class="amount">Total (in SGD)</th>
+                    <th class="name">Name</th>
+                    <th class="description">Description</th>
+                    <th class="amount">Amount</th>
                 </tr>
             </thead>
             <tbody>
                 {% for my_lender in my_lenders %}
                     <tr>
-                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.lender_name }}</a></td>
-                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_date|date:"dS M Y" }}</a></td>
-                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_description }}</a></td>
-                        <td><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_individual_amount|intcomma }}</a></td>
+                        <td class="date"><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_date|date:"jS M Y" }}</a></td>
+                        <td class="name"><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.lender_name }}</a></td>
+                        <td class="description"><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">{{ my_lender.bill_description }}</a></td>
+                        <td class="amount"><a href="/bill/details/{{ my_lender.bill_overall_bill_id }}/">S$ {{ my_lender.bill_individual_amount|intcomma }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
+from social_auth.models import UserSocialAuth
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -71,9 +72,16 @@ def login(request):
         authentication_form = AuthenticationForm(data=request.POST)
         if authentication_form.is_valid():
             auth_login(request, authentication_form.get_user())
-            return HttpResponseRedirect('/home/')
+            try: 
+                url = request.GET['next']
+                return HttpResponseRedirect(url)
+            except: 
+                return HttpResponseRedirect('/home/')
         else:
             error = 'Invalid username or password'
+    else:
+        if request.user.is_authenticated():
+            return HttpResponseRedirect('/home/')
     return render_to_response('index.html', { 'authentication_form': authentication_form, 'error': error, 'request': request }, context_instance=RequestContext(request))
 
 def login_error(request):
@@ -132,60 +140,155 @@ def home(request):
     total_borrowed_amount = 0
     total_lent_amount = 0
 
-    class Borrower:
-        pass
+    class Persons:
+        def __init__(self, name, total_borrowed=0, total_lent=0, total=0, total_flag='', slug=''):
+            self.name = name
+            self.total_borrowed = total_borrowed
+            self.total_lent = total_lent
+            self.total = total
+            self.total_flag = total_flag
+            self.slug = slug
+
+    persons_list = []
+    borrower_also_lender_list = []
+
     my_borrowers = UserFriend.objects.filter(user_profile=userprofile_object).exclude(friend_email=userprofile_object.user.email)
-    borrowers = []
     for each_borrower in my_borrowers:
         each_borrower_bills = BillDetails.objects.filter(bill__lender=userprofile_object, borrower=each_borrower, bill_cleared='N')
         if each_borrower_bills:
-            borrower = Borrower()
-            total = 0
+            total_borrowed = 0
             for each_bill in each_borrower_bills:
-                total += each_bill.individual_amount
-            borrower.userfriend_id = each_borrower.userfriend_id
-            borrower.name = each_borrower.friend_name
-            borrower.email = each_borrower.friend_email
-            borrower.amount = total
-            borrowers.append(borrower)
-            total_borrowed_amount += total
+                total_borrowed += each_bill.individual_amount
+            person = Persons(name=each_borrower.friend_name, total_borrowed=total_borrowed, slug=each_borrower.userfriend_id)
+        try:
+            borrower_as_user = UserProfile.objects.get(user__email=each_borrower.friend_email)
+            try: 
+                me_as_borrower = UserFriend.objects.get(user_profile=borrower_as_user, friend_email=userprofile_object.user.email)
+                borrower_also_lender_list.append(each_borrower.friend_email)
+                each_borrower_as_lender_bills = BillDetails.objects.filter(bill__lender=borrower_as_user, borrower=me_as_borrower, bill_cleared='N')
+                if each_borrower_as_lender_bills:
+                    total_lent = 0
+                    for each_bill in each_borrower_as_lender_bills:
+                        total_lent += each_bill.individual_amount
+                    person.total_lent = total_lent
+                    person.total = person.total_borrowed - person.total_lent
+                    if person.total < 0:
+                        person.total_flag = '-ve'
+                        person.total *= -1
+                    elif person.total > 0:
+                        person.total_flag = '+ve'
+                    elif person.total == 0:
+                        person.total_flag = '0'
 
-    class Lender:
-        pass
-    my_lenders = UserFriend.objects.filter(friend_email=userprofile_object.user.email).exclude(user_profile=userprofile_object)
-    lenders = []
+            except:
+                pass
+        except:
+            pass
+        persons_list.append(person)
+
+    borrower_also_lender_userprofiles = []
+    if borrower_also_lender_list:
+        for borrower_also_lender in borrower_also_lender_list:
+            borrower_also_lender_userprofile = UserProfile.objects.get(user__email=borrower_also_lender)
+            borrower_also_lender_userprofiles.append(borrower_also_lender_userprofile)
+    my_lenders = UserFriend.objects.filter(friend_email=userprofile_object.user.email).exclude(user_profile=userprofile_object).exclude(user_profile__in=borrower_also_lender_userprofiles)
+    
     for each_lender in my_lenders:
         userprofile_lender = UserProfile.objects.get(user__email=each_lender.user_profile.user.email)
         borrower = UserFriend.objects.get(user_profile=userprofile_lender, friend_email = userprofile_object.user.email)
         each_lender_bills = BillDetails.objects.filter(bill__lender=userprofile_lender, borrower=borrower, bill_cleared='N')
         if each_lender_bills: 
-            lender = Lender()
-            total = 0
+            total_lent = 0
             for each_bill in each_lender_bills:
-                total += each_bill.individual_amount
-            lender.userprofile_id = each_lender.user_profile.userprofile_id
-            lender.name = each_lender.user_profile.user.first_name + ' ' + each_lender.user_profile.user.last_name
-            lender.email = each_lender.user_profile.user.email
-            try:
-                lender.name = UserFriend.objects.get(user_profile=userprofile_object, friend_email=lender.email).friend_name
-            except:
-                pass
-            lender.amount = total
-            lenders.append(lender)
-            total_lent_amount += total
+                total_lent += each_bill.individual_amount
+            name = each_lender.user_profile.user.first_name + ' ' + each_lender.user_profile.user.last_name
+            slug = userprofile_lender.userprofile_id
+            person = Persons(name=name, total_lent=total_lent, slug=slug) 
+            person.total = person.total_borrowed - person.total_lent
+            if person.total < 0:
+                person.total_flag = '-ve'
+                person.total *= -1
+            elif person.total > 0:
+                person.total_flag = '+ve'
+            elif person.total == 0:
+                person.total_flag = '0'
+        persons_list.append(person)
 
-    return render_to_response('home.html', { 'borrowers': borrowers, 'lenders': lenders, 'total_borrowed_amount': total_borrowed_amount, 'total_lent_amount': total_lent_amount, 'request': request }, context_instance=RequestContext(request))
+    return render_to_response('home.html', { 'persons_list': persons_list, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
 def home_details(request, person_id):
     userprofile_object = UserProfile.objects.get(user=request.user)
+
+    class Transactions:
+        def __init__(self, date, description, individual_amount, flag, slug):
+            self.date = date
+            self.description = description
+            self.individual_amount = individual_amount
+            self.flag = flag
+            self.slug = slug
+
     if request.method == 'GET':
-        if person_id[:2] == 'b_':
+        if person_id[:3] == 'uf_':
+            person = 'borrower_and_lender'
+        else:
+            person = 'lender'
+
+        if person == 'borrower_and_lender':
+            bill_list = []
+            # Start - First as borrower
+            userfriend_id = person_id
+            person_borrower = UserFriend.objects.get(user_profile=userprofile_object, userfriend_id=userfriend_id)
+            person_name = person_borrower.friend_name
+            person_borrower_bills = BillDetails.objects.filter(bill__lender=userprofile_object, borrower=person_borrower, bill_cleared='N').order_by('-bill__date')
+            for each_bill in person_borrower_bills:
+                transaction = Transactions(date=each_bill.bill.date, description=each_bill.bill.description, individual_amount=each_bill.individual_amount, flag='+ve', slug=each_bill.bill.overall_bill_id)
+                bill_list.append(transaction)
+            # End - First as borrower
+            
+            # Start - Second as lender
+            person_email = person_borrower.friend_email
+            person_as_lender = UserProfile.objects.get(user__email=person_email)
+            me_as_borrower = UserFriend.objects.get(user_profile=person_as_lender, friend_email=userprofile_object.user.email)
+            person_lender_bills = BillDetails.objects.filter(bill__lender=person_as_lender, borrower=me_as_borrower, bill_cleared='N').order_by('-bill__date')
+            for each_bill in person_lender_bills:
+                transaction = Transactions(date=each_bill.bill.date, description=each_bill.bill.description, individual_amount=each_bill.individual_amount, flag='-ve', slug=each_bill.bill.overall_bill_id)
+                bill_list.append(transaction)
+            # End - Second as lender
+
+            return render_to_response('home-details.html', { 'bill_list': bill_list, 'person_name': person_name, 'request': request }, context_instance=RequestContext(request))
+
+        elif person == 'lender':
+            bill_list = []
+            userprofile_id = person_id
+            
+            person_as_lender = UserProfile.objects.get(userprofile_id=userprofile_id)
+            person_name = person_as_lender.user.first_name + ' ' + person_as_lender.user.last_name
+            me_as_borrower = UserFriend.objects.get(user_profile=person_as_lender, friend_email=userprofile_object.user.email)
+            person_lender_bills = BillDetails.objects.filter(bill__lender=person_as_lender, borrower=me_as_borrower, bill_cleared='N').order_by('-bill__date')
+            for each_bill in person_lender_bills:
+                transaction = Transactions(date=each_bill.bill.date, description=each_bill.bill.description, individual_amount=each_bill.individual_amount, flag='-ve', slug=each_bill.bill.overall_bill_id)
+                bill_list.append(transaction)
+
+            return render_to_response('home-details.html', { 'bill_list': bill_list, 'person_name': person_name, 'request': request }, context_instance=RequestContext(request))
+
+        else:
+            pass
+
+
+
+
+ 
+@login_required
+def home_details1(request, person_id):
+    userprofile_object = UserProfile.objects.get(user=request.user)
+    if request.method == 'GET':
+        if person_id[:3] == 'uf_':
             lender_or_borrower = 'borrower'
         else:
             lender_or_borrower = 'lender'
 
-        person_actual_id = person_id[2:]
+        person_actual_id = person_id[3:]
         borrower_name = ''
         borrower_bills = []
         total_borrowed_amount = 0
@@ -629,6 +732,11 @@ def specific_bill_details(request, overall_bill_id):
 @login_required
 def my_profile(request):
     userprofile_object = UserProfile.objects.get(user=request.user)
+    try:
+        UserSocialAuth.objects.get(user=request.user)
+        user_social_auth = True
+    except: 
+        user_social_auth = False
     if request.method == 'POST':
         request.user.first_name = request.POST['first_name']
         try: 
@@ -636,32 +744,38 @@ def my_profile(request):
         except:
             pass
         request.user.save()
-        return render_to_response('my-profile.html', { 'userprofile_object': userprofile_object, 'request': request }, context_instance=RequestContext(request))
+        return render_to_response('my-profile.html', { 'userprofile_object': userprofile_object, 'user_social_auth': user_social_auth, 'request': request }, context_instance=RequestContext(request))
     else:
-        return render_to_response('my-profile.html', { 'userprofile_object': userprofile_object, 'request': request }, context_instance=RequestContext(request))
+        return render_to_response('my-profile.html', { 'userprofile_object': userprofile_object, 'user_social_auth': user_social_auth, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
 def change_password(request):
     class Error:
         pass
     error = Error()
-    if request.method == 'POST':
-        old_password = request.POST['old_password']
-        new_password1 = request.POST['new_password1']
-        new_password2 = request.POST['new_password2']
-        if old_password and new_password1 and new_password2:
-            if request.user.check_password(old_password):
-                if new_password1 == new_password2:
-                    request.user.set_password(new_password1)
-                    request.user.save()
-                    return HttpResponseRedirect('/change-password-success/')
-                else:
-                    error.new_password = 'Passwords do not match. Please enter again'
-            else: 
-                error.old_password = 'Incorrect password'
-        else:
-            error.old_password = 'Please enter all fields'
-    return render_to_response('change-password.html', { 'error': error, 'request': request }, context_instance=RequestContext(request))
+    try:
+        UserSocialAuth.objects.get(user=request.user)
+        user_social_auth = True
+    except: 
+        user_social_auth = False
+    if not user_social_auth:
+        if request.method == 'POST':
+            old_password = request.POST['old_password']
+            new_password1 = request.POST['new_password1']
+            new_password2 = request.POST['new_password2']
+            if old_password and new_password1 and new_password2:
+                if request.user.check_password(old_password):
+                    if new_password1 == new_password2:
+                        request.user.set_password(new_password1)
+                        request.user.save()
+                        return HttpResponseRedirect('/change-password-success/')
+                    else:
+                        error.new_password = 'Passwords do not match. Please enter again'
+                else: 
+                    error.old_password = 'Incorrect password'
+            else:
+                error.old_password = 'Please enter all fields'
+    return render_to_response('change-password.html', { 'user_social_auth': user_social_auth, 'error': error, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
 def change_password_success(request):

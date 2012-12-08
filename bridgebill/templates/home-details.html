@@ -1,68 +1,24 @@
 {% extends "home.html" %}
 {% load humanize %}
-{% block title %}Home - Details | BridgeBill{% endblock %}
+{% block title %}BridgeBill - Home - Details{% endblock %}
 {% block content %}
 <div id="content_one">
-    {% if borrower_bills or lender_bills %}
-    <form name="home_details" action="" method="post">
-        {% csrf_token %}
-        {% if borrower %}
-        <h3>What {% if borrower_name %} {{ borrower_name }} {% else %} {{ lender_name }} {% endif %} Owes Me<em class="total_home">(Total: SGD {{ total_borrowed_amount|intcomma }})</em></h3>
-        <table class="base_table home_details_table">
-            <thead>
-                <tr>
-                    <th class="check"></th>
-                    <th class="date">Date</th>
-                    <th class="description">Description</th>
-                    <th class="amount">Total (in SGD)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for borrower_bill in borrower_bills %}
-                    <tr>
-                        <td><input type="checkbox" name="bill_id" value="{{ borrower_bill.id }}" /></td>
-                        <td><a href="/bill/details/{{ borrower_bill.bill.overall_bill_id }}/">{{ borrower_bill.bill.date|date:"dS M Y" }}</a></td>
-                        <td><a href="/bill/details/{{ borrower_bill.bill.overall_bill_id }}/">{{ borrower_bill.bill.description }}</a></td>
-                        <td><a href="/bill/details/{{ borrower_bill.bill.overall_bill_id }}/">{{ borrower_bill.individual_amount|intcomma }}</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% endif %}
-
-        {% if lender %}
-        <h3>What I Owe {% if borrower_name %} {{ borrower_name }} {% else %} {{ lender_name }} {% endif %} <em class="total_home">(Total: SGD {{ total_lent_amount|intcomma }})</em></h3>
-        <table class="base_table home_details_table">
-            <thead>
-                <tr>
-                    <th class="check"></th>
-                    <th class="date">Date</th>
-                    <th class="description">Description</th>
-                    <th class="amount">Total (in SGD)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lender_bill in lender_bills %}
-                    <tr>
-                        <td><input type="checkbox" name="bill_id" value="{{ lender_bill.id }}" /></td>
-                        <td><a href="/bill/details/{{ lender_bill.bill.overall_bill_id }}/">{{ lender_bill.bill.date|date:"dS M Y" }}</a></td>
-                        <td><a href="/bill/details/{{ lender_bill.bill.overall_bill_id }}/">{{ lender_bill.bill.description }}</a></td>
-                        <td><a href="/bill/details/{{ lender_bill.bill.overall_bill_id }}/">{{ lender_bill.individual_amount|intcomma }}</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% endif %}
-        <div class="button"> 
-            <button name="mark_bill_paid" type="submit">Mark Bill as Paid</button>
-            {% if user_lender %}
-                <button name="modify_bill" type="submit">Modify Bill</button>
-                <button name="delete_bill" type="submit">Delete Bill</button>
-            {% endif %}
-        </div>
-     </form>
-     {% else %}
-     <p>You have cleared all your dues with {% if borrower_name %} {{ borrower_name }} {% else %} {{ lender_name }}{% endif %}</p> 
-    {% endif %}
+{% if bill_list %}
+    <p id="home_details_header">Transactions with {{ person_name }}</p>
+    <ul id="home_details">
+        {% for bill in bill_list %}
+        <li>
+            <a href="/bill/details/{{ bill.slug }}">
+            <span class="home_details_date">{{ bill.date|date:"jS M Y" }}</span>
+            <span class="home_details_description">{{ bill.description }}</span>
+            <span class="home_details_amount"><span class="{% if bill.flag == "+ve" %}green{% else %}{% if bill.flag == "-ve" %}red{% endif %}{% endif %}">S$ {{ bill.individual_amount|intcomma }}</span></span>
+            <span class="home_details_flag">{% if bill.flag == "+ve" %}Owes Me{% else %}{% if bill.flag == "-ve" %}I Owe{% endif %}{% endif %}</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Oops....something went wrong!</p>
+{% endif %}
 </div>
 {% endblock %}

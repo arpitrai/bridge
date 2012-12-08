@@ -1,5 +1,5 @@
 {% extends "home.html" %}
-{% block title %}My Profile | BridgeBill{% endblock %}
+{% block title %}BridgeBill - My Profile{% endblock %}
 {% block content %}
 <div id="content_one">
     <form id="my_profile" name="my_profile" action="" method="post">
@@ -24,10 +24,12 @@
                 <label for="id_email">Email </label>
                 <span class="form_description">{{ userprofile_object.user.email }}</span>
             </li>
+            {% if not user_social_auth %}
             <li>
                 <label for="id_password">Password </label>
                 <a href="/change-password/" class="form_description">Change</a>
             </li>
+            {% endif %}
             <li class="last">
                 <button id="save" type="submit">Save</button>
             </li>

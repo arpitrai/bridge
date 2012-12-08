@@ -1,83 +1,59 @@
 {% extends "index.html" %}
 {% load humanize %}
-{% block title %}Home | BridgeBill{% endblock %}
+{% block title %}BridgeBill - Home{% endblock %}
 {% block body %}
 <div id="home">
     <div id="home_header">
-        <ul>
-            <li><a href="/my-profile/">My Profile</a></li>
-            <li><a href="/logout/">Logout</a></li>
-        </ul>
-    </div>
-    <div id="home_menu">
-        <ul>
-            <li><a href="/home/">Home</a></li>
-            <li><a href="/who-owes-me/">Who Owes Me</a></li>
-            <li><a href="/who-i-owe/">Who I Owe</a></li>
-            <li><a href="/record-bill/">Record Bill</a></li>
-            <li><a href="/record-payment/">Record Payment</a></li>
-        </ul>
-    </div>
-    <div id="home_content">
-        {% block content %}
-        <div id="content_one">
-           <h3>Who Owes Me <em class="total_home">(Total: SGD {{ total_borrowed_amount|intcomma }})</em></h3>
-            {% if borrowers %}
-                <table class="base_table home_table">
-                    <thead>
-                        <tr>
-                            <th class="name">Name</th>
-                            <th class="email">Email</th>
-                            <th class="amount">Total (in SGD)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for borrower in borrowers %}
-                            <tr>
-                                <td><a href="details/b_{{ borrower.userfriend_id }}">{{ borrower.name }}</a></td>
-                                <td><a href="details/b_{{ borrower.userfriend_id }}">{{ borrower.email }}</a></td>
-                                <td><a href="details/b_{{ borrower.userfriend_id }}">{{ borrower.amount|intcomma }}</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>You don't have any loans!</p>
-            {% endif %}
-            <h3>Who I Owe <em class="total_home">(Total: SGD {{ total_lent_amount|intcomma }})</em></h3>
-            {% if lenders %}
-                <table class="base_table home_table">
-                    <thead>
-                        <tr>
-                            <th class="name">Name</th>
-                            <th class="email">Email</th>
-                            <th class="amount">Total (in SGD)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for lender in lenders %}
-                            <tr>
-                                <td><a href="details/l_{{ lender.userprofile_id }}">{{ lender.name }}</a></td>
-                                <td><a href="details/l_{{ lender.userprofile_id }}">{{ lender.email }}</a></td>
-                                <td><a href="details/l_{{ lender.userprofile_id }}">{{ lender.amount|intcomma }}</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>You don't have any dues!</p>
-            {% endif %}
+        <div id="home_header_1">
+            <h1><a href="/home/"><strong class="logo">BridgeBill</strong></a></h1>
         </div>
-         {% endblock %}
+        <div id="home_header_2">
+            <ul>
+                <li><a href="/my-profile/">My Profile</a></li>
+                <li><a href="/logout/">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="home_menu_and_content">
+        <div id="home_menu">
+            <ul>
+                <li><a href="/home/">Home</a></li>
+                <li><a href="/who-owes-me/">Who Owes Me</a></li>
+                <li><a href="/who-i-owe/">Who I Owe</a></li>
+                <li><a href="/record-bill/">Record Bill</a></li>
+                <li><a href="/record-payment/">Record Payment</a></li>
+            </ul>
+        </div>
+        <div id="home_content">
+            {% block content %}
+            <div id="content_one">
+                {% if persons_list %}
+                    <ul id="home_overview">
+                        {% for person in persons_list %}
+                        <li>
+                            <a href="details/{{ person.slug }}">
+                            <span class="home_name">{{ person.name }}</span>
+                            <span class="home_total"><span class="{% if person.total_flag == "+ve" %}green{% else %}{% if person.total_flag == "-ve" %}red{% else %}{% if person.total_flag == "0" %}blue{% endif %}{% endif %}{% endif %}">S$ {{ person.total|intcomma }}</span></span>
+                            <span class="home_total_flag">{% if person.total_flag == "+ve" %}Owes Me{% else %}{% if person.total_flag == "-ve" %}I Owe{% else %}{% if person.total_flag == "0" %}Settled{% endif %}{% endif %}{% endif %}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>You don't have any dues or any loans!</p>
+                {% endif %}
+            </div>
+             {% endblock %}
+        </div>
     </div>
     <div id="home_push">
     </div>
 </div>
-<!--<div id="home_footer">-->
-    <!--<ul class="footer_links"> -->
-        <!--<li><a href="/about-us/">About Us</a></li>-->
-        <!--<li><a href="/feedback/">Feedback</a></li>-->
-        <!--<li><a href="/contact-us/">Contact Us</a></li>-->
-    <!--</ul> -->
-<!--</div>-->
+<div id="home_footer">
+    <ul class="footer_links"> 
+        <li><a href="/about-us/">About Us</a></li>
+        <li><a href="/feedback/">Feedback</a></li>
+        <li><a href="/contact-us/">Contact Us</a></li>
+    </ul> 
+</div>
 {% endblock %}

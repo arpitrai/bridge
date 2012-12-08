@@ -1,17 +1,16 @@
 {% extends "home.html" %}
-{% block title %}Record Bill | BridgeBill{% endblock %}
+{% block title %}BridgeBill - Record Bill{% endblock %}
 {% block content %}
 <div id="content_one">
     <form id="record_bill_option" name="record_bill_option" action="" method="post">
         {% csrf_token %}
         <ul>
             <li>
-                <label for="id_equal_split">Equal Split</label>
-                <input type="radio" checked="checked" name="record_bill_option" value="equal_split" />
+                <label>Equal Split<input type="radio" checked="checked" name="record_bill_option" value="equal_split" /></label>
             </li>
             <li>
-                <label for="id_unequal_split">Unequal Split</label>
-                <input type="radio" name="record_bill_option" value="unequal_split" />
+                <label>Un-Equal Split<input type="radio" name="record_bill_option" value="unequal_split" /></label>
+                
             </li>
             <li class="last">
                 <button id="save" type="submit">Proceed</button>
