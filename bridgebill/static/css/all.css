@@ -33,7 +33,7 @@ label.index {
     width: 125px;
 }
 
-input {
+input, textarea {
     border: 1px solid #DDDDDD;
     border-radius: 4px 4px 4px 4px;
     color: #333333;
@@ -48,8 +48,54 @@ input[type="checkbox"] {
     padding: 0;
 }
 
-input:focus {
+input:focus, textarea:focus {
     border: 1px solid #BBBBBB;
+}
+
+img {
+    vertical-align: middle;
+}
+
+span.error_django {
+    font-size: 14px;
+    color: #8B0000;
+    background-color:#FEE0C6; 
+    padding: 5px 6px 4px;
+    border-radius: 3px 3px 3px 3px;
+    text-align: center;
+    margin-left: 5px;
+}
+
+span.error {
+    display: none !important;
+}
+
+input.error {
+    border: 1px solid #c04355 !important;
+}
+
+input.error_2 {
+    border: 1px solid #c04355;
+}
+
+select.valid, form#unequal_split table#unequal_split_people_table select.valid {
+    border: 1px solid #DDDDDD !important;
+}
+
+select.error, form#unequal_split table#unequal_split_people_table select.error {
+    border: 1px solid #c04355 !important;
+}
+
+select.error_2, form#unequal_split table#unequal_split_people_table select.error_2 {
+    border: 1px solid #c04355;
+}
+
+input.valid {
+    border: 1px solid #DDDDDD !important;
+}
+
+input.valid_2 {
+    border: 1px solid #DDDDDD;
 }
 
 li.last button {
@@ -110,35 +156,6 @@ li.last button:active {
     box-shadow: rgba(34, 25, 25, 0.25) 0px 1px 2px inset, rgba(232, 230, 230, 0.5) 0px 0px 3px;
 }
 
-img {
-    vertical-align: middle;
-}
-
-span.error_django {
-    color: red;
-    font-size: 12px;
-}
-
-span.error {
-    display: none !important;
-}
-
-select.error {
-    border: 1px solid #c04355 !important;
-}
-
-input.error {
-    border: 1px solid #c04355 !important;
-}
-
-input.error_2 {
-    border: 1px solid #c04355 !important;
-}
-
-input.valid {
-    /*border: 1px solid #008B00;*/
-}
-
 div#user_signup_form ul li label.error {
     width: 25px;
 	background: url(../images/incorrect.gif) no-repeat 8px 8px;
@@ -150,6 +167,24 @@ div#user_signup_form ul li label.valid {
 
 form#my_profile label.error {
     display: none;
+}
+
+p.default_message {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-left: 30px;
+    color: #444444;
+}
+
+p.default_message a {
+    font-weight: 600;
+    color: #B1581E;
+    text-decoration: underline;
+}
+
+p.default_message a:hover {
+    color: #854517;
 }
 /* End - Site Wide Declaration */
 
@@ -174,6 +209,10 @@ div#index_header h1 {
     width: 910px;
     margin-left: auto;
     margin-right: auto;
+}
+
+div#index_header h1:hover {
+    text-decoration: underline;
 }
 
 div#index_header h1 a, div#home_header_1 h1 a {
@@ -298,54 +337,6 @@ li#login_error {
 }
 /* End - Index Page */
 
-/* Start - Footer */
-html, body {
-    height: 100%;
-}
-
-div#index, div#home {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    /*margin: 0 auto -30px;*/
-}
-
-div#index_footer, div#index_push, div#home_footer, div#home_push {
-    clear: both;
-    margin: auto;
-    height: 30px;
-}
-
-div#index_footer, div#home_footer {
-}
-
-div#index_footer ul, div#home_footer ul {
-    list-style-type: none;
-    padding: 0;
-    text-align: center;
-}
-
-div#index_footer ul li, div#home_footer ul li {
-    display: inline;
-    margin: 0 50px 0 0;
-}
-
-div#index_footer ul li:last-child, div#home_footer ul li:last-child {
-    margin-right: 0;
-}
-
-div#index_footer ul li a, div#home_footer ul li a {
-    font-size: 12px;
-    text-decoration: none;
-    color: rgba(0, 0, 0, 0.7);
-}
-
-div#index_footer ul li a:hover, div#home_footer ul li a:hover {
-    text-decoration: underline;
-    color: rgba(0, 0, 0, 1);
-}
-/* End - Footer */
-
 /* Start - User Signup Page */
 div#user_signup, div#forgot_password {
     width: 550px;
@@ -465,6 +456,11 @@ div#home_header_2 ul li a:hover {
     color: #555555;
 }
 
+div#home_header_2 ul li.currentLink a {
+    color: #555555;
+    text-decoration: underline;
+}
+
 div#home_menu_and_content {
     margin-left: auto;
     margin-right: auto;
@@ -575,6 +571,10 @@ div#content_one ul#home_overview, form#record_bill_option ul, form#equal_split u
     margin-left: 60px;
 }
 
+div#content_one ul#home_overview {
+    width: 460px;
+}
+
 div#content_one ul#home_overview li {
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
@@ -598,7 +598,7 @@ div#content_one ul#home_overview li:first-child {
 }
 
 div#content_one ul#home_overview li span.home_name {
-    width: 190px;
+    width: 210px;
     padding-left: 10px;
     display: inline-block;
     color: #444444;
@@ -677,6 +677,9 @@ div#content_one ul#home_details li:first-child, div#content_one table.base_table
     border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+div#content_one ul#home_details li span {
+}
+
 div#content_one ul#home_details li span.home_details_date, div#content_one table.base_table .date {
     font-size: 14px;
     font-weight: 400;
@@ -686,8 +689,12 @@ div#content_one ul#home_details li span.home_details_date, div#content_one table
     color: #444444;
 }
 
+div#content_one ul#home_details li span.home_details_date {
+    width: 110px;
+}
+
 div#content_one ul#home_details li span.home_details_description, div#content_one table.base_table .description {
-    width: 230px;
+    width: 240px;
     display: inline-block;
     color: #444444;
 }
@@ -696,6 +703,11 @@ div#content_one ul#home_details li span.home_details_amount, div#content_one tab
     width: 130px;
     display: inline-block;
     color: #444444;
+}
+
+div#content_one ul#home_details li span.home_details_amount {
+    margin-left: 12px;
+    width: 110px;
 }
 
 div#content_one ul#home_details li span.home_details_flag {
@@ -710,7 +722,7 @@ div#content_one ul#home_details li span.home_details_flag {
 
 /* Start - Specific Bill Page */
 div#content_one form ul.specific_bill {
-    width: 375px;
+    width: 420px;
     list-style-type: none;
     margin-top: 20px;
     margin-left: 60px;
@@ -759,7 +771,7 @@ div#content_one form#specific_bill_detail ul li label {
 div#content_one form#specific_bill_detail ul li ul {
     display: inline-block;
     vertical-align: top;
-    width: 240px;
+    width: 280px;
     margin: 0;
     padding: 0;
 }
@@ -769,7 +781,7 @@ div#content_one form#specific_bill_detail ul li.last {
 }
 
 button#mark_bill_paid_one, button#delete_bill_one {
-    width: 165px;
+    width: 180px;
     float: left;
     display: inline-block;
 }
@@ -781,7 +793,7 @@ button#delete_bill_one {
 
 /* Start - Who Owes Me & Who I Owe Page */
 div#content_one table.base_table {
-    width: 595px;
+    width: 640px;
     border-collapse: collapse;
     text-align: left;
 }
@@ -803,7 +815,7 @@ div#content_one table.base_table .date {
 }
 
 div#content_one table.base_table .name {
-    width: 120px;
+    width: 160px;
     padding-left: 10px;
     display: inline-block;
     color: #444444;
@@ -893,7 +905,7 @@ form#record_bill_option ul, form#record_payment_initial ul {
 }
 
 form#record_payment_initial ul {
-    width: 250px;
+    width: 305px;
 }
 
 form#record_bill_option ul li, form#record_payment_initial ul li {
@@ -937,7 +949,7 @@ form#equal_split ul, form#unequal_split ul, form#record_payment ul, form#my_prof
 }
 
 form#equal_split ul, form#unequal_split ul {
-    width: 700px;
+    width: 720px;
 }
 
 form#equal_split ul li, form#unequal_split ul li, form#record_payment ul li, form#my_profile ul li, form#change_password ul li {
@@ -991,7 +1003,7 @@ form#equal_split ul li ul li input[type="checkbox"] {
 
 form#equal_split ul li.make_inline ul li label {
     float: none;
-    width: 200px;
+    width: 300px;
     display: block;
     padding-left: 15px;
     text-indent: -15px;
@@ -1010,7 +1022,7 @@ input.dynamic_add_in {
     font-size: 13px;
 }
 
-input.dynamic_add_in.email {
+input.dynamic_add_in.email_new {
     width: 160px;
 }
 
@@ -1067,6 +1079,17 @@ form#equal_split ul li ul.add_remove_button li button.add_friend:hover, form#une
 
 form#equal_split ul li ul.add_remove_button li button.add_friend:active, form#unequal_split ul li button.add_friend:active { 
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+input.remove_friend {
+    font-size: 20px;
+    height: 24px;
+    width: 20px;
+    border: 0;
+    border-radius: 0;
+    background-color: #FFFFFF; 
+    padding: 0;
+    cursor: pointer;
 }
 
 form#equal_split li.last button, form#unequal_split li.last button, form#record_payment li.last button, form#my_profile li.last button, form#change_password li.last button {
@@ -1137,17 +1160,6 @@ table#unequal_split_people_table td.amount input {
     padding: 2px 6px;
 }
 
-table#unequal_split_people_table td input.remove_friend {
-    font-size: 20px;
-    height: 24px;
-    width: 20px;
-    border: 0;
-    border-radius: 0;
-    background-color: #FFFFFF; 
-    padding: 0;
-    cursor: pointer;
-}
-
 table#unequal_split_people_table td.remove_table_row {
     text-align: left;
     padding: 0;
@@ -1169,25 +1181,191 @@ form#record_payment select {
 /* Start - My Profile Page */
 form#my_profile a {
     text-decoration: underline;
-    color: #815B1E;
+    color: #B1581E;
 }   
 
 form#my_profile a:hover {
     text-decoration: underline;
     color: #854517;
 }
+
+form#my_profile button#edit {
+    width: 340px;
+}
 /* End - My Profile Page */
 
 /* Start - Change Password Page */
 form#change_password ul {
-    width: 625px;
+    width: 730px;
 }
 
 form#change_password ul li label {
     width: 200px;
 }
 
+form#change_password ul li input {
+    width: 230px;
+}
+
 form#change_password li.last button {
-    width: 625px;
+    width: 460px;
 }
 /* End - Change Password Page */
+
+/* Start - Footer */
+html, body {
+    height: 100%;
+}
+
+div#index, div#home {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    /*margin: 0 auto -30px;*/
+}
+
+div#index_footer, div#index_push, div#home_footer, div#home_push {
+    clear: both;
+    margin: auto;
+    height: 30px;
+}
+
+div#index_footer, div#home_footer {
+}
+
+div#index_footer ul, div#home_footer ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+div#index_footer ul li, div#home_footer ul li {
+    display: inline-block;
+    margin: 0 30px 0 0;
+    width: 70px;
+}
+
+div#index_footer ul li:last-child, div#home_footer ul li:last-child {
+    margin-right: 0;
+}
+
+div#index_footer ul li a, div#home_footer ul li a {
+    font-size: 12px;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.7);
+    display: block;
+}
+
+div#index_footer ul li a:hover, div#home_footer ul li a:hover {
+    text-decoration: underline;
+    color: rgba(0, 0, 0, 1);
+}
+
+div#index_footer ul li.currentLink a, div#home_footer ul li.currentLink a {
+    color: rgba(0, 0, 0, 1);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+div#footer_content {
+    width: 68%;
+    margin: -40px auto 0 auto;
+    color: #333333;
+    -moz-border-radius-topright: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -ms-border-top-right-radius: 10px;
+    -o-border-top-right-radius: 10px;
+    border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -ms-border-top-left-radius: 10px;
+    -o-border-top-left-radius: 10px;
+    border-top-left-radius: 10px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.02), 0, 0, 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.02), 0, 0, 3px;
+    box-shadow: rgba(0, 0, 0, 0.02), 0, 0, 3px;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #fbfbfb));
+    background-image: -webkit-linear-gradient(#ffffff, #fbfbfb);
+    background-image: -moz-linear-gradient(#ffffff, #fbfbfb);
+    background-image: -o-linear-gradient(#ffffff, #fbfbfb);
+    background-image: -ms-linear-gradient(#ffffff, #fbfbfb);
+    background-image: linear-gradient(#ffffff, #fbfbfb);
+    border: 1px solid #eee;
+    border-right-color: #f4f4f4;
+    border-left-color: #f4f4f4;
+    border-bottom: none;
+    padding: 20px;
+}
+
+div#footer_content h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+}
+
+div#footer_content p {
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 20px;
+}
+
+div#footer_content .last_para {
+    margin-bottom: 0;
+}
+
+div#footer_content p a {
+    color: #B15B1E;
+}
+
+div#footer_content p a:hover {
+    color: #854517;
+    text-decoration: underline;
+}
+
+div#footer_content div#feedback {
+    margin-left: 5px;
+    margin-top: 20px;
+    width: 700px;
+}
+
+div#footer_content div#feedback ul li {
+    margin-bottom: 5px;
+}
+
+div#footer_content div#feedback ul li#feedback_message {
+    margin-bottom: 20px;
+}
+
+div#footer_content div#feedback label {
+    width: 75px;
+    display: inline-block;
+    text-align: right;
+}
+
+div#footer_content div#feedback label, div#footer_content div#feedback input, div#footer_content div#feedback textarea {
+    vertical-align: top;
+}
+
+div#footer_content div#feedback input, div#footer_content div#feedback textarea {
+    width: 350px;
+}
+
+div#footer_content div#feedback textarea {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+    height: 125px;
+    line-height: 20px;
+}
+
+div#footer_content div#feedback form#feedback_form ul li.last button#save {
+    margin-left: 0;
+    padding-left: 0;
+    width: 460px;
+}
+
+textarea.error {
+    border: 1px solid #c04355;
+}
+/* End - Footer */

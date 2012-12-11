@@ -8,16 +8,28 @@
             {% if userprofile_object.user.last_name %}
             <li>
                 <label for="id_first_name">First Name </label>
-                <input name="first_name" type="text" value="{{ userprofile_object.user.first_name }}" />
+                {% if edit %}
+                    <input name="first_name" type="text" value="{{ userprofile_object.user.first_name }}" />
+                {% else %}
+                    <span class="form_description">{{ userprofile_object.user.first_name }}</span>
+                {% endif %}
             </li>
             <li>
                 <label for="id_last_name">Last Name </label>
-                <input name="last_name" type="text" value="{{ userprofile_object.user.last_name }}" />
+                {% if edit %}
+                    <input name="last_name" type="text" value="{{ userprofile_object.user.last_name }}" />
+                {% else %}
+                    <span class="form_description">{{ userprofile_object.user.last_name }}</span>
+                {% endif %}
             </li>
             {% else %}
             <li>
                 <label for="id_first_name">Name </label>
-                <input name="first_name" type="text" value="{{ userprofile_object.user.first_name }}" />
+                {% if edit %}
+                    <input name="first_name" type="text" value="{{ userprofile_object.user.first_name }}" />
+                {% else %}
+                    <span class="form_description">{{ userprofile_object.user.first_name }}</span>
+                {% endif %}
             </li>
             {% endif %}
             <li>
@@ -31,7 +43,13 @@
             </li>
             {% endif %}
             <li class="last">
-                <button id="save" type="submit">Save</button>
+                {% if edit %}
+                    <button id="save" type="submit">Save</button>
+                    <input type="hidden" name="edit_or_save" value="save" />
+                {% else %}
+                    <button id="edit" type="submit">Edit</button>
+                    <input type="hidden" name="edit_or_save" value="edit" />
+                {% endif %}
             </li>
         </ul>
     </form>

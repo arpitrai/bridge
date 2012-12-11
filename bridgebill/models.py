@@ -29,7 +29,7 @@ class Bill(models.Model):
     overall_bill_id = models.CharField(max_length=50)
     lender = models.ForeignKey(UserProfile)
     date = models.DateField()
-    description = models.CharField(max_length=300)
+    description = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     remarks = models.CharField(max_length=300, blank=True)
     created_date = models.DateField(auto_now_add=True)
@@ -57,6 +57,19 @@ class BillDetails(models.Model):
 
     def __unicode__(self):
         return str(self.bill.lender) + ' lent ' + str(self.borrower.friend_name) + ' for ' + str(self.bill.description)
+
+class Feedback(models.Model):
+    name = models.CharField(blank=True, max_length=60)
+    email = models.EmailField(blank=True, max_length=75)
+    message = models.TextField()
+    created_date = models.DateField(auto_now_add=True)
+
+    def __unicode__(self):
+        return str(self.name) + '(' + str(self.email) + ')' + ' left a message'
+
+class FeedbackForm(ModelForm):
+    class Meta:
+        model = Feedback 
 
 # Start - Signals for sending email on user registration and for adding user as own friend
 from django.dispatch import receiver
@@ -105,10 +118,6 @@ def create_userfriend_id():
             check_counter = False
     return userfriend_id
 # End - Creating unique UserFriend ID
-
-
-
-
 
 def new_users_handler(sender, user, response, details, **kwargs):
     user.is_new = True

@@ -40,7 +40,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p>You don't have any dues or any loans!</p>
+                    <p class="default_message">You don't have any dues or loans currently! To create a bill, please click <a href="/record-bill"/>here</a>.</p>                
                 {% endif %}
             </div>
              {% endblock %}
@@ -53,7 +53,7 @@
     <ul class="footer_links"> 
         <li><a href="/about-us/">About Us</a></li>
         <li><a href="/feedback/">Feedback</a></li>
-        <li><a href="/contact-us/">Contact Us</a></li>
+        <!--<li><a href="/contact-us/">Contact Us</a></li>-->
     </ul> 
 </div>
 {% endblock %}

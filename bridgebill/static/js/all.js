@@ -147,6 +147,7 @@ $(document).ready(function(){
     $('form#equal_split').validate({
         errorClass: 'error',
         errorElement: 'span',
+        validClass: 'valid',
         rules: {
             date: {
                 required: true,
@@ -186,11 +187,11 @@ var i=0;
 $(document).ready(function(){
     $('form#equal_split button.add_friend').click(function(){
         var html_fragment_1 = '<li><input type="checkbox" checked="checked"' + 'name="people_new" class="people_new" value="people_new_' + i + '" />';
-        var html_fragment_2 = '<input class="dynamic_add_in name" type="text" id="id_name_' + i + '" name="name_' + i + '" placeholder="Friend\'s Name" />';
-        var html_fragment_3 = '<input class="dynamic_add_in email" type="text" id="id_email_'+ i + '" name="email_' + i + '" placeholder="Friend\'s Email Address" />';
-        /*var html_fragment_4 = '<input class="remove_friend" type="submit" value="Remove" /></li>';*/
-        /*var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3 + html_fragment_4;*/
-        var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3;
+        var html_fragment_2 = '<input class="dynamic_add_in name_new" type="text" id="id_name_' + i + '" name="name_' + i + '" placeholder="Friend\'s Name" />';
+        var html_fragment_3 = '<input class="dynamic_add_in email_new" type="text" id="id_email_'+ i + '" name="email_' + i + '" placeholder="Friend\'s Email Address" />';
+        var html_fragment_4 = '<input class="remove_friend" type="submit" value="&#10006;" /></li>';
+        var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3 + html_fragment_4;
+        //var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3;
         $('form#equal_split ul.people li:last').after(html_fragment);
         i++;
         return false;
@@ -208,19 +209,15 @@ $(document).ready(function(){
 // Start - To validate new name fields added on Equal Split page 
 $(document).ready(function(){
     $('form#equal_split').on({
-        focusin: validate_name_equal_split,
-        focusout: validate_name_equal_split,
-        keyup: validate_name_equal_split,
-        keydown: validate_name_equal_split,
+        change: validate_name_equal_split,
     },('input[id*=id_name_]')
     );
 });
 
 function validate_name_equal_split(){
-    //$('form#equal_split').validate({ errorClass: 'error', errorElement: '', });
     $('form#equal_split input[id*=id_name_]').each(function() {
         $(this).rules("add", {
-            required: false,
+            required: true,
             minlength: 2,
             messages: {
                 required: '&nbsp',
@@ -234,19 +231,15 @@ function validate_name_equal_split(){
 // Start - To validate new email fields added on Equal Split page 
 $(document).ready(function(){
     $('form#equal_split').on({
-        focusin: validate_email_equal_split,
-        focusout: validate_email_equal_split,
-        keyup: validate_email_equal_split,
-        keydown: validate_email_equal_split,
+        change: validate_email_equal_split,
     },('input[id*=id_email_]')
     );
 });
 
 function validate_email_equal_split(){
-    //$('form#equal_split').validate({ errorClass: 'error', errorElement: '', });
     $('form#equal_split input[id*=id_email_]').each(function() {
         $(this).rules("add", {
-            required: false,
+            required: true,
             email: true,
             minlength: 7,
             messages: {
@@ -303,6 +296,7 @@ $(document).ready(function(){
     $('form#unequal_split').validate({
         errorClass: 'error',
         errorElement: 'span',
+        validClass: 'valid',
         rules: {
             date: {
                 required: true,
@@ -346,17 +340,34 @@ $(document).ready(function(){
 // End - Form validation for Un-Equal Split page 
 
 // Start - To calculate amount depending on user input
+// For Firefox
+/*$(document).ready(function(){*/
+    //$('form#unequal_split').on('click', 'select[id*=id_number_of_people] option', function(event){
+        //var total_amount = Number($('form#unequal_split input#id_amount').val()) 
+        //var total_people = Number($('form#unequal_split input#id_total_people').val());
+        //if (($(this).val() !== 'Other') && (total_amount !== 0) && (total_people !== 0)) {
+            //var borrower_amount = total_amount/total_people * Number($(this).val());
+            //borrower_amount = Math.round(borrower_amount*100)/100;
+            //$(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val(borrower_amount);
+        //}
+        //else {
+            //$(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val('');
+        //};
+    //});
+/*});*/
+
+// For Chrome 
 $(document).ready(function(){
-    $('form#unequal_split').on('click', 'select[id*=id_number_of_people] option', function(event){
+    $('form#unequal_split').on('change', 'select[id*=id_number_of_people]', function(event){
         var total_amount = Number($('form#unequal_split input#id_amount').val()) 
         var total_people = Number($('form#unequal_split input#id_total_people').val());
         if (($(this).val() !== 'Other') && (total_amount !== 0) && (total_people !== 0)) {
             var borrower_amount = total_amount/total_people * Number($(this).val());
             borrower_amount = Math.round(borrower_amount*100)/100;
-            $(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val(borrower_amount);
+            $(this).parent().parent().find('input[id*=id_borrower_amount]').val(borrower_amount);
         }
         else {
-            $(this).parent().parent().parent().find('input[id*=id_borrower_amount]').val('');
+            $(this).parent().parent().find('input[id*=id_borrower_amount]').val('');
         };
     });
 });
@@ -369,7 +380,7 @@ $(document).ready(function(){
         var html_fragment_1 = '<tr><td class="name"><input type="hidden" name="people_new" class="people_new" value="x_people_new_' + i + '" />';
         var html_fragment_2 = '<input class="dynamic_add_in" type="text" id="x_id_name_' + i + '" name="x_name_' + i + '" placeholder="Friend\'s Name" />';
         var html_fragment_3 = '<input class="dynamic_add_in" type="text" id="x_id_email_'+ i + '" name="x_email_' + i + '" placeholder="Friend\'s Email Address" /></td>';
-        var html_fragment_4 = '<td class="number"><select id="x_id_number_of_people_' + i + '" name="x_number_of_people_' + i + '"><option value="0"></option><option value="1">1 person</option><option value="2">2 people</option><option value="3">3 people</option><option value="4">4 people</option><option value="5">5 people</option><option value="Other">Other</option></select></td>'
+        var html_fragment_4 = '<td class="number"><select id="x_id_number_of_people_' + i + '" name="x_number_of_people_' + i + '"><option value="" selected="selected"></option><option value="1">1 person</option><option value="2">2 people</option><option value="3">3 people</option><option value="4">4 people</option><option value="5">5 people</option><option value="Other">Other</option></select></td>'
         var html_fragment_5 = '<td class="amount"><input type="text" id="x_id_borrower_amount_' + i + '" name="x_borrower_amount_' + i + '" /></td>';
         var html_fragment_6 = '<td class="remove_table_row"><input class="remove_friend" type="submit" value="&#10006;" /></td></tr>';
         var html_fragment = html_fragment_1 + html_fragment_2 + html_fragment_3 + html_fragment_4 + html_fragment_5 + html_fragment_6;
@@ -387,82 +398,10 @@ $(document).ready(function(){
 });
 // End - Add more friends or people on Un-Equal Split page 
 
-// Start - To validate new name, email and amount fields added on Un-Equal Split page 
-$(document).ready(function(){
-    $('form#unequal_split').on({
-        focusin: validate_unequal_split,
-        focusout: validate_unequal_split,
-        keyup: validate_unequal_split,
-        keydown: validate_unequal_split,
-    },('input[id^=x_id_name_]')
-    );
-});
-
-$(document).ready(function(){
-    $('form#unequal_split').on({
-        focusin: validate_unequal_split,
-        focusout: validate_unequal_split,
-        keyup: validate_unequal_split,
-        keydown: validate_unequal_split,
-    },('input[id^=x_id_email_]')
-    );
-});
-
-$(document).ready(function(){
-    $('form#unequal_split').on({
-        focusin: validate_unequal_split,
-        focusout: validate_unequal_split,
-        keyup: validate_unequal_split,
-        keydown: validate_unequal_split,
-    },('input[id^=x_id_borrower_amount_]')
-    );
-});
-
-function validate_unequal_split(){
-    $('form#unequal_split input[id^=x_id_name_]').each(function() {
-        $(this).rules("add", {
-            required: false,
-            minlength: 2,
-            messages: {
-                required: '&nbsp',
-                minlength: '&nbsp',
-            },
-        });
-    });
-    $('form#unequal_split input[id^=x_id_email_]').each(function() {
-        $(this).rules("add", {
-            required: false,
-            email: true,
-            minlength: 7,
-            messages: {
-                email: '&nbsp',
-                required: '&nbsp',
-                minlength: '&nbsp',
-            },
-        });
-    });
-    $('form#unequal_split input[id^=x_id_borrower_amount_]').each(function() {
-        $(this).rules("add", {
-            required: false,
-            minlength: 1,
-            number: true,
-            messages: {
-                required: '&nbsp',
-                minlength: '&nbsp',
-                number: '&nbsp',
-            },
-        });
-    });
-};
-// End - To validate new name, email and amount fields added on Un-Equal Split page 
-
 // Start - To validate amount fields for existing friends on Un-Equal Split page 
 $(document).ready(function(){
     $('form#unequal_split').on({
-        focusin: validate_amount_existing_unequal_split,
-        focusout: validate_amount_existing_unequal_split,
-        keyup: validate_amount_existing_unequal_split,
-        keydown: validate_amount_existing_unequal_split,
+        change: validate_amount_existing_unequal_split,
     },('input[id^=id_borrower_amount_]')
     );
 });
@@ -482,6 +421,66 @@ function validate_amount_existing_unequal_split(){
     });
 };
 // End - To validate amount fields for existing friends on Un-Equal Split page 
+
+// Start - To validate new name, email and amount fields added on Un-Equal Split page 
+$(document).ready(function(){
+    $('form#unequal_split').on({
+        change: validate_unequal_split_new,
+    },('input[id^=x_id_name_]')
+    );
+});
+
+$(document).ready(function(){
+    $('form#unequal_split').on({
+        change: validate_unequal_split_new,
+    },('input[id^=x_id_email_]')
+    );
+});
+
+$(document).ready(function(){
+    $('form#unequal_split').on({
+        change: validate_unequal_split_new,
+    },('input[id^=x_id_borrower_amount_]')
+    );
+});
+
+function validate_unequal_split_new(){
+    $('form#unequal_split input[id^=x_id_name_]').each(function() {
+        $(this).rules("add", {
+            required: true,
+            minlength: 2,
+            messages: {
+                required: '&nbsp',
+                minlength: '&nbsp',
+            },
+        });
+    });
+    $('form#unequal_split input[id^=x_id_email_]').each(function() {
+        $(this).rules("add", {
+            required: true,
+            email: true,
+            minlength: 7,
+            messages: {
+                email: '&nbsp',
+                required: '&nbsp',
+                minlength: '&nbsp',
+            },
+        });
+    });
+    $('form#unequal_split input[id^=x_id_borrower_amount_]').each(function() {
+        $(this).rules("add", {
+            required: true,
+            minlength: 1,
+            number: true,
+            messages: {
+                required: '&nbsp',
+                minlength: '&nbsp',
+                number: '&nbsp',
+            },
+        });
+    });
+};
+// End - To validate new name, email and amount fields added on Un-Equal Split page 
 
 // Start - To stop the submission of any unchecked new friend name and email fields added on Un-Equal Split page 
 $(document).ready(function(){
@@ -510,99 +509,132 @@ function validate_unequal_split_save(event){
 
 
     if ($('form#unequal_split').validate().form() === false) {
-       event.preventDefault();
-       return false;
+        event.preventDefault();
+        return false;
     }
     else {
         var value = true;
         $('form#unequal_split input[class=people]').each(function(){
-            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
+            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
                 event.preventDefault();
-                $(this).nextAll('select[id^=id_borrower]').addClass('error');
-                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error');
+                $(this).nextAll('select[id^=id_borrower]').addClass('error_2');
+                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error_2');
                 value = false;
             };
-            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
+            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
                 event.preventDefault();
-                $(this).nextAll('select[id^=id_borrower]').addClass('error');
-                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error');
+                $(this).nextAll('select[id^=id_borrower]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error_2');
                 value = false;
             };
-            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
+            if (($(this).nextAll('select[id^=id_borrower]').val().length === 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
                 event.preventDefault();
-                $(this).nextAll('select[id^=id_borrower]').addClass('error');
+                $(this).nextAll('select[id^=id_borrower]').addClass('error_2');
                 value = false;
             };
-            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
+            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
                 event.preventDefault();
-                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error');
-                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error');
+                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error_2');
                 value = false;
             };
-            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
+            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length !== 0)) {
                 event.preventDefault();
-                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error');
+                $(this).parent().parent().find('select[id^=id_number_of_people]').addClass('error_2');
                 value = false;
             };
-            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '0') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
+            if (($(this).nextAll('select[id^=id_borrower]').val().length !== 0) && ($(this).parent().parent().find('select[id^=id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=id_borrower_amount]').val().length === 0)) {
                 event.preventDefault();
-                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error');
+                $(this).parent().parent().find('input[id^=id_borrower_amount]').addClass('error_2');
                 value = false;
             };
         });
 
         $('form#unequal_split input[class=people_new]').each(function(){
-            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
+            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
                 event.preventDefault();
-                $(this).nextAll('input[id^=x_id_name]').addClass('error');
-                $(this).nextAll('input[id^=x_id_email]').addClass('error');
-                if ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '0') {
-                    $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error');
-                };
+                $(this).nextAll('input[id^=x_id_name]').addClass('error_2');
+                $(this).nextAll('input[id^=x_id_email]').addClass('error_2');
+                $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error_2');
                 value = false;
             };
-            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
+            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
                 event.preventDefault();
-                $(this).nextAll('input[id^=x_id_name]').addClass('error');
-                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error');
-                if ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '0') {
-                    $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error');
-                };
+                $(this).nextAll('input[id^=x_id_name]').addClass('error_2');
+                $(this).nextAll('input[id^=x_id_email]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error_2');
                 value = false;
             };
-            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
+            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
                 event.preventDefault();
-                $(this).nextAll('input[id^=x_id_name]').addClass('error');
-                if ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '0') {
-                    $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error');
-                };
+                $(this).nextAll('input[id^=x_id_name]').addClass('error_2');
+                $(this).nextAll('input[id^=x_id_email]').addClass('error_2');
                 value = false;
             };
-             if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
-                 event.preventDefault();
-                 $(this).nextAll('input[id^=x_id_email]').addClass('error');
-                 $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error');
-                 if ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '0') {
-                     $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error');
-                 };
-                 value = false;
-             };
-             if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
-                 event.preventDefault();
-                 $(this).nextAll('input[id^=x_id_email]').addClass('error');
-                 if ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '0') {
-                     $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error');
-                 };
-                 value = false;
-             };
-             if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
-                 event.preventDefault();
-                 $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error');
-                 if ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '0') {
-                     $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error');
-                 };
-                 value = false;
-             };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_name]').addClass('error_2');
+                $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_name]').addClass('error_2');
+                $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_name]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length === 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_name]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_email]').addClass('error_2');
+                $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_email]').addClass('error_2');
+                $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_email]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length === 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
+                event.preventDefault();
+                $(this).nextAll('input[id^=x_id_email]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error_2');
+                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() === '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length !== 0)) {
+                event.preventDefault();
+                $(this).parent().parent().find('select[id^=x_id_number_of_people]').addClass('error_2');
+                value = false;
+            };
+            if (($(this).nextAll('input[id^=x_id_name]').val().length !== 0) && ($(this).nextAll('input[id^=x_id_email]').val().length !== 0) && ($(this).parent().parent().find('select[id^=x_id_number_of_people]').val() !== '') && ($(this).parent().parent().find('input[id^=x_id_borrower_amount]').val().length === 0)) {
+                event.preventDefault();
+                $(this).parent().parent().find('input[id^=x_id_borrower_amount]').addClass('error_2');
+                value = false;
+            };
          });
          return value;
     };

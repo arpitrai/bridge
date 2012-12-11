@@ -3,8 +3,8 @@
 {% block title %}BridgeBill - Who I Owe{% endblock %}
 {% block content %}
 <div id="content_one">
-   <p class="page_header">Details of Who I Owe</p>
     {% if my_lenders %}
+    <p class="page_header">Details of Who I Owe</p>
         <table class="base_table" id="who_i_owe_table">
             <thead>
                 <tr>
@@ -26,7 +26,7 @@
             </tbody>
         </table>
     {% else %}
-        <p>Congratulations! You've cleared all your loans! You don't have any dues!</p>
+        <p class="default_message">You don't owe anyone any money currently!</p>
     {% endif %}
 </div>
 {% endblock %}

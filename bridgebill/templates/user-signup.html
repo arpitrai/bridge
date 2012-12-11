@@ -7,7 +7,7 @@
     </div>
     <div id="user_signup">
         <div class="sub_header">
-            <span class="title">Sign-Up using Facebook or Enter details below</span>
+            <span class="title">Sign-up using Facebook or Enter details below</span>
         </div>
         <div id="index_facebook_login">
             <a href="{% url socialauth_begin 'facebook' %}"><img src="{{ STATIC_URL }}/images/facebook_connect_logo.jpeg" alt="Login Using Facebook" /></a>
@@ -23,11 +23,11 @@
                         <ul>
                             <li>
                                 <label class="index" for="id_firstname">Your Name </label>
-                                <input id="id_firstname" type="text" name="firstname" max_length="30" />
+                                <input id="id_firstname" type="text" name="firstname" maxlength="60" />
                             </li>
                             <li>
                                 <label class="index" for="id_username">Your Email </label>
-                                <input id="id_username" type="text" name="username" max_length="30" />
+                                <input id="id_username" type="text" name="username" maxlength="75" />
                             </li>
                             <li>
                                 <label class="index" for="id_password1">Password </label>
@@ -53,7 +53,7 @@
     <ul class="footer_links"> 
         <li><a href="/about-us/">About Us</a></li>
         <li><a href="/feedback/">Feedback</a></li>
-        <li><a href="/contact-us/">Contact Us</a></li>
+        <!--<li><a href="/contact-us/">Contact Us</a></li>-->
     </ul> 
 </div>
 {% endblock %}

@@ -6,8 +6,8 @@ from social_auth.models import UserSocialAuth
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from bridgebill.models import UserProfile, UserFriend, Bill, BillDetails
-from bridgebill.models import UserFriendForm, PartialBillForm
+from bridgebill.models import UserProfile, UserFriend, Bill, BillDetails, Feedback
+from bridgebill.models import UserFriendForm, PartialBillForm, FeedbackForm
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, PasswordChangeForm
 
 from django.http import HttpResponseRedirect
@@ -30,6 +30,8 @@ bill_creation_txt = get_template('email_templates/bill_creation.txt')
 bill_creation_html = get_template('email_templates/bill_creation.html')
 payment_creation_txt = get_template('email_templates/payment_creation.txt')
 payment_creation_html = get_template('email_templates/payment_creation.html')
+feedback_txt = get_template('email_templates/feedback.txt')
+feedback_html = get_template('email_templates/feedback.html')
 # End - Settings to get email templates
 
 # Start - Common function for creating UUIDs
@@ -105,7 +107,7 @@ def user_signup(request):
             user_profile.save()
 
             new_user = authenticate(username=username, password=password)
-            login(request,new_user)
+            auth_login(request, new_user)
             
             # Send Email Start
             context = Context( {} )
@@ -155,36 +157,36 @@ def home(request):
     my_borrowers = UserFriend.objects.filter(user_profile=userprofile_object).exclude(friend_email=userprofile_object.user.email)
     for each_borrower in my_borrowers:
         each_borrower_bills = BillDetails.objects.filter(bill__lender=userprofile_object, borrower=each_borrower, bill_cleared='N')
+        total_lent = 0
+        total_borrowed = 0
         if each_borrower_bills:
-            total_borrowed = 0
             for each_bill in each_borrower_bills:
                 total_borrowed += each_bill.individual_amount
             person = Persons(name=each_borrower.friend_name, total_borrowed=total_borrowed, slug=each_borrower.userfriend_id)
-        try:
-            borrower_as_user = UserProfile.objects.get(user__email=each_borrower.friend_email)
-            try: 
-                me_as_borrower = UserFriend.objects.get(user_profile=borrower_as_user, friend_email=userprofile_object.user.email)
-                borrower_also_lender_list.append(each_borrower.friend_email)
-                each_borrower_as_lender_bills = BillDetails.objects.filter(bill__lender=borrower_as_user, borrower=me_as_borrower, bill_cleared='N')
-                if each_borrower_as_lender_bills:
-                    total_lent = 0
-                    for each_bill in each_borrower_as_lender_bills:
-                        total_lent += each_bill.individual_amount
-                    person.total_lent = total_lent
-                    person.total = person.total_borrowed - person.total_lent
-                    if person.total < 0:
-                        person.total_flag = '-ve'
-                        person.total *= -1
-                    elif person.total > 0:
-                        person.total_flag = '+ve'
-                    elif person.total == 0:
-                        person.total_flag = '0'
-
+            try:
+                borrower_as_user = UserProfile.objects.get(user__email=each_borrower.friend_email)
+                try: 
+                    me_as_borrower = UserFriend.objects.get(user_profile=borrower_as_user, friend_email=userprofile_object.user.email)
+                    borrower_also_lender_list.append(each_borrower.friend_email)
+                    each_borrower_as_lender_bills = BillDetails.objects.filter(bill__lender=borrower_as_user, borrower=me_as_borrower, bill_cleared='N')
+                    if each_borrower_as_lender_bills:
+                        for each_bill in each_borrower_as_lender_bills:
+                            total_lent += each_bill.individual_amount
+                except:
+                    pass
             except:
                 pass
-        except:
-            pass
-        persons_list.append(person)
+
+            person.total_lent = total_lent
+            person.total = person.total_borrowed - person.total_lent
+            if person.total < 0:
+                person.total_flag = '-ve'
+                person.total *= -1
+            elif person.total > 0:
+                person.total_flag = '+ve'
+            elif person.total == 0:
+                person.total_flag = '0'
+            persons_list.append(person)
 
     borrower_also_lender_userprofiles = []
     if borrower_also_lender_list:
@@ -212,7 +214,7 @@ def home(request):
                 person.total_flag = '+ve'
             elif person.total == 0:
                 person.total_flag = '0'
-        persons_list.append(person)
+            persons_list.append(person)
 
     return render_to_response('home.html', { 'persons_list': persons_list, 'request': request }, context_instance=RequestContext(request))
 
@@ -248,12 +250,15 @@ def home_details(request, person_id):
             
             # Start - Second as lender
             person_email = person_borrower.friend_email
-            person_as_lender = UserProfile.objects.get(user__email=person_email)
-            me_as_borrower = UserFriend.objects.get(user_profile=person_as_lender, friend_email=userprofile_object.user.email)
-            person_lender_bills = BillDetails.objects.filter(bill__lender=person_as_lender, borrower=me_as_borrower, bill_cleared='N').order_by('-bill__date')
-            for each_bill in person_lender_bills:
-                transaction = Transactions(date=each_bill.bill.date, description=each_bill.bill.description, individual_amount=each_bill.individual_amount, flag='-ve', slug=each_bill.bill.overall_bill_id)
-                bill_list.append(transaction)
+            try: 
+                person_as_lender = UserProfile.objects.get(user__email=person_email)
+                me_as_borrower = UserFriend.objects.get(user_profile=person_as_lender, friend_email=userprofile_object.user.email)
+                person_lender_bills = BillDetails.objects.filter(bill__lender=person_as_lender, borrower=me_as_borrower, bill_cleared='N').order_by('-bill__date')
+                for each_bill in person_lender_bills:
+                    transaction = Transactions(date=each_bill.bill.date, description=each_bill.bill.description, individual_amount=each_bill.individual_amount, flag='-ve', slug=each_bill.bill.overall_bill_id)
+                    bill_list.append(transaction)
+            except:
+                pass
             # End - Second as lender
 
             return render_to_response('home-details.html', { 'bill_list': bill_list, 'person_name': person_name, 'request': request }, context_instance=RequestContext(request))
@@ -646,7 +651,7 @@ def record_payment(request):
 
             return HttpResponseRedirect('/who-i-owe/')
     else:
-        HttpResponseRedirect('/record-payment/')
+        return HttpResponseRedirect('/record-payment/')
 
 @login_required
 def who_i_owe(request):
@@ -732,21 +737,25 @@ def specific_bill_details(request, overall_bill_id):
 @login_required
 def my_profile(request):
     userprofile_object = UserProfile.objects.get(user=request.user)
+    edit = False 
     try:
         UserSocialAuth.objects.get(user=request.user)
         user_social_auth = True
     except: 
         user_social_auth = False
     if request.method == 'POST':
-        request.user.first_name = request.POST['first_name']
-        try: 
-            request.user.last_name = request.POST['last_name']
-        except:
-            pass
-        request.user.save()
-        return render_to_response('my-profile.html', { 'userprofile_object': userprofile_object, 'user_social_auth': user_social_auth, 'request': request }, context_instance=RequestContext(request))
-    else:
-        return render_to_response('my-profile.html', { 'userprofile_object': userprofile_object, 'user_social_auth': user_social_auth, 'request': request }, context_instance=RequestContext(request))
+        if request.POST['edit_or_save'] == 'edit':
+            edit = True
+            return render_to_response('my-profile.html', { 'edit': edit, 'userprofile_object': userprofile_object, 'user_social_auth': user_social_auth, 'request': request }, context_instance=RequestContext(request))
+        elif request.POST['edit_or_save'] == 'save':
+            request.user.first_name = request.POST['first_name']
+            try: 
+                request.user.last_name = request.POST['last_name']
+            except:
+                pass
+            request.user.save()
+            return render_to_response('my-profile.html', { 'userprofile_object': userprofile_object, 'user_social_auth': user_social_auth, 'request': request }, context_instance=RequestContext(request))
+    return render_to_response('my-profile.html', { 'edit': edit, 'userprofile_object': userprofile_object, 'user_social_auth': user_social_auth, 'request': request }, context_instance=RequestContext(request))
 
 @login_required
 def change_password(request):
@@ -770,7 +779,7 @@ def change_password(request):
                         request.user.save()
                         return HttpResponseRedirect('/change-password-success/')
                     else:
-                        error.new_password = 'Passwords do not match. Please enter again'
+                        error.new_password = 'New passwords don\'t match. Try again.'
                 else: 
                     error.old_password = 'Incorrect password'
             else:
@@ -785,3 +794,24 @@ def change_password_success(request):
 def logout_user(request):
 	auth_logout(request)
 	return HttpResponseRedirect('/') 
+
+def feedback(request):
+    feedback_form = FeedbackForm()
+    if request.method == 'POST':
+        feedback_form = FeedbackForm(request.POST)
+        if feedback_form.is_valid():
+            feedback_form.save() 
+
+            # Start - Send Email 
+            name = feedback_form.cleaned_data['name']
+            email = feedback_form.cleaned_data['email']
+            message = feedback_form.cleaned_data['message']
+            context = Context({ 'name': name, 'email': email, 'message': message })
+            subject = 'New Feedback by: ' + name
+            feedback_txt_content = feedback_txt.render(context)
+            feedback_html_content = feedback_html.render(context)
+            send_html_mail(subject, feedback_txt_content, feedback_html_content, settings.DEFAULT_FROM_EMAIL, [ 'arpitrai@bridgebill.com', 'arpitrai@gmail.com' ])
+            # End - Send Email
+
+            return HttpResponseRedirect('/feedback/confirmation')
+    return render_to_response('feedback.html', { 'feedback_form': feedback_form, 'request': request }, context_instance=RequestContext(request))

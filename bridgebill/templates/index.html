@@ -3,7 +3,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %}BridgeBill - Split Bills with Friends. Keep Track of Bills Easily{% endblock %}</title>
-	<meta name="description" content="Split your bills with friends and keep track of all your bills" />
+	<meta name="description" content="BridgeBill helps you record your expenses, split them with friends and keep track of who owes who." />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico" />
     <link media="all" rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/reset.css" />
     <link media="all" rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/all.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}js/library/jquery-1.7.2.js"></script>
@@ -13,8 +14,20 @@
 
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/css/library/jquery-ui-1.9.1.css" />
     <script type="text/javascript" src="{{ STATIC_URL }}js/library/jquery-ui-1.9.1.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />-->
-    <!--<script type="text/javascript" src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>-->
+
+    <!-- Start - Google Analytics Code -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36939681-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End - Google Analytics Code -->
+    
 </head>
 <body>
     {% block body %}
@@ -24,8 +37,8 @@
         </div>
         <div id="index_description">
             <ol>
-                <li><span class="highlight_index">Record</span> your Bills in One Place</li>
-                <li><span class="highlight_index">Split</span> your Bills with Friends</li>
+                <li><span class="highlight_index">Record</span> your Expenses</li>
+                <li><span class="highlight_index">Split</span> them with Friends</li>
                 <li><span class="highlight_index">Keep Track</span> of Who Owes Who</li>
             </ol>
         </div>
@@ -66,9 +79,9 @@
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
                     </li>
-                    <li class="placeholder_b">
-                        <a href="/user/forgot-password/">Forgot your password?</a>
-                    </li>
+                    <!--<li class="placeholder_b">-->
+                        <!--<a href="/user/forgot-password/">Forgot your password?</a>-->
+                    <!--</li>-->
                     <li class="placeholder_b">
                         <a href="/user/sign-up/">Don't have an account? Create account</a>
                     </li>
@@ -83,7 +96,7 @@
         <ul class="footer_links"> 
             <li><a href="/about-us/">About Us</a></li>
             <li><a href="/feedback/">Feedback</a></li>
-            <li><a href="/contact-us/">Contact Us</a></li>
+            <!--<li><a href="/contact-us/">Contact Us</a></li>-->
         </ul> 
     </div>
     {% endblock %}

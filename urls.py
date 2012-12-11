@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.views.generic.simple import direct_to_template
 from bridgebill import views
 
 # For serving static files on development environment
@@ -32,6 +33,10 @@ urlpatterns = patterns('',
     url(r'^change-password/$', views.change_password),
     url(r'^change-password-success/$', views.change_password_success),
     url(r'^logout/$', views.logout_user),
+    url(r'^about-us/$', direct_to_template, { 'template': 'about-us.html' }),
+    url(r'^feedback/$',  views.feedback),
+    url(r'^feedback/confirmation$', direct_to_template, { 'template': 'feedback_success.html' }),
+    url(r'^contact-us/$', direct_to_template, { 'template': 'contact-us.html' }),
 
     url(r'', include('social_auth.urls')),
 

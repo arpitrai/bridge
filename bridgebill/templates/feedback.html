@@ -1,0 +1,32 @@
+{% extends 'about-us.html' %}
+{% block title %}BridgeBill - Feedback{% endblock %}
+{% block footer_content_django %}
+<h2>Feedback</h2>
+<p>For any feedback regarding BridgeBill, new feature requests or to just say hello, use the form below:</p> 
+<div id="feedback" class="last_para">
+<form name="feedback_form" id="feedback_form" action="" method="post">
+    {% csrf_token %}
+    <ul>
+        <li>
+            <label class="index" for="id_name">Name </label>
+            {{ feedback_form.name }}
+        </li>
+        <li>
+            <label class="index" for="id_email">Email </label>
+            {{ feedback_form.email }}
+        </li>
+        <li id="feedback_message">
+            <label class="index" for="id_message">Message </label>
+            {% if feedback_form.errors.message %}
+                <textarea class="error" id="id_message" rows="10" cols="40" name="message" value={{ feedback_form.message.value }}></textarea>
+            {% else %}
+                {{ feedback_form.message }}
+            {% endif %}
+        </li>
+        <li class="last">
+            <button id="save" type="submit">Send</button>
+        </li>
+    </ul>
+</form>
+</div>
+{% endblock %}

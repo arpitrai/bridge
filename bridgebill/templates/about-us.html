@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% block title %}BridgeBill - About Us{% endblock %}
+{% block body %}
+<div id="index">
+    <div id="index_header">
+        <h1><a href="/"><strong class="logo">BridgeBill</strong> - Split Bills and Keep Track of Your Expenses</a></h1>
+    </div>
+    <div id="footer_content">
+    {% block footer_content_django %}
+        <h2>About Us</h2>
+        <p>BridgeBill was created to simplify the process of recording shared expenses and keeping track of who owes who.</p>
+        <p>Over the last few years my friends and I have mostly been using BillMonk to split expenses. BillMonk, after the Obopay acquisition, largely became an abandoned child. Therefore, we needed an application to help us do what BillMonk did. Most other bill splitting applications currently available are feature heavy. We wanted something light and simple. And that's how BridgeBill was born.</p>
+        <p class="last_para">My name is Arpit and I created BridgeBill. You can get in touch with me here: <a href="http://www.twitter.com/arpitrai">Twitter</a>, <a href="http://wwww.linkedin.com/in/arpitrai">LinkedIn</a> or <a href="mailto:arpitrai@bridgebill.com">Email</a>.</p>
+    {% endblock %}
+    </div>
+    <div id="index_push">
+    </div>
+</div>
+<div id="index_footer">
+    <ul class="footer_links"> 
+        <li><a href="/about-us/">About Us</a></li>
+        <li><a href="/feedback/">Feedback</a></li>
+        <!--<li><a href="/contact-us/">Contact Us</a></li>-->
+    </ul> 
+</div>
+{% endblock %}

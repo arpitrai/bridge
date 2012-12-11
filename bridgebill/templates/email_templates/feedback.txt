@@ -1,0 +1,8 @@
+Yo
+
+{{ name }} ({{ email }}) has left a message on BridgeBill.
+
+Message: {{ message }}.
+
+Cheers
+The BridgeBill Team
